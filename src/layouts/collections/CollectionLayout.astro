@@ -5,7 +5,7 @@
  * 
  * The standard layout for individual collection items.
  * Features:
- * - Uses SecondaryHero with bannerImage (or featuredImage fallback, or default)
+ * - Uses SecondaryHero with bannerImage (or default)
  * - Metadata display (date, author, reading time)
  * - MDX content rendering
  */
@@ -24,9 +24,6 @@ const {
 } = Astro.props as CollectionLayoutProps;
 
 const data = entry?.data || {};
-
-// Use bannerImage, fallback to featuredImage, or undefined (will use default)
-const heroImage = data.bannerImage || data.featuredImage;
 ---
 <BaseLayout {...seoProps}>
   <main class="flex-1">
@@ -34,7 +31,7 @@ const heroImage = data.bannerImage || data.featuredImage;
     <SecondaryHero
       title={data.title}
       description={data.description}
-      image={heroImage}
+      image={data.bannerImage}
       publishDate={data.publishDate}
       author={data.author}
       readingTime={data.readingTime}

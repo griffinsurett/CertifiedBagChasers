@@ -2,17 +2,10 @@
 // src/layouts/SecondaryHero.astro
 /**
  * Secondary Hero Layout
- * 
- * Versatile hero section for content pages (both index and individual items).
- * Features:
- * - Large hero with background image and gradient overlay
- * - Default fallback image if none provided
- * - Title, description, and optional metadata display
- * - Date, author, reading time with icons
- * - Responsive design with proper contrast
  */
 
-import { getAuthorName, getImageSrc } from '@/layouts/collections/helpers/layoutHelpers';
+import { getAuthorName } from '@/layouts/collections/helpers/layoutHelpers';
+import { getImageUrl } from '@/utils/images';
 import backgroundSvg from '@/assets/background.svg';
 
 export interface Props {
@@ -43,11 +36,12 @@ const {
 // Default image - properly imported asset
 const DEFAULT_IMAGE = backgroundSvg.src;
 
-// Get image source (handle both string and object formats)
-const imageSrc = image ? (typeof image === 'string' ? image : getImageSrc(image)) : DEFAULT_IMAGE;
+// Use getImageUrl instead of getImageSrc - handles Astro-processed images correctly
+const imageSrc = getImageUrl(image, DEFAULT_IMAGE);
 const imageAlt = typeof image === 'object' && image?.alt ? image.alt : title;
 ---
 
+{/* Rest of component stays the same... */}
 <section class={`relative ${className}`}>
   <div 
     class="relative flex items-center justify-center overflow-hidden"
