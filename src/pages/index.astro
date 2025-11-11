@@ -11,20 +11,37 @@ import {
   sortByOrder,
   sortBy,
 } from "@/utils/query";
+import FrontPageHero from "@/layouts/FrontPageHero.astro";
 ---
+
 <BaseLayout title="Home" description={siteData.description}>
   <main class="flex-1">
-
     <!-- Hero ContentRenderer with static content -->
-    <ContentRenderer
-      variant="HeroVariant"
-      title="Welcome"
-      description="Static hero without collection"
+    <FrontPageHero
+      title="Build Amazing Static Sites"
+      description="The fastest way to create type-safe, content-driven websites with Astro and React"
+      primaryCTA={{
+        text: "Get Started",
+        link: "/contact-us",
+      }}
+      secondaryCTA={{
+        text: "View Services",
+        link: "/services",
+      }}
+      minHeight="80vh"
     />
 
     <!-- Blog with limit - auto-populates from blog meta -->
-    <ContentRenderer query={query("blog").limit(2)} variant="BlogVariant" columns={2} />
-    <ContentRenderer query={query("blog").limit(2)} variant="BlogVariant" columns={2} />
+    <ContentRenderer
+      query={query("blog").limit(2)}
+      variant="BlogVariant"
+      columns={2}
+    />
+    <ContentRenderer
+      query={query("blog").limit(2)}
+      variant="BlogVariant"
+      columns={2}
+    />
 
     <!-- Services - auto-populates from services meta -->
     <ContentRenderer
@@ -64,7 +81,11 @@ import {
     />
 
     <!-- Contact ContentRenderer -->
-    <ContentRenderer query={query("contact-us")} variant="ContactVariant" columns={2} />
+    <ContentRenderer
+      query={query("contact-us")}
+      variant="ContactVariant"
+      columns={2}
+    />
 
     <!-- Multi-collection query - requires manual title/description -->
     <ContentRenderer

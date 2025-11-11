@@ -1,0 +1,123 @@
+---
+// src/layouts/FrontPageHero.astro
+/**
+ * Front Page Hero Layout
+ * 
+ * Full-width hero section with background image for the homepage.
+ * Features:
+ * - Large centered text with gradient overlay
+ * - Primary and secondary CTAs
+ * - Minimum 60vh height
+ * - Responsive design
+ * - Optional background image
+ * 
+ * This is a layout component, not a ContentRenderer variant.
+ * Use directly in your homepage or landing pages.
+ */
+
+import Button from "@/components/Button/Button";
+import { ctaData } from "@/content/siteData";
+import DefaultImg from "@/assets/background.svg"
+
+export interface Props {
+  title?: string;
+  description?: string;
+  image?: {
+    src: string;
+    alt: string;
+  };
+  primaryCTA?: {
+    text: string;
+    link: string;
+  };
+  secondaryCTA?: {
+    text: string;
+    link: string;
+  };
+  className?: string;
+  id?: string;
+  minHeight?: string; // e.g., "60vh", "500px", "100vh"
+}
+
+const {
+  title = "Welcome",
+  description,
+  image,
+  primaryCTA = {
+    text: ctaData.text,
+    link: ctaData.link,
+  },
+  secondaryCTA,
+  className = "",
+  id = "hero",
+  minHeight = "60vh",
+} = Astro.props;
+
+const imageSrc = image?.src || DefaultImg.src;
+const imageAlt = image?.alt || "";
+---
+
+<section id={id} class={`relative ${className}`}>
+  <div class={`relative flex items-center justify-center overflow-hidden`} style={`min-height: ${minHeight}`}>
+    {/* Background Image */}
+    {imageSrc && (
+      <div class="absolute inset-0 -z-10">
+        <img
+          src={imageSrc}
+          alt={imageAlt}
+          class="w-full h-full object-cover"
+        />
+        {/* Gradient Overlay */}
+        <div class="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60" />
+      </div>
+    )}
+
+    {/* Hero Content */}
+    <div class="relative text-center text-white px-8 max-w-4xl mx-auto">
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+        {title}
+      </h1>
+      
+      {description && (
+        <p class="text-xl md:text-2xl mb-10 opacity-95 leading-relaxed max-w-3xl mx-auto">
+          {description}
+        </p>
+      )}
+
+      {/* CTA Buttons */}
+      <div class="flex gap-4 justify-center flex-wrap">
+        {primaryCTA && (
+          <Button 
+            href={primaryCTA.link} 
+            variant="primary" 
+            size="lg"
+            className="shadow-xl hover:shadow-2xl transition-shadow"
+          >
+            {primaryCTA.text}
+          </Button>
+        )}
+
+        {secondaryCTA && (
+          <Button
+            href={secondaryCTA.link}
+            variant="ghost"
+            size="lg"
+            className="bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 hover:bg-white/20"
+          >
+            {secondaryCTA.text}
+          </Button>
+        )}
+      </div>
+    </div>
+  </div>
+
+  {/* Optional slot for additional content below hero */}
+  <slot />
+</section>
+
+<style>
+  /* Ensure text is readable on all backgrounds */
+  h1, p {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+</style>
