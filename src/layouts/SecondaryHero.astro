@@ -1,0 +1,127 @@
+---
+// src/layouts/SecondaryHero.astro
+/**
+ * Secondary Hero Layout
+ * 
+ * Versatile hero section for content pages (both index and individual items).
+ * Features:
+ * - Large hero with background image and gradient overlay
+ * - Default fallback image if none provided
+ * - Title, description, and optional metadata display
+ * - Date, author, reading time with icons
+ * - Responsive design with proper contrast
+ */
+
+import { getAuthorName, getImageSrc } from '@/layouts/collections/helpers/layoutHelpers';
+import backgroundSvg from '@/assets/background.svg';
+
+export interface Props {
+  title: string;
+  description?: string;
+  image?: {
+    src: string;
+    alt?: string;
+  } | string;
+  publishDate?: Date | string;
+  author?: string | { collection: string; id: string };
+  readingTime?: number;
+  className?: string;
+  minHeight?: string;
+}
+
+const {
+  title,
+  description,
+  image,
+  publishDate,
+  author,
+  readingTime,
+  className = "",
+  minHeight = "60vh",
+} = Astro.props;
+
+// Default image - properly imported asset
+const DEFAULT_IMAGE = backgroundSvg.src;
+
+// Get image source (handle both string and object formats)
+const imageSrc = image ? (typeof image === 'string' ? image : getImageSrc(image)) : DEFAULT_IMAGE;
+const imageAlt = typeof image === 'object' && image?.alt ? image.alt : title;
+---
+
+<section class={`relative ${className}`}>
+  <div 
+    class="relative flex items-center justify-center overflow-hidden"
+    style={`min-height: ${minHeight}`}
+  >
+    {/* Background image with gradient overlay */}
+    <div class="absolute inset-0 -z-10">
+      <img 
+        src={imageSrc} 
+        alt={imageAlt}
+        class="w-full h-full object-cover"
+      />
+      {/* Dark gradient for text readability */}
+      <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/50 to-black/70" />
+    </div>
+
+    {/* Hero content */}
+    <div class="relative container mx-auto px-4 py-16 md:py-24">
+      <div class="max-w-4xl mx-auto text-center text-white">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 drop-shadow-lg">
+          {title}
+        </h1>
+        
+        {description && (
+          <p class="text-xl md:text-2xl mb-8 opacity-95 drop-shadow-md leading-relaxed">
+            {description}
+          </p>
+        )}
+        
+        {/* Metadata row with icons */}
+        {(publishDate || author || readingTime) && (
+          <div class="flex flex-wrap justify-center gap-4 md:gap-6 text-sm md:text-base text-white/90">
+            {publishDate && (
+              <time 
+                datetime={new Date(publishDate).toISOString()}
+                class="flex items-center gap-2"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                {new Date(publishDate).toLocaleDateString()}
+              </time>
+            )}
+            
+            {author && (
+              <span class="flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                By {getAuthorName(author)}
+              </span>
+            )}
+            
+            {readingTime && (
+              <span class="flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {readingTime} min read
+              </span>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+
+  {/* Optional slot for additional content below hero */}
+  <slot />
+</section>
+
+<style>
+  /* Ensure text is readable on all backgrounds */
+  h1, p {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+</style>
