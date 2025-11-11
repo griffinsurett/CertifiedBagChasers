@@ -2,44 +2,74 @@
 // src/components/BackgroundMedia.astro
 import { getImage } from "astro:assets";
 
-// Accept a backgroundMedia prop that may include video, image, and overlay information.
 const { backgroundMedia } = Astro.props;
 
-let optimizedBackgroundImage = null;
-if (backgroundMedia?.image && backgroundMedia.image.src) {
-  optimizedBackgroundImage = await getImage({
-    src: backgroundMedia.image.src,
-    format: "webp",
-    quality: 50,
-    width: 1200,
-    placeholder: "blur",
-  });
+let imageSrc = null;
+
+if (backgroundMedia?.image?.src) {
+  const rawSrc = backgroundMedia.image.src;
+  
+  // Check if it's an already-processed Astro image (imported asset)
+  // These have properties like: { src: string, width: number, height: number, format: string }
+  const isProcessedImage = 
+    typeof rawSrc === 'object' && 
+    rawSrc !== null &&
+    typeof rawSrc.src === 'string';
+  
+  if (isProcessedImage) {
+    // Already processed by Astro - use directly
+    imageSrc = rawSrc.src;
+  } else if (typeof rawSrc === 'string') {
+    // String path (public folder) - use directly
+    imageSrc = rawSrc;
+  } else {
+    // Unprocessed image object - optimize it
+    try {
+      const optimized = await getImage({
+        src: rawSrc,
+        format: "webp",
+        quality: 80,
+        width: 1920,
+      });
+      imageSrc = optimized.src;
+    } catch (error) {
+      console.error('Failed to optimize image:', error);
+      // Try to extract src from object as fallback
+      if (rawSrc?.src) {
+        imageSrc = rawSrc.src;
+      }
+    }
+  }
 }
 ---
-{backgroundMedia?.video && backgroundMedia.video.src ? (
+
+{/* Video background (if provided) */}
+{backgroundMedia?.video?.src ? (
   <video
     class={`absolute inset-0 z-0 w-full h-full object-cover ${backgroundMedia.video.videoClass || ""}`}
-    autoplay={backgroundMedia.video.autoPlay !== undefined ? backgroundMedia.video.autoPlay : true}
-    muted={backgroundMedia.video.muted !== undefined ? backgroundMedia.video.muted : true}
-    loop={backgroundMedia.video.loop !== undefined ? backgroundMedia.video.loop : true}
-    playsinline={backgroundMedia.video.playsInline !== undefined ? backgroundMedia.video.playsInline : true}
+    autoplay={backgroundMedia.video.autoPlay !== false}
+    muted={backgroundMedia.video.muted !== false}
+    loop={backgroundMedia.video.loop !== false}
+    playsinline={backgroundMedia.video.playsInline !== false}
     controls={backgroundMedia.video.controls || false}
     preload={backgroundMedia.video.preload || "metadata"}
-    poster={optimizedBackgroundImage ? optimizedBackgroundImage.src : ""}
+    poster={imageSrc || ""}
     aria-hidden="true"
   >
     <source src={backgroundMedia.video.src} type="video/mp4" />
     Your browser does not support the video tag.
   </video>
-) : (
-  optimizedBackgroundImage && (
-    <div
-      class={`absolute inset-0 z-0 ${backgroundMedia?.image?.imageClass || ""}`}
-      style={`background-image: url('${optimizedBackgroundImage.src}');`}
-      aria-hidden="true"
-    ></div>
-  )
-)}
+) : imageSrc ? (
+  /* Image background */
+  <img
+    src={imageSrc}
+    alt=""
+    class={`absolute inset-0 z-0 w-full h-full object-cover ${backgroundMedia?.image?.imageClass || ""}`}
+    aria-hidden="true"
+  />
+) : null}
+
+{/* Overlay (if provided) */}
 {backgroundMedia?.overlayClass && (
-  <div class={`absolute inset-0 ${backgroundMedia.overlayClass} z-0`} aria-hidden="true"></div>
+  <div class={`absolute inset-0 z-0 ${backgroundMedia.overlayClass}`} aria-hidden="true"></div>
 )}
