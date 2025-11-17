@@ -292,12 +292,14 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
           </li>
           <li>
             For accessibility support, please{" "}
-            <a
+            <Button
+              variant='link'
+              size="sm"
               href="/contact"
               className="underline text-blue-600 hover:text-blue-700"
             >
               contact us
-            </a>
+            </Button>
           </li>
         </ul>
       </div>
@@ -308,7 +310,7 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
           variant="secondary"
           onClick={handleReset}
           disabled={isPending}
-          className="flex-1 px-6 py-3 border-2 border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
+          className="flex-1"
         >
           Reset All
         </Button>
@@ -316,7 +318,7 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
           variant="primary"
           onClick={handleSave}
           disabled={isPending}
-          className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
+          className="flex-1"
         >
           Save Preferences
         </Button>

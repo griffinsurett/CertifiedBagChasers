@@ -224,6 +224,7 @@ function CookiePreferencesModal({
           and offer a better experience. You can click{' '}
           <Button
             variant='link'
+            size="sm"
             href="/cookie-policy"
             className="text-blue-600 underline hover:text-blue-700"
           >
@@ -235,6 +236,7 @@ function CookiePreferencesModal({
         </p>
         <Button
           variant='link'
+          size="sm"
           href="/cookie-policy"
           className="inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 mt-2"
         >

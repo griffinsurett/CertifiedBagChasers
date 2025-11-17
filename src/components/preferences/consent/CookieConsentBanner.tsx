@@ -110,6 +110,7 @@ export default function CookieConsentBanner() {
               marketing purposes.{' '}
               <Button
                 variant='link'
+                size="sm"
                 onClick={handleOpenSettings}
                 className="text-blue-600 underline hover:text-blue-700"
                 type="button"
