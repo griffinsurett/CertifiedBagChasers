@@ -13,6 +13,7 @@ import { useCookieStorage } from '@/hooks/useCookieStorage';
 import { enableConsentedScripts } from '@/utils/scriptManager';
 import Modal from '@/components/Modal';
 import type { CookieConsent } from './types';
+import Button from '@/components/Button/Button';
 
 const CookiePreferencesModal = lazy(() => import('./CookiePreferencesModal'));
 
@@ -107,34 +108,37 @@ export default function CookieConsentBanner() {
             <p className="text-sm text-gray-700">
               We use cookies to improve your browsing experience and for
               marketing purposes.{' '}
-              <button
+              <Button
+                variant='link'
                 onClick={handleOpenSettings}
-                className="text-blue-600 underline hover:text-blue-700 font-medium"
+                className="text-blue-600 underline hover:text-blue-700"
                 type="button"
               >
                 Manage preferences
-              </button>
+              </Button>
             </p>
           </div>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-3">
-          <button
+          <Button
+            variant='secondary'
             onClick={handleRejectAll}
-            className="flex-1 rounded-lg border-2 border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50"
+            className="flex-1"
             type="button"
             disabled={isPending}
           >
             Reject All
-          </button>
-          <button
+          </Button>
+          <Button
+            variant='primary'
             onClick={handleAcceptAll}
-            className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
+            className="flex-1"
             type="button"
             disabled={isPending}
           >
             Accept All
-          </button>
+          </Button>
         </div>
       </Modal>
 

@@ -10,6 +10,7 @@ import ToggleControl from "./controls/ToggleControl";
 import SelectControl from "./controls/SelectControl";
 import ButtonGroupControl from "./controls/ButtonGroupControl";
 import LanguageSwitcher from "../language/LanguageSwitcher";
+import Button from "@/components/Button/Button";
 
 interface AccessibilityModalProps {
   isOpen: boolean;
@@ -303,20 +304,22 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
 
       {/* ACTIONS */}
       <div className="flex gap-3 mt-6">
-        <button
+        <Button
+          variant="secondary"
           onClick={handleReset}
           disabled={isPending}
           className="flex-1 px-6 py-3 border-2 border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 transition-colors disabled:opacity-50"
         >
           Reset All
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="primary"
           onClick={handleSave}
           disabled={isPending}
           className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50"
         >
           Save Preferences
-        </button>
+        </Button>
       </div>
     </Modal>
   );
