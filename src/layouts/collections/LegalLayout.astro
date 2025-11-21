@@ -15,6 +15,7 @@
 
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import LastUpdated from '@/components/preferences/consent/PrivacyPolicy/LastUpdated.astro';
+import SecondaryHero from '@/layouts/SecondaryHero.astro';
 import type { CollectionLayoutProps } from './types';
 
 const { 
@@ -45,15 +46,21 @@ const effectiveDate = formatDate(data.effectiveDate);
 
 <BaseLayout {...seoProps}>
   <main class="flex-1">
-    <article class="legal-document prose prose-lg max-w-4xl mx-auto py-16 px-6">
-      {/* Document Title */}
-      <h1>{data.title}</h1>
+    <SecondaryHero
+      title={data.title}
+      description={data.description}
+      image={data.bannerImage}
+      publishDate={data.publishDate}
+      minHeight="45vh"
+    />
 
+    <article class="legal-document prose prose-lg max-w-4xl mx-auto py-12 px-6">
       {/* Dates Section */}
       {lastUpdated && (
         <LastUpdated 
           lastUpdated={lastUpdated} 
           effectiveDate={effectiveDate} 
+          className="mb-8 opacity-80"
         />
       )}
 

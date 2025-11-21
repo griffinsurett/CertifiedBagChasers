@@ -161,8 +161,10 @@ function Modal({
     e.stopPropagation();
   };
 
-  // Check if overlay has pointer-events-none
-  const hasNonInteractiveOverlay = overlayClass.includes("pointer-events-none");
+  // Prevent invisible modal from catching clicks when not open
+  const modalPointerEventsClass = isOpen
+    ? "pointer-events-auto"
+    : "pointer-events-none";
 
   // Don't render during SSR if ssr is false
   if (!ssr && !mounted) return null;
@@ -188,9 +190,7 @@ function Modal({
     >
       <div
         ref={modalRef}
-        className={`relative ${className} ${
-          hasNonInteractiveOverlay ? "pointer-events-auto" : ""
-        } transform-gpu transition-all duration-300 ease-in-out origin-center ${
+        className={`relative ${className} ${modalPointerEventsClass} transform-gpu transition-all duration-300 ease-in-out origin-center ${
           isOpen
             ? "scale-100 translate-y-0 opacity-100"
             : "scale-95 translate-y-4 opacity-0"
