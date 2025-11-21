@@ -13,6 +13,7 @@ import PrimaryButton from './variants/PrimaryButton';
 import SecondaryButton from './variants/SecondaryButton';
 import GhostButton from './variants/GhostButton';
 import LinkButton from './variants/LinkButton';
+import TertiaryButton from './variants/TertiaryButton';
 
 /**
  * Base props shared by all button variants
@@ -97,7 +98,7 @@ const VARIANT_MAP = {
   secondary: SecondaryButton,
   ghost: GhostButton,
   link: LinkButton,
-  tertiary: PrimaryButton,
+  tertiary: TertiaryButton,
 };
 
 export type ButtonVariant = keyof typeof VARIANT_MAP;

@@ -17,7 +17,7 @@ export default function GhostButton({
 }: ButtonProps) {
   // Transparent with hover effect
   const variantClasses =
-    "bg-transparent text-bg hover:text-heading hover:bg-text/5 focus:ring-surface-500";
+    "bg-text/25 border-text/25 text-bg hover:text-heading hover:bg-text";
 
   return (
     <ButtonBase
