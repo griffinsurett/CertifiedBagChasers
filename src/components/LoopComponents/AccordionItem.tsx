@@ -25,7 +25,7 @@ export default function AccordionItem({
   headerSlot,
 }: AccordionItemProps) {
   return (
-    <div className={`border border-surface rounded-lg overflow-hidden ${className}`}>
+    <div className={`border border-surface bg-surface rounded-lg overflow-hidden ${className}`}>
       <button
         type="button"
         className={`flex items-center justify-between p-4 bg-text/5 cursor-pointer hover:bg-text/5 transition-colors w-full text-left ${headerClassName}`}
@@ -46,7 +46,7 @@ export default function AccordionItem({
       </button>
 
       {isExpanded && children && (
-        <div id={`${id}-content`} className="p-6 bg-surface border-t border-surface">
+        <div id={`${id}-content`} className="p-6">
           <div className="prose prose-surface max-w-none">{children}</div>
         </div>
       )}
