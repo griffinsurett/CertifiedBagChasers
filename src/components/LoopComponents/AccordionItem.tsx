@@ -22,7 +22,7 @@ export default function AccordionItem({
     <div className="border border-surface rounded-lg overflow-hidden">
       <button
         type="button"
-        className="flex items-center justify-between p-4 bg-text/5 cursor-pointer hover:bg-text/5-100 transition-colors w-full text-left"
+        className="flex items-center justify-between p-4 bg-text/5 cursor-pointer hover:bg-text/5 transition-colors w-full text-left"
         onClick={onToggle}
         aria-expanded={isExpanded}
         aria-controls={`${id}-content`}

@@ -79,11 +79,11 @@
 }
 
 .legal-document code {
-  @apply bg-text/5-100 px-2 py-1 rounded text-sm font-mono;
+  @apply bg-text/5 px-2 py-1 rounded text-sm font-mono;
 }
 
 .legal-document pre {
-  @apply bg-text/5-100 p-4 rounded-lg overflow-x-auto my-4;
+  @apply bg-text/5 p-4 rounded-lg overflow-x-auto my-4;
 }
 
 .legal-document table {
@@ -91,7 +91,7 @@
 }
 
 .legal-document th {
-  @apply bg-text/5-100 border border-surface px-4 py-2 font-semibold text-left;
+  @apply bg-text/5 border border-surface px-4 py-2 font-semibold text-left;
 }
 
 .legal-document td {

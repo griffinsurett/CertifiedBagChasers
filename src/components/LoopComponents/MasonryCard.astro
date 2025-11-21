@@ -62,7 +62,7 @@ const { title, url, description, tags, image } = Astro.props;
       tags && Array.isArray(tags) && tags.length > 0 && (
         <div class="mt-3 flex flex-wrap gap-1">
           {tags.map((tag: string) => (
-            <span class="text-xs bg-text/5-100 text-text px-2 py-1 rounded">
+            <span class="text-xs bg-text/5 text-text px-2 py-1 rounded">
               {tag}
             </span>
           ))}
