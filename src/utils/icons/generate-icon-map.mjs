@@ -8,11 +8,20 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 const projectRoot = process.cwd();
+// Use the shared toPascalCase from string.ts (compiled to JS via ts-node/tsconfig paths not available here),
+// so fall back to a local definition to keep this script runnable in plain Node.
+function toPascalCase(str) {
+  return str
+    .split(/[-_\s]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join('');
+}
 const outputFile = path.join(projectRoot, 'src/utils/icons/iconMap.generated.ts');
 
 // Load shared icon config (plain ESM for TS/JS compatibility)
 const configPath = pathToFileURL(path.join(projectRoot, 'src/utils/icons/iconConfig.js')).href;
-const { ICON_LIBRARIES, SCANNABLE_PREFIXES: SCANNABLE_PREFIXES_ARRAY } = await import(configPath);
+const { ICON_LIBRARIES, SCANNABLE_PREFIXES: SCANNABLE_PREFIXES_ARRAY, normalizeLibraryPrefix } = await import(configPath);
 const LIBRARIES = ICON_LIBRARIES;
 const SCANNABLE_PREFIXES = new Set(SCANNABLE_PREFIXES_ARRAY);
 const COMMENT_STRIPPERS = [
@@ -23,25 +32,6 @@ const COMMENT_STRIPPERS = [
 const FILE_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx', '.astro', '.mdx', '.md', '.json']);
 const EXCLUDED_DIRS = new Set(['node_modules', '.git', 'dist', '.vercel', '.astro']);
 
-// Build alias → canonical map from shared config
-const aliasToCanonical = (() => {
-  const map = new Map();
-  for (const [canonical, meta] of Object.entries(LIBRARIES)) {
-    map.set(canonical, canonical);
-    (meta.aliases || []).forEach((alias) => map.set(alias, canonical));
-  }
-  return map;
-})();
-
-// Utility: kebab/slug to PascalCase (react-icons export casing)
-function toPascalCase(str) {
-  return str
-    .split(/[-_\s]+/)
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join('');
-}
-
 function buildIconPattern() {
   const prefixes = Array.from(SCANNABLE_PREFIXES).join('|');
   return new RegExp(`['"\`]((?:${prefixes}):[a-z0-9-]+)['"\`]`, 'gi');
@@ -51,9 +41,11 @@ function stripComments(content) {
   return COMMENT_STRIPPERS.reduce((acc, regex) => acc.replace(regex, ''), content);
 }
 
-function normalizePrefix(prefix) {
-  return aliasToCanonical.get(prefix) || prefix;
-}
+const aliasToCanonical = new Map(Object.entries(ICON_LIBRARIES).flatMap(([canonical, meta]) => {
+  return [[canonical, canonical], ...(meta.aliases || []).map((alias) => [alias, canonical])];
+}));
+
+const normalizePrefix = (prefix) => aliasToCanonical.get(prefix) || normalizeLibraryPrefix(prefix);
 
 function normalizeIconId(raw) {
   const [prefix, name] = raw.split(':');

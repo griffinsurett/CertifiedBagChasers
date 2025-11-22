@@ -64,3 +64,16 @@ export const SCANNABLE_PREFIXES = [
   'si',
   'simple-icons',
 ];
+
+// Build and export alias map and normalizer so both generator and loader can share it
+export const ICON_ALIAS_MAP = Object.entries(ICON_LIBRARIES).reduce((acc, [canonical, meta]) => {
+  acc[canonical] = canonical;
+  (meta.aliases || []).forEach((alias) => {
+    acc[alias] = canonical;
+  });
+  return acc;
+}, {});
+
+export function normalizeLibraryPrefix(prefix) {
+  return ICON_ALIAS_MAP[prefix] || prefix;
+}

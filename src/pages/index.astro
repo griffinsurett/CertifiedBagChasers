@@ -30,6 +30,8 @@ import FrontPageHero from "@/layouts/FrontPageHero.astro";
       }}
     />
 
+    <ContentRenderer query={query("about-us")} variant="AccordionVariant" />
+
     <!-- Services - auto-populates from services meta -->
     <ContentRenderer
       query={query("services").orderBy(sortByOrder())}
@@ -74,7 +76,7 @@ import FrontPageHero from "@/layouts/FrontPageHero.astro";
       columns={2}
     />
 
-        <!-- Blog with limit - auto-populates from blog meta -->
+    <!-- Blog with limit - auto-populates from blog meta -->
     <ContentRenderer
       query={query("blog").limit(2)}
       variant="BlogVariant"
