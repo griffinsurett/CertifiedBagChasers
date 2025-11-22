@@ -1,13 +1,13 @@
 // vite.chunks.js
 
 export function manualChunks(id) {
-  // React vendor bundle
+  // Core React runtime (kept small and shared)
   if (
     id.includes('node_modules/react') ||
     id.includes('node_modules/react-dom') ||
     id.includes('node_modules/scheduler')
   ) {
-    return 'react-vendor';
+    return 'react-core';
   }
   
   // Consent system (lazy loaded)

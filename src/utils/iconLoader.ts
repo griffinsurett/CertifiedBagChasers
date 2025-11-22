@@ -14,14 +14,7 @@
  */
 
 import { isValidElement, type ReactNode, createElement } from 'react';
-import * as LuIcons from 'react-icons/lu';
-import * as FiIcons from 'react-icons/fi';
-import * as FaIcons from 'react-icons/fa';
-import * as SiIcons from 'react-icons/si';
-import * as BiIcons from 'react-icons/bi';
-import * as AiIcons from 'react-icons/ai';
-import * as MdIcons from 'react-icons/md';
-import { toPascalCase } from '@/utils/string';
+import { iconMap, type IconKey } from '@/utils/iconMap.generated';
 
 /**
  * Map icon size names to pixel values
@@ -51,10 +44,11 @@ export interface IconRenderOptions {
 const libraryPrefixes: Record<string, string> = {
   'lucide': 'lu',
   'simple-icons': 'si',
-  'fa6-brands': 'fa6-brands',
-  'fa6-solid': 'fa6-solid',
   'feather': 'fi',
   'font-awesome': 'fa',
+  'fas': 'fa',
+  'fa6-brands': 'fa',
+  'fa6-solid': 'fa',
   'bi': 'bi',
   'ai': 'ai',
   'md': 'md',
@@ -62,23 +56,6 @@ const libraryPrefixes: Record<string, string> = {
   'si': 'si',
   'fi': 'fi',
   'fa': 'fa',
-};
-
-/**
- * Map of prefixes to their imported icon libraries
- */
-const iconLibraries: Record<string, any> = {
-  'lu': LuIcons,
-  'lucide': LuIcons,
-  'fi': FiIcons,
-  'feather': FiIcons,
-  'fa': FaIcons,
-  'font-awesome': FaIcons,
-  'si': SiIcons,
-  'simple-icons': SiIcons,
-  'bi': BiIcons,
-  'ai': AiIcons,
-  'md': MdIcons,
 };
 
 /**
@@ -133,16 +110,9 @@ export function isValidIconString(icon: string): boolean {
  * getIconComponent('lu', 'arrow-right') // LuArrowRight component
  */
 export function getIconComponent(library: string, iconName: string): any {
-  const lib = iconLibraries[library];
-  if (!lib) {
-    console.warn(`Unknown icon library: ${library}`);
-    return null;
-  }
-
-  // Build component name using toPascalCase from string.ts
-  const componentName = toPascalCase(iconName);
-  const shortPrefix = libraryPrefixes[library].charAt(0).toUpperCase() + libraryPrefixes[library].slice(1);
-  const IconComponent = lib[`${shortPrefix}${componentName}`];
+  const normalizedLibrary = libraryPrefixes[library] || library;
+  const iconId = `${normalizedLibrary}:${iconName}` as IconKey;
+  const IconComponent = iconMap[iconId];
 
   if (!IconComponent) {
     console.warn(`Icon not found: ${library}:${iconName}`);
