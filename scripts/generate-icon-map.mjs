@@ -5,24 +5,16 @@
 
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 const projectRoot = process.cwd();
 const outputFile = path.join(projectRoot, 'src/utils/iconMap.generated.ts');
 
-// Supported icon libraries, their package path, and component prefix.
-// Aliases let authors write either the short or long prefix (e.g., lucide → lu).
-const LIBRARIES = {
-  lu: { package: 'react-icons/lu', componentPrefix: 'Lu', aliases: ['lucide'] },
-  fi: { package: 'react-icons/fi', componentPrefix: 'Fi', aliases: ['feather'] },
-  fa: { package: 'react-icons/fa', componentPrefix: 'Fa', aliases: ['font-awesome', 'fas'] },
-  ai: { package: 'react-icons/ai', componentPrefix: 'Ai', aliases: [] },
-  bi: { package: 'react-icons/bi', componentPrefix: 'Bi', aliases: [] },
-  si: { package: 'react-icons/si', componentPrefix: 'Si', aliases: ['simple-icons'] },
-  md: { package: 'react-icons/md', componentPrefix: 'Md', aliases: [] }, // Material Design (off by default in scans; see SCANNABLE_PREFIXES)
-};
-
-// Prefixes the scanner will search for. We omit "md" to avoid Tailwind breakpoint strings like "md:hidden".
-const SCANNABLE_PREFIXES = new Set(['lu', 'lucide', 'fi', 'feather', 'fa', 'fas', 'ai', 'bi', 'si', 'simple-icons']);
+// Load shared icon config from src/utils/iconConfig.js (plain ESM for TS/JS compatibility)
+const configPath = pathToFileURL(path.join(projectRoot, 'src/utils/iconConfig.js')).href;
+const { ICON_LIBRARIES, SCANNABLE_PREFIXES: SCANNABLE_PREFIXES_ARRAY } = await import(configPath);
+const LIBRARIES = ICON_LIBRARIES;
+const SCANNABLE_PREFIXES = new Set(SCANNABLE_PREFIXES_ARRAY);
 const COMMENT_STRIPPERS = [
   /<!--[\s\S]*?-->/g, // HTML comments
   /\/\*[\s\S]*?\*\//g, // block comments
@@ -30,6 +22,16 @@ const COMMENT_STRIPPERS = [
 ];
 const FILE_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx', '.astro', '.mdx', '.md', '.json']);
 const EXCLUDED_DIRS = new Set(['node_modules', '.git', 'dist', '.vercel', '.astro']);
+
+// Build alias → canonical map from shared config
+const aliasToCanonical = (() => {
+  const map = new Map();
+  for (const [canonical, meta] of Object.entries(LIBRARIES)) {
+    map.set(canonical, canonical);
+    (meta.aliases || []).forEach((alias) => map.set(alias, canonical));
+  }
+  return map;
+})();
 
 // Utility: kebab/slug to PascalCase (react-icons export casing)
 function toPascalCase(str) {
@@ -50,8 +52,7 @@ function stripComments(content) {
 }
 
 function normalizePrefix(prefix) {
-  const entry = Object.entries(LIBRARIES).find(([, meta]) => meta.aliases.includes(prefix));
-  return entry ? entry[0] : prefix;
+  return aliasToCanonical.get(prefix) || prefix;
 }
 
 function normalizeIconId(raw) {

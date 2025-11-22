@@ -15,6 +15,7 @@
 
 import { isValidElement, type ReactNode, createElement } from 'react';
 import { iconMap, type IconKey } from '@/utils/iconMap.generated';
+import { ICON_LIBRARIES } from '@/utils/iconConfig.js';
 
 /**
  * Map icon size names to pixel values
@@ -39,24 +40,22 @@ export interface IconRenderOptions {
 }
 
 /**
- * Map of library name variations to standardized prefixes
+ * Build alias -> canonical prefix map from shared config
  */
-const libraryPrefixes: Record<string, string> = {
-  'lucide': 'lu',
-  'simple-icons': 'si',
-  'feather': 'fi',
-  'font-awesome': 'fa',
-  'fas': 'fa',
-  'fa6-brands': 'fa',
-  'fa6-solid': 'fa',
-  'bi': 'bi',
-  'ai': 'ai',
-  'md': 'md',
-  'lu': 'lu',
-  'si': 'si',
-  'fi': 'fi',
-  'fa': 'fa',
-};
+const libraryAliases: Record<string, string> = Object.entries(ICON_LIBRARIES).reduce(
+  (acc, [canonical, meta]) => {
+    acc[canonical] = canonical;
+    (meta.aliases || []).forEach((alias) => {
+      acc[alias] = canonical;
+    });
+    return acc;
+  },
+  {} as Record<string, string>
+);
+
+function normalizeLibrary(prefix: string): string {
+  return libraryAliases[prefix] || prefix;
+}
 
 /**
  * Parse icon string to extract library and icon name
@@ -70,7 +69,7 @@ const libraryPrefixes: Record<string, string> = {
 export function parseIconString(icon: string): { library: string; name: string } {
   if (icon.includes(':')) {
     const [library, name] = icon.split(':');
-    return { library, name };
+    return { library: normalizeLibrary(library), name };
   }
   // Default to Lucide icons if no library specified
   return { library: 'lu', name: icon };
@@ -110,7 +109,7 @@ export function isValidIconString(icon: string): boolean {
  * getIconComponent('lu', 'arrow-right') // LuArrowRight component
  */
 export function getIconComponent(library: string, iconName: string): any {
-  const normalizedLibrary = libraryPrefixes[library] || library;
+  const normalizedLibrary = normalizeLibrary(library);
   const iconId = `${normalizedLibrary}:${iconName}` as IconKey;
   const IconComponent = iconMap[iconId];
 
@@ -308,7 +307,7 @@ export function renderIcon(
  */
 export function getIconName(icon: string, library?: string): string {
   if (icon.includes(':')) return icon;
-  const prefix = library ? libraryPrefixes[library] || 'lu' : 'lu';
+  const prefix = library ? normalizeLibrary(library) || 'lu' : 'lu';
   return `${prefix}:${icon}`;
 }
 
@@ -332,5 +331,6 @@ export function getLibraryName(prefix: string): string {
     'ai': 'Ant Design Icons',
     'md': 'Material Design Icons',
   };
-  return names[prefix] || prefix;
+  const normalized = normalizeLibrary(prefix);
+  return names[normalized] || normalized;
 }
