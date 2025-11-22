@@ -1,4 +1,4 @@
-// src/utils/iconConfig.js
+// src/utils/icons/iconConfig.js
 // Shared icon library configuration used by both the generator script and runtime loader.
 // Kept in plain ESM so Node (scripts) and TS/JS code can both import it without tooling.
 

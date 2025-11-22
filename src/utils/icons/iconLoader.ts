@@ -1,4 +1,4 @@
-// src/utils/iconLoader.ts
+// src/utils/icons/iconLoader.ts
 /**
  * Icon Loading and Rendering System
  * 
@@ -14,8 +14,8 @@
  */
 
 import { isValidElement, type ReactNode, createElement } from 'react';
-import { iconMap, type IconKey } from '@/utils/iconMap.generated';
-import { ICON_LIBRARIES } from '@/utils/iconConfig.js';
+import { iconMap, type IconKey } from './iconMap.generated';
+import { ICON_LIBRARIES } from './iconConfig.js';
 
 /**
  * Map icon size names to pixel values
