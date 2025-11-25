@@ -14,12 +14,14 @@ interface MobileMenuDrawerProps {
   items: any[];
   className?: string;
   hamburgerTransform?: boolean;
+  closeButton?: boolean;
 }
 
 export default function MobileMenuDrawer({
   items,
   className = "",
   hamburgerTransform = true,
+  closeButton = false,
 }: MobileMenuDrawerProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -45,7 +47,7 @@ export default function MobileMenuDrawer({
         position="center"
         className="w-full max-w-full h-full bg-bg p-0 rounded-none"
         overlayClass="bg-black/50"
-        closeButton={false}
+        closeButton={closeButton}
         ariaLabel="Mobile navigation menu"
         ssr={false}
       >

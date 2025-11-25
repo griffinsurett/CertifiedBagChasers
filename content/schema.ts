@@ -239,6 +239,33 @@ export const iconSchema = ({ image }: { image: Function }) =>
 export type IconType = z.infer<ReturnType<typeof iconSchema>>;
 
 // ============================================================================
+// HEADING SCHEMA
+// ============================================================================
+
+const headingSegmentSchema = z.object({
+  text: z.string(),
+  as: z
+    .enum(["span", "strong", "em", "p", "h1", "h2", "h3", "h4", "h5", "h6"])
+    .default("span"),
+  className: z.string().optional(),
+  accent: z.boolean().optional(),
+});
+
+export const headingSchema = z
+  .union([
+    z.string(),
+    z.object({
+      tag: z.enum(["h1", "h2", "h3", "h4", "h5", "h6", "p"]).default("h2"),
+      segments: z.array(headingSegmentSchema).nonempty(),
+      className: z.string().optional(),
+    }),
+  ])
+  .optional();
+
+export type HeadingSegment = z.infer<typeof headingSegmentSchema>;
+export type HeadingData = z.infer<typeof headingSchema>;
+
+// ============================================================================
 // SEO SCHEMA
 // ============================================================================
 
@@ -272,6 +299,7 @@ export type SEOData = z.infer<ReturnType<typeof seoSchema>>;
 export const baseSchema = ({ image }: { image: Function }) =>
   z.object({
     title: z.string(),
+    heading: headingSchema,
     description: z.string().optional(),
     featuredImage: imageInputSchema({ image }).optional(),
     bannerImage: imageInputSchema({ image }).optional(),
@@ -302,6 +330,7 @@ export type BaseData = z.infer<ReturnType<typeof baseSchema>>;
 export const metaSchema = ({ image }: { image: Function }) =>
   z.object({
     title: z.string().optional(),
+    heading: headingSchema,
     description: z.string().optional(),
     hasPage: z.boolean().default(true),
     featuredImage: imageInputSchema({ image }).optional(),
