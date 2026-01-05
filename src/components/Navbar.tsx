@@ -32,7 +32,7 @@ const Navbar = ({ currentPage, navigate }: NavbarProps) => {
 
   return (
     <>
-      <nav className={`sticky top-0 left-0 right-0 z-[1000] px-10 py-1 flex items-center justify-center transition-all duration-300 ${scrolled ? 'bg-bg-primary/95 backdrop-blur-[10px] border-b border-gold/10' : 'bg-transparent'}`}>
+      <nav className={`sticky top-0 left-0 right-0 z-[1000] px-10 py-1 flex items-center justify-center transition-all duration-300 ${scrolled ? 'bg-bg-primary/95 backdrop-blur-[10px]' : 'bg-transparent'}`}>
         <div className="hidden md:flex items-center gap-8 uppercase text-sm font-medium tracking-[1px] absolute left-10">
           {navItems.map(item => (
             <span
