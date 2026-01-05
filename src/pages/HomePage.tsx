@@ -1,6 +1,7 @@
 import CTAButtons from '../components/CTAButtons';
 import MoneyBagCatchGame from '../components/MoneyBagCatchGame';
 import SocialReviewsCarousel from '../components/SocialReviewsCarousel';
+import aroldPortrait from '../assets/aroldpng.png';
 
 const topics = [
   { icon: '💰', title: 'Personal Finance', description: 'Master budgeting, eliminate debt, and build a solid financial foundation that supports your wealth-building journey.' },
@@ -268,9 +269,11 @@ const HomePage = ({ navigate }: HomePageProps) => {
       {/* I Am Arold Section */}
       <section className="bg-gradient-to-b from-bg-primary to-bg-card py-[100px] px-5">
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-15 items-center">
-          <div className="aspect-[3/4] bg-gradient-to-br from-[#1a1a1a] to-bg-secondary rounded-2xl border-2 border-gold/30 flex items-center justify-center relative overflow-hidden">
-            <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-gold/10 to-transparent" />
-            <span className="text-[#444] text-lg uppercase tracking-[2px]">Arold's Photo</span>
+          <div className="aspect-[3/4] bg-gradient-to-br from-[#1f1a14] via-[#0f0d0b] to-[#0b0a09] rounded-2xl border-2 border-gold/30 flex items-center justify-center relative overflow-hidden">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08)_0%,transparent_45%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(201,162,39,0.15)_0%,transparent_55%)]" />
+            <img src={aroldPortrait} alt="Arold Norelus" className="relative w-full h-full object-cover mix-blend-lighten" />
+            <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 via-transparent to-transparent" />
           </div>
 
           <div>
