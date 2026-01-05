@@ -17,7 +17,7 @@ interface HomePageProps {
 
 const HomePage = ({ navigate }: HomePageProps) => {
   return (
-    <div>
+    <div className='overflow-x-hidden'>
       {/* Hero Section */}
       <section className="min-h-screen lg flex flex-col items-center justify-center px-5 text-center relative overflow-hidden bg-[linear-gradient(135deg,rgba(0,0,0,0.7)_0%,rgba(0,0,0,0.9)_100%),radial-gradient(ellipse_at_bottom_left,rgba(201,162,39,0.15)_0%,transparent_50%),radial-gradient(ellipse_at_top_right,rgba(34,87,67,0.2)_0%,transparent_50%),#0a0a0a]">
         {/* Decorative lines */}

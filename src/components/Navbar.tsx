@@ -38,7 +38,7 @@ const Navbar = ({ currentPage, navigate }: NavbarProps) => {
             <span
               key={item.page}
               onClick={() => handleNavigation(item.page)}
-              className={`cursor-pointer transition-colors duration-300 ${currentPage === item.page ? 'text-gold' : 'text-white hover:text-gold'}`}
+              className={`cursor-pointer transition-colors duration-300 ${currentPage === item.page ? 'text-gold' : 'text-text-secondary hover:text-gold'}`}
             >
               {item.name}
             </span>
@@ -46,7 +46,7 @@ const Navbar = ({ currentPage, navigate }: NavbarProps) => {
         </div>
 
         <div onClick={() => handleNavigation('home')} className="cursor-pointer flex items-center">
-          <Logo className="w-50 lg:w-55 h-auto" />
+          <Logo className="w-50 lg:w-55 xl:w-60 h-auto" />
         </div>
 
         <div className="hidden md:flex items-center gap-4 absolute right-10">
@@ -71,7 +71,7 @@ const Navbar = ({ currentPage, navigate }: NavbarProps) => {
             <span
               key={page}
               onClick={() => handleNavigation(page)}
-              className={`cursor-pointer font-semibold text-2xl uppercase ${currentPage === page ? 'text-gold' : 'text-white'}`}
+              className={`cursor-pointer font-semibold text-2xl uppercase transition-colors duration-300 ${currentPage === page ? 'text-gold' : 'text-text-secondary hover:text-gold'}`}
             >
               {page}
             </span>

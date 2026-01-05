@@ -26,7 +26,7 @@ const Footer = ({ navigate }: FooterProps) => {
                 <span
                   key={link}
                   onClick={() => navigate(link.toLowerCase())}
-                  className="text-white cursor-pointer transition-colors duration-300 hover:text-gold"
+                  className="text-text-secondary cursor-pointer transition-colors duration-300 hover:text-gold"
                 >
                   {link}
                 </span>
@@ -36,13 +36,13 @@ const Footer = ({ navigate }: FooterProps) => {
           <div>
             <h4 className="text-white mb-4 font-bold">Resources</h4>
             <div className="flex flex-col gap-3">
-              <span onClick={() => navigate('budgeting')} className="text-white cursor-pointer hover:text-gold">
+              <span onClick={() => navigate('budgeting')} className="text-text-secondary cursor-pointer hover:text-gold transition-colors duration-300">
                 Free Budgeting Tool
               </span>
-              <a href="https://whop.com" target="_blank" rel="noopener noreferrer" className="text-white no-underline hover:text-gold">
+              <a href="https://whop.com" target="_blank" rel="noopener noreferrer" className="text-text-secondary no-underline hover:text-gold transition-colors duration-300">
                 Discord Community
               </a>
-              <a href="https://whop.com" target="_blank" rel="noopener noreferrer" className="text-white no-underline hover:text-gold">
+              <a href="https://whop.com" target="_blank" rel="noopener noreferrer" className="text-text-secondary no-underline hover:text-gold transition-colors duration-300">
                 Course (Coming Soon)
               </a>
             </div>
@@ -51,7 +51,7 @@ const Footer = ({ navigate }: FooterProps) => {
             <h4 className="text-white mb-4 font-bold">Affiliates</h4>
             <div className="flex flex-col gap-3">
               {affiliateLinks.map(link => (
-                <span onClick={() => navigate('affiliates')} className="text-white cursor-pointer hover:text-gold" key={link}>
+                <span onClick={() => navigate('affiliates')} className="text-text-secondary cursor-pointer transition-colors duration-300 hover:text-gold" key={link}>
                   {link}
                 </span>
               ))}
@@ -62,9 +62,10 @@ const Footer = ({ navigate }: FooterProps) => {
           </div>
         </div>
         <div className="border-t border-gold/10 pt-[30px] text-center text-text-dim">
-          <p>
-            © 2024 Certified Bag Chasers. All rights reserved. | <span className="cursor-pointer hover:text-gold">Privacy Policy</span> |{' '}
-            <span className="cursor-pointer hover:text-gold">Terms of Service</span>
+          <p className="text-text-secondary">
+            © 2024 Certified Bag Chasers. All rights reserved. |{' '}
+            <span className="text-text-secondary cursor-pointer hover:text-gold transition-colors">Privacy Policy</span> |{' '}
+            <span className="text-text-secondary cursor-pointer hover:text-gold transition-colors">Terms of Service</span>
           </p>
         </div>
       </div>
