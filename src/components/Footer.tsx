@@ -14,7 +14,7 @@ const Footer = ({ navigate }: FooterProps) => {
       <div className="max-w-[1200px] mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 mb-10">
           <div>
-            <Logo className="w-20 h-20 mb-4 mx-auto sm:mx-0" shadow={false} />
+            <Logo shadow={false} />
             <p className="text-text-muted leading-relaxed">
               Making wise money moves for long-term success. Every small step counts on the journey to financial freedom.
             </p>

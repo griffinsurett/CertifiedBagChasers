@@ -6,7 +6,7 @@ interface LogoProps {
   shadow?: boolean;
 }
 
-const Logo = ({ className = 'w-28 h-auto', onClick, shadow = true }: LogoProps) => {
+const Logo = ({ className = 'w-50 lg:w-55 h-auto', onClick, shadow = true }: LogoProps) => {
   const shadowClass = shadow ? 'drop-shadow-[0_5px_15px_rgba(0,0,0,0.6)]' : '';
   const classes = `object-contain ${shadowClass} ${className}`.trim();
 
