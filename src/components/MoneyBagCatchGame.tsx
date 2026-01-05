@@ -33,7 +33,7 @@ const MoneyBagCatchGame = () => {
           });
         }
       } else {
-        setBagX(prev => {
+        setBagX(() => {
           const time = Date.now() / 1000;
           return 50 + Math.sin(time) * 20;
         });

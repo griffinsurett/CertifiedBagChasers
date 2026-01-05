@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
@@ -17,7 +17,7 @@ const App = () => {
     window.scrollTo(0, 0);
   };
 
-  const pages: Record<string, JSX.Element> = {
+  const pages: Record<string, ReactNode> = {
     home: <HomePage navigate={navigate} />,
     products: <ProductsPage navigate={navigate} />,
     book: <BookPage />,
