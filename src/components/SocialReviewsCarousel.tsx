@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import SectionHeading from './SectionHeading';
 import review6mirr from '../assets/social-reviews/6mirr.jpeg';
 import reviewAdminAjax from '../assets/social-reviews/admin-ajax.jpeg';
 import reviewChaptersStraightSauce from '../assets/social-reviews/chaptersstraightsauce.jpeg';
@@ -87,17 +88,14 @@ const SocialReviewsCarousel = () => {
   }, []);
 
   return (
-    <section className="bg-bg-dark py-[100px] px-5">
+    <section className="bg-bg-dark section-base">
       <div className="max-w-[1200px] mx-auto">
-        <div className="text-center mb-10">
-          <span className="text-white text-sm uppercase tracking-[3px] font-semibold">Social Proof</span>
-          <h2 className="text-5xl font-extrabold mt-4 font-display uppercase">
-            Real <span className="gold-metallic-heading">Member Wins</span>
-          </h2>
-          <p className="text-text-muted max-w-[700px] mx-auto mt-4">
-            Screenshots straight from our Discord and socials. No fluff. Just real people stacking real results while following the Certified Bag Chasers playbook.
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Social Proof"
+          title={<>Real <span className="gold-metallic-heading">Member Wins</span></>}
+          description="Screenshots straight from our Discord and socials. No fluff. Just real people stacking real results while following the Certified Bag Chasers playbook."
+          descriptionClassName="max-w-[700px]"
+        />
 
         <div className="relative">
           <button

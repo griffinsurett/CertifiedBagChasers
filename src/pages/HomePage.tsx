@@ -1,5 +1,6 @@
 import CTAButtons from '../components/CTAButtons';
 import MoneyBagCatchGame from '../components/MoneyBagCatchGame';
+import SectionHeading from '../components/SectionHeading';
 import SocialReviewsCarousel from '../components/SocialReviewsCarousel';
 import aroldPortrait from '../assets/aroldpng.png';
 
@@ -66,7 +67,7 @@ const HomePage = ({ navigate }: HomePageProps) => {
       </section>
 
       {/* About Us Section */}
-      <section className="bg-bg-primary py-[100px] px-5">
+      <section className="bg-bg-primary section-base">
         <div className="max-w-[900px] mx-auto text-center">
           <span className="text-white text-sm uppercase tracking-[3px] font-semibold">About Us</span>
 
@@ -89,17 +90,13 @@ const HomePage = ({ navigate }: HomePageProps) => {
 
 
       {/* Growth Comparison Charts */}
-      <section className="bg-gradient-to-b from-bg-dark via-bg-primary to-bg-dark py-[100px] px-5 overflow-hidden">
+      <section className="bg-gradient-to-b from-bg-dark via-bg-primary to-bg-dark section-base overflow-hidden pb-0">
         <div className="max-w-[1100px] mx-auto">
-          <div className="text-center mb-15">
-            <span className="text-white text-sm uppercase tracking-[3px] font-semibold">The Difference</span>
-            <h2 className="text-5xl font-extrabold mt-4 font-display uppercase">
-              Sustainable Growth vs Get Rich Quick
-            </h2>
-            <p className="text-text-muted mt-4 max-w-[600px] mx-auto">
-              See why our approach builds lasting wealth while shortcuts lead to disaster.
-            </p>
-          </div>
+          <SectionHeading
+            eyebrow="The Difference"
+            title="Sustainable Growth vs Get Rich Quick"
+            description="See why our approach builds lasting wealth while shortcuts lead to disaster."
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Our Approach Chart */}
@@ -267,7 +264,7 @@ const HomePage = ({ navigate }: HomePageProps) => {
       </section>
 
       {/* I Am Arold Section */}
-      <section className="bg-gradient-to-b from-bg-primary to-bg-card py-[100px] px-5">
+      <section className="bg-gradient-to-b from-bg-primary to-bg-card section-base">
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-15 items-center">
           <div className="aspect-[3/4] bg-gradient-to-br from-[#1f1a14] via-[#0f0d0b] to-[#0b0a09] rounded-2xl border-2 border-gold/30 flex items-center justify-center relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08)_0%,transparent_45%)]" />
@@ -312,14 +309,12 @@ const HomePage = ({ navigate }: HomePageProps) => {
       </section>
 
       {/* Our Promise Section */}
-      <section className="bg-bg-dark py-[100px] px-5">
+      <section className="bg-bg-dark section-base">
         <div className="max-w-[1200px] mx-auto">
-          <div className="text-center mb-15">
-            <span className="text-white text-sm uppercase tracking-[3px] font-semibold">Our Promise</span>
-            <h2 className="text-5xl font-extrabold mt-4 font-display uppercase">
-              Our <span className="gold-metallic-heading">Commitments</span> To You
-            </h2>
-          </div>
+          <SectionHeading
+            eyebrow="Our Promise"
+            title={<>Our <span className="gold-metallic-heading">Commitments</span> To You</>}
+          />
 
           <div className="masonry-grid">
             {/* Card 1 - Large */}
@@ -393,12 +388,10 @@ const HomePage = ({ navigate }: HomePageProps) => {
 
       {/* Topics We Teach */}
       <section className="section">
-        <div className="text-center mb-15">
-          <span className="text-white text-sm uppercase tracking-[3px] font-semibold">What You'll Learn</span>
-          <h2 className="text-5xl font-extrabold mt-4 font-display uppercase">
-            Topics We <span className="gold-metallic-heading">Teach</span>
-          </h2>
-        </div>
+        <SectionHeading
+          eyebrow="What You'll Learn"
+          title={<>Topics We <span className="gold-metallic-heading">Teach</span></>}
+        />
 
         <div className="card text-center">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8">
@@ -413,17 +406,13 @@ const HomePage = ({ navigate }: HomePageProps) => {
       </section>
 
       {/* Pricing Section */}
-      <section className="bg-bg-dark py-[100px] px-5">
+      <section className="bg-bg-dark section-base">
         <div className="max-w-[1200px] mx-auto">
-          <div className="text-center mb-15">
-            <span className="text-white text-sm uppercase tracking-[3px] font-semibold">Start Your Journey</span>
-            <h2 className="text-5xl font-extrabold mt-4 font-display uppercase">
-              Choose Your <span className="gold-metallic-heading">Path</span>
-            </h2>
-            <p className="text-text-muted mt-4 max-w-[600px] mx-auto">
-              Whether you're just starting out or ready for personalized guidance, we have the right option for you.
-            </p>
-          </div>
+          <SectionHeading
+            eyebrow="Start Your Journey"
+            title={<>Choose Your <span className="gold-metallic-heading">Path</span></>}
+            description="Whether you're just starting out or ready for personalized guidance, we have the right option for you."
+          />
 
           <div className="pricing-grid">
             {/* Book */}
@@ -562,17 +551,14 @@ const HomePage = ({ navigate }: HomePageProps) => {
       </section>
 
       {/* Testimonials */}
-      <section className="bg-[#080808] py-[100px] px-5">
+      <section className="bg-[#080808] section-base">
         <div className="max-w-[1300px] mx-auto">
-          <div className="text-center mb-15">
-            <span className="text-white text-sm uppercase tracking-[3px] font-semibold">Success Stories</span>
-            <h2 className="text-5xl font-extrabold mt-4 font-display uppercase">
-              Hear From Our <span className="gold-metallic-heading">Customers</span>
-            </h2>
-            <p className="text-text-muted mt-4 max-w-[700px] mx-auto">
-              Real stories from people who've used our course, Discord community, book, and budgeting tool to take control of their financial future.
-            </p>
-          </div>
+          <SectionHeading
+            eyebrow="Success Stories"
+            title={<>Hear From Our <span className="gold-metallic-heading">Customers</span></>}
+            description="Real stories from people who've used our course, Discord community, book, and budgeting tool to take control of their financial future."
+            descriptionClassName="max-w-[700px]"
+          />
 
           <div className="testimonial-masonry">
             {/* Video Testimonial 1 */}
@@ -755,7 +741,7 @@ const HomePage = ({ navigate }: HomePageProps) => {
       </section>
 
       {/* Final CTA */}
-      <section className="bg-gradient-to-b from-bg-primary to-bg-dark py-[100px] px-5 text-center">
+      <section className="bg-gradient-to-b from-bg-primary to-bg-dark section-base text-center">
         <div className="max-w-[800px] mx-auto">
           <h2 className="text-5xl font-extrabold mb-6 font-display uppercase">
             Ready To <span className="gold-metallic-heading">Chase The Bag</span>?

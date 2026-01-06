@@ -197,6 +197,28 @@ body {
   margin: 0 auto;
 }
 
+@layer utilities {
+  .section-base {
+    @apply py-[100px] px-5;
+  }
+
+  .section-heading {
+    @apply text-center mb-15;
+  }
+
+  .section-eyebrow {
+    @apply text-white text-sm uppercase tracking-[3px] font-semibold;
+  }
+
+  .section-title {
+    @apply text-5xl font-extrabold mt-4 font-display uppercase;
+  }
+
+  .section-description {
+    @apply text-text-muted mt-4 max-w-[600px] mx-auto;
+  }
+}
+
 /* Form inputs */
 .form-input {
   background: #151515;
