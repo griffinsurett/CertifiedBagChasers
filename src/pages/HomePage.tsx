@@ -610,7 +610,7 @@ const HomePage = ({ navigate }: HomePageProps) => {
             <p className="text-text-secondary text-lg leading-relaxed mb-6">
               I’m also a <strong className="text-white">Chartered Market Technician (CMT) Level I</strong>, with a deep focus on technical analysis and market behavior. My approach blends professional-grade insights with clear communication, helping others understand why markets move and how to make smarter financial decisions over time.
             </p>
-
+            
             <p className="text-text-secondary text-lg leading-relaxed mb-8">
               <strong className="text-white">
                 My mission is simple: 
