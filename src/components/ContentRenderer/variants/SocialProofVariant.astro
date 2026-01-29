@@ -1,0 +1,78 @@
+---
+// src/components/ContentRenderer/variants/SocialProofVariant.astro
+/**
+ * SocialProofVariant - Social media screenshot carousel with section heading
+ *
+ * Displays social media post screenshots (Discord wins, etc.) in a carousel format.
+ * Uses SectionHeading for consistent styling with other CBC sections.
+ */
+
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import SectionHeading from "@/components/SectionHeading.astro";
+import SocialProofCarousel from "@/components/LoopTemplates/SocialProofCarousel";
+import { getImageUrl } from "@/utils/images";
+
+interface Props extends BaseVariantProps {
+  eyebrow?: string;
+}
+
+const {
+  items = [],
+  title,
+  heading,
+  description,
+  className = "",
+  id,
+  eyebrow = "Social Proof",
+} = Astro.props as Props;
+
+// Process heading content
+let displayTitle = title;
+let highlightedTitle = "";
+
+if (heading && typeof heading === 'object' && 'before' in heading) {
+  displayTitle = heading.before || "";
+  highlightedTitle = heading.text || "";
+} else if (typeof heading === 'string') {
+  displayTitle = heading;
+}
+
+// Helper to extract image URL from Astro ImageMetadata
+const extractImageUrl = (img: any): string => {
+  if (!img) return "";
+  // Direct string (already a URL)
+  if (typeof img === "string") return img;
+  // ImageMetadata with src as string (common case)
+  if (typeof img === "object" && typeof img.src === "string") return img.src;
+  // Nested: { src: { src: string } }
+  if (typeof img === "object" && img.src && typeof img.src.src === "string") return img.src.src;
+  return "";
+};
+
+// Transform items for the carousel component
+const carouselItems = items.map(item => ({
+  id: item.slug,
+  data: {
+    title: item.title || "",
+    socialMediaPost: extractImageUrl(item.socialMediaPost) || extractImageUrl(item.featuredImage),
+  },
+}));
+---
+
+<section id={id} class={`section-base relative z-10 ${className}`}>
+  <div class="max-w-[1200px] mx-auto">
+    <SectionHeading
+      eyebrow={eyebrow}
+      title={displayTitle}
+      highlightedTitle={highlightedTitle}
+      description={description}
+    />
+
+    {carouselItems.length > 0 && (
+      <SocialProofCarousel
+        items={carouselItems}
+        client:load
+      />
+    )}
+  </div>
+</section>

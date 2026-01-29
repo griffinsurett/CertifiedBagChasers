@@ -10,8 +10,13 @@
     "description": "Secondary footer links"
   },
   {
-    "id": "links-menu",
-    "title": "Links",
-    "description": "Social links and important pages"
+    "id": "quick-links",
+    "title": "Quick Links",
+    "description": "Quick navigation links in footer"
+  },
+  {
+    "id": "legal",
+    "title": "Legal",
+    "description": "Legal and policy pages"
   }
 ]

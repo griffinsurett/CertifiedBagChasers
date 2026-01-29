@@ -1,0 +1,95 @@
+---
+/**
+ * MentorSection Layout
+ *
+ * Two-column layout with image on one side and text content on the other.
+ * Used for "Your Mentor" / "I Am Arold" style sections.
+ *
+ * Props:
+ * - eyebrow: Small text above heading (e.g., "Your Mentor")
+ * - title: Main heading text
+ * - highlightedTitle: Part of title to highlight
+ * - image: Image to display
+ * - imageAlt: Alt text for image
+ * - imagePosition: "left" or "right" (default: "left")
+ * - credentials: Array of credential badges { icon, text }
+ */
+
+export interface Props {
+  eyebrow?: string;
+  title?: string;
+  highlightedTitle?: string;
+  image?: any;
+  imageAlt?: string;
+  imagePosition?: "left" | "right";
+  credentials?: Array<{ icon: string; text: string }>;
+  className?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  highlightedTitle,
+  image,
+  imageAlt = "",
+  imagePosition = "left",
+  credentials = [],
+  className = "",
+} = Astro.props;
+
+const isImageLeft = imagePosition === "left";
+---
+
+<section class={`section-base ${className}`}>
+  <div class="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+    {/* Image Column */}
+    <div class={`${isImageLeft ? "order-1" : "order-1 lg:order-2"}`}>
+      <slot name="image">
+        {image && (
+          <div class="aspect-[3/4] rounded-2xl overflow-hidden">
+            <img
+              src={typeof image === "string" ? image : image.src}
+              alt={imageAlt}
+              class="w-full h-full object-cover"
+            />
+          </div>
+        )}
+      </slot>
+    </div>
+
+    {/* Content Column */}
+    <div class={`${isImageLeft ? "order-2" : "order-2 lg:order-1"}`}>
+      {eyebrow && (
+        <span class="eyebrow">{eyebrow}</span>
+      )}
+
+      {(title || highlightedTitle) && (
+        <h2 class="section-heading mt-4 mb-6">
+          {title && <Fragment set:html={title} />}
+          {title && highlightedTitle && " "}
+          {highlightedTitle && (
+            <span class="highlight">{highlightedTitle}</span>
+          )}
+        </h2>
+      )}
+
+      <div class="body-text mb-8">
+        <slot />
+      </div>
+
+      {/* Credentials/Badges */}
+      {credentials.length > 0 && (
+        <div class="flex gap-6 flex-wrap">
+          {credentials.map((credential) => (
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">{credential.icon}</span>
+              <span class="font-semibold">{credential.text}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <slot name="footer" />
+    </div>
+  </div>
+</section>

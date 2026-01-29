@@ -1,0 +1,113 @@
+---
+// src/components/LoopComponents/PromiseCard.astro
+/**
+ * PromiseCard Component
+ *
+ * Displays a promise/commitment card matching the React version.
+ * Grid class and styling are passed from PromiseVariant based on order.
+ */
+
+import BackgroundMedia from "@/components/BackgroundMedia.astro";
+
+export interface Props {
+  title: string;
+  description?: string;
+  gridClass: string; // masonry-card-large, masonry-card-wide, masonry-card-small
+  hasGoldLine?: boolean;
+  featuredImage?: ImageMetadata | { src: ImageMetadata; alt?: string };
+  className?: string;
+}
+
+const {
+  title,
+  description,
+  gridClass,
+  hasGoldLine = false,
+  featuredImage,
+  className = "",
+} = Astro.props;
+
+// Determine card type from gridClass
+const isLarge = gridClass.includes("large");
+const isWide = gridClass.includes("wide");
+const isSmall = gridClass.includes("small");
+
+// Card-specific gradient overlays (matching React version)
+const overlayGradient = isLarge ? "bg-gradient-to-t from-[rgba(10,10,6,0.98)] via-[rgba(15,14,10,0.7)] to-[rgba(20,18,12,0.5)]" :
+                        isWide ? "bg-gradient-to-r from-[rgba(12,11,8,0.98)] to-[rgba(12,11,8,0.8)]" :
+                        "bg-gradient-to-t from-[rgba(10,12,8,0.98)] to-[rgba(10,12,8,0.7)]";
+
+// Card background gradient (dark base)
+const cardBgGradient = isLarge ? "bg-gradient-to-br from-[#1a1810] via-[#0d0c08] to-[#0a0a06]" :
+                       isWide ? "bg-gradient-to-br from-[#151410] via-[#0c0b08] to-[#080806]" :
+                       "bg-gradient-to-br from-[#131510] via-[#0a0c08] to-[#060806]";
+
+// Accent glow position and color
+const accentGlow = isLarge ? "absolute top-0 right-0 w-[250px] h-[250px] bg-[radial-gradient(circle_at_top_right,rgba(201,162,39,0.08)_0%,transparent_60%)]" :
+                   isWide ? "absolute bottom-0 right-0 w-[150px] h-[150px] bg-[radial-gradient(circle_at_bottom_right,rgba(74,222,128,0.08)_0%,transparent_60%)]" :
+                   "absolute top-0 left-0 w-[120px] h-[120px] bg-[radial-gradient(circle_at_top_left,rgba(74,222,128,0.1)_0%,transparent_60%)]";
+
+// Normalize featuredImage to get the actual ImageMetadata
+const imageSrc = featuredImage
+  ? (typeof featuredImage === 'object' && 'src' in featuredImage && featuredImage.src !== undefined)
+    ? featuredImage.src
+    : featuredImage
+  : null;
+---
+
+<div class={`${gridClass} ${className}`}>
+  <div class={`masonry-card-inner ${cardBgGradient}`}>
+    {/* Background image using BackgroundMedia */}
+    {imageSrc && (
+      <BackgroundMedia
+        backgroundMedia={{
+          image: {
+            src: imageSrc,
+            imageClass: "opacity-25 mix-blend-luminosity",
+          },
+          overlayClass: overlayGradient,
+        }}
+      />
+    )}
+
+    {/* Gold/accent glow for large cards */}
+    {isLarge && (
+      <div class="absolute inset-0 bg-gradient-to-br from-primary/[0.12] to-transparent z-[1]" />
+    )}
+
+    {/* Accent glow */}
+    <div class={`${accentGlow} z-[1]`} />
+
+    {/* Content */}
+    <div class:list={[
+      "absolute z-[2]",
+      isLarge ? "left-[30px] right-[30px] bottom-[30px] flex flex-col" : "",
+      isWide ? "inset-6 flex flex-col justify-center" : "",
+      isSmall ? "inset-5 flex flex-col justify-end" : "",
+    ]}>
+      <h3 class:list={[
+        "font-extrabold font-display uppercase text-white",
+        isLarge ? "text-[32px] mb-4 text-shadow-lg" : "",
+        isWide ? "text-2xl mb-3 text-shadow-lg" : "",
+        isSmall ? "text-lg mb-2 text-shadow" : "",
+      ]}>
+        {title}
+      </h3>
+      {description && (
+        <p class:list={[
+          "leading-relaxed",
+          isLarge ? "text-[#ccc] text-base text-shadow" : "",
+          isWide ? "text-[#bbb] text-[15px] max-w-[80%]" : "",
+          isSmall ? "text-[#aaa] text-[13px] leading-normal" : "",
+        ]}>
+          {description}
+        </p>
+      )}
+    </div>
+
+    {/* Gold line for wide cards */}
+    {hasGoldLine && (
+      <div class="absolute bottom-0 left-0 right-0 h-1 z-[2] bg-gradient-to-r from-primary-900 via-primary to-primary-100" />
+    )}
+  </div>
+</div>

@@ -6,15 +6,39 @@
     "url": "/",
     "order": 0,
     "openInNewTab": false,
-    "menu": ["main-menu", "links-menu"]
+    "menu": ["main-menu", "quick-links"]
   },
   {
     "id": "about-us",
     "title": "About Us",
     "url": "/about-us",
-    "order": 3,
+    "order": 1,
     "openInNewTab": false,
-    "menu": "main-menu"
+    "menu": ["main-menu", "quick-links"]
+  },
+  {
+    "id": "products",
+    "title": "Products",
+    "url": "https://whop.com",
+    "order": 2,
+    "openInNewTab": true,
+    "menu": "quick-links"
+  },
+  {
+    "id": "book",
+    "title": "Book",
+    "url": "https://amazon.com",
+    "order": 3,
+    "openInNewTab": true,
+    "menu": "quick-links"
+  },
+  {
+    "id": "mentorship",
+    "title": "Mentorship",
+    "url": "https://whop.com",
+    "order": 4,
+    "openInNewTab": true,
+    "menu": "quick-links"
   },
   {
     "id": "privacy-policy",
@@ -22,7 +46,7 @@
     "url": "/privacy-policy",
     "order": 0,
     "openInNewTab": false,
-    "menu": "footer-menu"
+    "menu": ["footer-menu", "legal"]
   },
   {
     "id": "cookie-policy",
@@ -30,7 +54,7 @@
     "url": "/cookie-policy",
     "order": 1,
     "openInNewTab": false,
-    "menu": "footer-menu"
+    "menu": ["footer-menu", "legal"]
   },
   {
     "id": "terms-of-service",
@@ -38,6 +62,6 @@
     "url": "/terms-of-service",
     "order": 2,
     "openInNewTab": false,
-    "menu": "footer-menu"
+    "menu": ["footer-menu", "legal"]
   }
 ]

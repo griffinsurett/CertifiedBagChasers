@@ -1,15 +1,17 @@
 ---
 // src/components/ContentRenderer/variants/ListVariant.astro
 /**
- * List Variant - Vertical stack of links
- * Features: Simple list of links using Button component
+ * List Variant - Stack of links
+ * Features: Horizontal or vertical layout, footer-friendly styling
  */
 
 import type { BaseVariantProps } from "../ContentRenderer.types";
 import Button from "@/components/Button/Button";
 import { shouldShowCollectionCTA } from "../utils/helpers";
 
-type Props = BaseVariantProps;
+interface Props extends BaseVariantProps {
+  layout?: "horizontal" | "vertical";
+}
 
 const {
   items = [],
@@ -19,18 +21,23 @@ const {
   collectionUrl,
   collectionTitle,
   id,
+  layout = "horizontal",
 } = Astro.props as Props;
 
 const viewAllText = `See Complete ${collectionTitle || "List"}`;
+
+const layoutClasses = layout === "vertical"
+  ? "flex-col items-start gap-2"
+  : "flex-row flex-wrap gap-2";
 ---
 
-<section id={id} class={`py-16 ${className}`}>
+<div id={id} class={className}>
   {
     (title || description) && (
-      <div class="mb-12">
-        {title && <h2 class="text-4xl text-heading font-bold mb-4">{title}</h2>}
+      <div class="mb-6">
+        {title && <h2 class="text-2xl text-heading font-bold mb-2">{title}</h2>}
         {description && (
-          <p class="text-lg text-text max-w-3xl">{description}</p>
+          <p class="text-text">{description}</p>
         )}
       </div>
     )
@@ -38,11 +45,16 @@ const viewAllText = `See Complete ${collectionTitle || "List"}`;
 
   {
     items.length > 0 && (
-      <nav class="flex flex-wrap gap-2 list-none">
+      <nav class={`flex ${layoutClasses} list-none`}>
         {items.map((item) => (
-            <Button href={item.url} className="text-bg" variant="link">
-              {item.title}
-            </Button>
+          <Button
+            href={item.url}
+            variant="link"
+            target={item.openInNewTab ? "_blank" : undefined}
+            rel={item.openInNewTab ? "noopener noreferrer" : undefined}
+          >
+            {item.title}
+          </Button>
         ))}
       </nav>
     )
@@ -50,24 +62,11 @@ const viewAllText = `See Complete ${collectionTitle || "List"}`;
 
   {
     shouldShowCollectionCTA(collectionUrl, items.length) && (
-      <div class="mt-12">
-        <Button href={collectionUrl} variant="tertiary">
-          {viewAllText}
-          <svg
-            class="ml-2 w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-            />
-          </svg>
+      <div class="mt-6">
+        <Button href={collectionUrl} variant="link">
+          {viewAllText} →
         </Button>
       </div>
     )
   }
-</section>
+</div>

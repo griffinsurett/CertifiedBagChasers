@@ -10,7 +10,7 @@ import Modal from "@/components/Modal";
 import Icon from "@/components/Icon";
 import { useAccessibility } from "@/integrations/preferences/accessibility/core/hooks/useAccessibility";
 import type { A11yPreferences } from "@/integrations/preferences/accessibility/core/types";
-import LanguageSwitcher from "@/integrations/preferences/language/ui/LanguageSwitcher";
+// import LanguageSwitcher from "@/integrations/preferences/language/ui/LanguageSwitcher";
 import { siteData } from "@/content/siteData";
 
 interface AccessibilityModalProps {
@@ -245,7 +245,7 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
       ssr={false}
     >
       <div className="a11y-modal-shell">
-        <div className="primary-gradient px-6 py-4 text-bg flex-shrink-0">
+        <div className="bg-primary px-6 py-4 text-bg flex-shrink-0">
           <div className="flex flex-col gap-3">
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-center gap-2">
@@ -304,6 +304,7 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
         </div>
 
         <div className="a11y-scroll-region w-full mx-auto">
+          {/* Language switcher - commented out for now
           <div className="a11y-card a11y-card--spacious">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-text/70">
               Language
@@ -312,6 +313,7 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
               <LanguageSwitcher />
             </div>
           </div>
+          */}
 
           <SectionBlock
             title="Text"

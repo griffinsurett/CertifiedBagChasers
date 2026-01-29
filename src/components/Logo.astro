@@ -1,0 +1,31 @@
+---
+// src/components/Logo.astro
+/**
+ * Logo Component
+ *
+ * Displays the CBC logo image with optional shadow effect.
+ */
+
+import { Image } from "astro:assets";
+import cbcLogo from "@/assets/cbc-transparent.png";
+
+export interface Props {
+  className?: string;
+  shadow?: boolean;
+}
+
+const {
+  className = "w-48 lg:w-52 xl:w-56 h-auto",
+  shadow = true,
+} = Astro.props;
+
+const shadowClass = shadow ? "drop-shadow-[0_5px_15px_rgba(0,0,0,0.6)]" : "";
+---
+
+<Image
+  src={cbcLogo}
+  alt="Certified Bag Chasers logo"
+  class={`object-contain ${shadowClass} ${className}`}
+  widths={[200, 300, 400]}
+  sizes="(max-width: 1024px) 200px, (max-width: 1280px) 220px, 240px"
+/>

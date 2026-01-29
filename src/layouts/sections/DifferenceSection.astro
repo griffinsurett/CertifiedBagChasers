@@ -1,0 +1,84 @@
+---
+/**
+ * DifferenceSection Layout
+ *
+ * Two-column comparison section for "Sustainable Growth vs Get Rich Quick".
+ * Shows side-by-side comparison charts as React islands with client:visible.
+ *
+ * Props:
+ * - eyebrow: Small text above heading
+ * - title: Main heading text
+ * - description: Description below heading
+ * - bottomMessage: Message at bottom of section
+ * - bottomSubtext: Smaller text below bottom message
+ * - ctaText: Call to action button text
+ * - ctaLink: Call to action button link
+ */
+
+import SectionHeading from "@/components/SectionHeading.astro";
+import Button from "@/components/Button/Button";
+import OurApproachChart from "@/components/Charts/OurApproachChart";
+import GetRichQuickChart from "@/components/Charts/GetRichQuickChart";
+
+export interface Props {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  bottomMessage?: string;
+  bottomSubtext?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  className?: string;
+}
+
+const {
+  eyebrow = "The Difference",
+  title = "Sustainable Growth vs Get Rich Quick",
+  description = "See why our approach builds lasting wealth while shortcuts lead to disaster.",
+  bottomMessage = "5 years of steady growth beats 1 year of chaos. Every time.",
+  bottomSubtext = "We teach strategies that compound over years, not schemes that collapse in months.",
+  ctaText = "Join Our Community →",
+  ctaLink = "https://whop.com",
+  className = "",
+} = Astro.props;
+---
+
+<section class={`section-base bg-gradient-to-b from-bg-dark via-bg to-bg-dark overflow-hidden pb-0 ${className}`}>
+  <div class="max-w-[1100px] mx-auto">
+    <SectionHeading
+      eyebrow={eyebrow}
+      title={title}
+      description={description}
+    />
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <OurApproachChart client:visible />
+      <GetRichQuickChart client:visible />
+    </div>
+
+    {/* Bottom message */}
+    {(bottomMessage || ctaText) && (
+      <div class="text-center mt-12 p-8 bg-gradient-to-br from-primary/[0.08] to-primary/[0.02] rounded-xl border border-primary/15">
+        {bottomMessage && (
+          <p class="text-primary text-lg font-semibold m-0 mb-2">
+            {bottomMessage}
+          </p>
+        )}
+        {bottomSubtext && (
+          <p class="text-text-dim text-sm m-0 mb-6">
+            {bottomSubtext}
+          </p>
+        )}
+        {ctaText && ctaLink && (
+          <Button
+            href={ctaLink}
+            variant="primary"
+            size="lg"
+          >
+            {ctaText}
+          </Button>
+        )}
+      </div>
+    )}
+  </div>
+</section>

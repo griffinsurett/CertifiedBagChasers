@@ -423,13 +423,19 @@ async function processCollectionMenus(
           const hasRenderablePage = shouldItemHavePageData(itemData, meta);
           const isParentContainer = parentToChildren.has(slug);
           const hasPageableDescendants = isParentContainer && hasDescendantWithPage(slug);
+          const hasExternalLink = Boolean(itemData.link || itemData.url);
 
           // Skip items with no page unless they are parent containers with descendants that have pages
-          if (!hasRenderablePage && !hasPageableDescendants) continue;
+          // or they have an external link
+          if (!hasRenderablePage && !hasPageableDescendants && !hasExternalLink) continue;
 
-          const itemUrl = hasRenderablePage
-            ? (shouldItemUseRootPathData(itemData, meta) ? `/${slug}` : `/${collection}/${slug}`)
-            : undefined;
+          // Use external link if available, otherwise generate page URL
+          let itemUrl: string | undefined;
+          if (hasExternalLink) {
+            itemUrl = itemData.link || itemData.url;
+          } else if (hasRenderablePage) {
+            itemUrl = shouldItemUseRootPathData(itemData, meta) ? `/${slug}` : `/${collection}/${slug}`;
+          }
 
           let parent = attachTo;
           // If attachTo is the collection but no explicit collection parent exists in the store,
@@ -459,7 +465,7 @@ async function processCollectionMenus(
               url: itemUrl,
               menu: menus,
               parent: resolvedParent,
-              openInNewTab: menuConfig.openInNewTab ?? false,
+              openInNewTab: itemData.openInNewTab ?? menuConfig.openInNewTab ?? false,
               order: itemData.order,
             },
           });

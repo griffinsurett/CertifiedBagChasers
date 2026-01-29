@@ -2,16 +2,19 @@
 const siteDomain = import.meta.env.PUBLIC_SITE_DOMAIN;
 
 export const siteData = {
-  title: "Greastro",
-  legalName: "Greastro LLC",
-  description: "Finest Typesafe Static Sites with Astro, dynamically static with content collections.",
+  title: "Certified Bag Chasers",
+  legalName: "Certified Bag Chasers LLC",
+  description: "A financial education platform built for people who want to understand how markets actually work—not chase shortcuts. No get-rich-quick schemes, just real strategies that create lasting wealth.",
   domain: siteDomain,
   url: `https://${siteDomain}`,
-  location: "New Jersey, USA",
-  address: "123 Main St, Springfield, NJ 07081",
+  location: "United States",
+  founder: "Arold Norelus",
+  tagline: "Stop Chasing Quick Fixes",
 };
 
 export const ctaData = {
-  text: "Get Started with Greastro",
-  link: "/contact-us",
-}
+  text: "Join The Community",
+  link: "https://whop.com",
+  secondaryText: "Get The Book",
+  secondaryLink: "https://amazon.com",
+};

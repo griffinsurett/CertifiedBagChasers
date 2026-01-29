@@ -2,39 +2,111 @@
 // src/layouts/Header.astro
 /**
  * Site Header with Navigation
+ *
+ * Layout: Menu (left) | Logo (center) | Login (right)
+ * Matches React Navbar styling with scroll effect and responsive design.
  */
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
 import { query, sortBy } from "@/utils/query";
-import { siteData } from "@/content/siteData";
+import Logo from "@/components/Logo.astro";
 ---
 
-<header class="sticky top-0 z-[40] bg-bg shadow-sm">
-  <div class="">
-    <div class="flex items-center justify-between h-16 w-full">
-      <!-- Logo -->
-      <a
-        href="/"
-        class="text-2xl font-bold text-heading hover:text-primary transition-colors"
-      >
-        {siteData.title}
-      </a>
+<header
+  id="main-header"
+  class="fixed top-0 left-0 right-0 z-[1000] px-6 md:px-10 py-1 flex items-center justify-center transition-all duration-300 bg-transparent"
+>
+  {/* Desktop Navigation - Left */}
+  <nav class="hidden md:flex items-center gap-8 uppercase text-sm font-medium tracking-[1px] absolute left-10">
+    <ContentRenderer
+      query={query("menu-items")
+        .where((entry) => {
+          const menus = entry.data.menu;
+          if (Array.isArray(menus)) {
+            return menus.some((m) => m.id === "main-menu");
+          }
+          return menus?.id === "main-menu";
+        })
+        .orderBy(sortBy("order", "asc"))}
+      variant="MenuVariant"
+      mode="flat-only"
+      className="header-nav-links"
+    />
+  </nav>
 
-      <!-- Navigation Menu using query -->
-      <ContentRenderer
-        query={query("menu-items")
-          .where((entry) => {
-            const menus = entry.data.menu;
-            if (Array.isArray(menus)) {
-              return menus.some((m) => m.id === "main-menu");
-            }
-            return menus?.id === "main-menu";
-          })
-          .orderBy(sortBy("order", "asc"))}
-        variant="MenuVariant"
-        mode="responsive"
-        className="header-navigation"
-        hamburgerTransform={true}
-      />
-    </div>
+  {/* Mobile Menu - Left */}
+  <div class="flex md:hidden absolute left-6">
+    <ContentRenderer
+      query={query("menu-items")
+        .where((entry) => {
+          const menus = entry.data.menu;
+          if (Array.isArray(menus)) {
+            return menus.some((m) => m.id === "main-menu");
+          }
+          return menus?.id === "main-menu";
+        })
+        .orderBy(sortBy("order", "asc"))}
+      variant="MenuVariant"
+      mode="hamburger-only"
+      className="mobile-menu"
+      hamburgerTransform={true}
+    />
+  </div>
+
+  {/* Centered Logo */}
+  <a href="/" class="cursor-pointer flex items-center py-2">
+    <Logo />
+  </a>
+
+  {/* Login Button - Right (Desktop) */}
+  <div class="hidden md:flex items-center gap-4 absolute right-10">
+    <a href="/login" class="btn-login">
+      <span>→</span> Login
+    </a>
   </div>
 </header>
+
+<script>
+  // Add scroll effect to header
+  const header = document.getElementById('main-header');
+
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      header?.classList.add('header-scrolled');
+      header?.classList.remove('bg-transparent');
+    } else {
+      header?.classList.remove('header-scrolled');
+      header?.classList.add('bg-transparent');
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  handleScroll(); // Check initial state
+
+  // Set active state on nav links based on current URL
+  const currentPath = window.location.pathname;
+  const normalizePath = (path: string) => {
+    let normalized = path.trim();
+    if (!normalized.startsWith('/')) normalized = '/' + normalized;
+    if (normalized.length > 1 && normalized.endsWith('/')) normalized = normalized.slice(0, -1);
+    return normalized;
+  };
+
+  const normalizedCurrent = normalizePath(currentPath);
+
+  // Find all nav links and set active state
+  document.querySelectorAll('#main-header a[href]').forEach((link) => {
+    const href = link.getAttribute('href');
+    if (href && normalizePath(href) === normalizedCurrent) {
+      link.classList.add('text-primary');
+      link.classList.remove('text-text-muted');
+      link.setAttribute('aria-current', 'page');
+    }
+  });
+</script>
+
+<style>
+  .header-scrolled {
+    background-color: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+  }
+</style>

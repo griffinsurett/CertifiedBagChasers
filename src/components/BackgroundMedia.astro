@@ -6,13 +6,11 @@ export interface Props {
   backgroundMedia: {
     image?: {
       src: any;
-      imageClass?: string;
+      imageClass?: string; // Use 'bg-fixed' for parallax effect
       // Convenience prop for automatic optimization
       aboveTheFold?: boolean; // Auto-sets priority, quality, eager loading
       // Manual overrides (if needed)
-      priority?: boolean;
       quality?: number;
-      loading?: 'eager' | 'lazy';
     };
     video?: {
       src: string;
@@ -32,10 +30,6 @@ const { backgroundMedia } = Astro.props;
 
 // Automatic optimization based on position
 const aboveTheFold = backgroundMedia?.image?.aboveTheFold ?? false;
-
-// Defaults with smart overrides
-const priority = backgroundMedia?.image?.priority ?? aboveTheFold;
-const loading = backgroundMedia?.image?.loading ?? (aboveTheFold ? 'eager' : 'lazy');
 
 // Quality settings based on position
 // Above-the-fold: Lower quality (50-60%) - LCP optimization critical
@@ -110,32 +104,11 @@ if (backgroundMedia?.image?.src) {
     Your browser does not support the video tag.
   </video>
 ) : responsiveImages ? (
-  <picture class="absolute inset-0 z-0">
-    <source
-      media="(max-width: 640px)"
-      srcset={responsiveImages.mobile.src}
-      type="image/webp"
-    />
-    <source
-      media="(min-width: 641px) and (max-width: 1024px)"
-      srcset={responsiveImages.tablet.src}
-      type="image/webp"
-    />
-    <source
-      media="(min-width: 1025px)"
-      srcset={responsiveImages.desktop.src}
-      type="image/webp"
-    />
-    <img
-      src={responsiveImages.desktop.src}
-      alt=""
-      class={`w-full h-full object-cover ${backgroundMedia?.image?.imageClass || ""}`}
-      loading={loading}
-      fetchpriority={priority ? "high" : "auto"}
-      decoding={priority ? "sync" : "async"}
-      aria-hidden="true"
-    />
-  </picture>
+  <div
+    class={`absolute inset-0 z-0 bg-cover bg-center ${backgroundMedia?.image?.imageClass || ""}`}
+    style={`background-image: url('${responsiveImages.desktop.src}')`}
+    aria-hidden="true"
+  />
 ) : null}
 
 {backgroundMedia?.overlayClass && (

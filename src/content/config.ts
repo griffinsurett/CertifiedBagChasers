@@ -18,7 +18,7 @@
  */
 import { file } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
-import { baseSchema, MenuSchema, MenuItemFields, refSchema } from "./schema";
+import { baseSchema, MenuSchema, MenuItemFields, refSchema, imageInputSchema } from "./schema";
 import { MenuItemsLoader } from "@/utils/loaders/MenuItemsLoader";
 
 export const collections = {
@@ -80,7 +80,6 @@ export const collections = {
   }),
 
   "authors": defineCollection({
-    loader: file("src/content/authors/authors.json"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         email: z.string().email().optional(),
@@ -89,37 +88,40 @@ export const collections = {
             twitter: z.string().url().optional(),
             github: z.string().url().optional(),
             linkedin: z.string().url().optional(),
+            instagram: z.string().url().optional(),
+            youtube: z.string().url().optional(),
             website: z.string().url().optional(),
           })
           .optional(),
         role: z.string().optional(),
+        credentials: z.array(z.object({
+          icon: z.string(),
+          text: z.string(),
+        })).optional(),
       }),
   }),
 
-  "services": defineCollection({
-    schema: ({ image }) =>
-      baseSchema({ image }).extend({
-        price: z.string().optional(),
-        features: z.array(z.string()).default([]),
-      }),
-  }),
-
+  // ── testimonials ─────────────────────────────────────────
   "testimonials": defineCollection({
     schema: ({ image }) =>
       baseSchema({ image }).extend({
-        role: z.string(),
+        role: z.string().default("Customer"),
         company: z.string().optional(),
         rating: z.number().min(1).max(5).default(5),
-      }),
-  }),
-
-  "projects": defineCollection({
-    schema: ({ image }) =>
-      baseSchema({ image }).extend({
-        client: z.string(),
-        projectUrl: z.string().url().optional(),
-        technologies: z.array(z.string()).default([]),
-        category: z.string(),
+        // Social media post screenshot (for social proof carousel)
+        socialMediaPost: imageInputSchema({ image }),
+        // Video testimonial file path (e.g., "@/assets/sample-video-testimonial.mp4")
+        video: z.string().optional(),
+        // Poster image for video (thumbnail before playing)
+        videoPoster: imageInputSchema({ image }),
+        // Video aspect ratio for grid layout: portrait (2 rows), landscape (2 cols), square (1x1)
+        videoAspect: z.enum(["portrait", "landscape", "square"]).default("portrait"),
+        // Results/gains amount (e.g., "+$22,000")
+        resultsAmount: z.string().optional(),
+        // Time period for results (e.g., "in 6 months")
+        resultsPeriod: z.string().optional(),
+        // Whether this is a video testimonial
+        isVideo: z.boolean().default(false),
       }),
   }),
 
@@ -128,5 +130,20 @@ export const collections = {
       baseSchema({ image }).extend({
         category: z.string().optional(),
       }),
+  }),
+
+  // ── promises ─────────────────────────────────────────────
+  "promises": defineCollection({
+    schema: ({ image }) =>
+      baseSchema({ image }).extend({
+        // Card size for masonry layout: large, wide, small
+        cardSize: z.enum(["large", "wide", "small"]).default("small"),
+      }),
+  }),
+
+  // ── topics ───────────────────────────────────────────────
+  "topics": defineCollection({
+    schema: ({ image }) =>
+      baseSchema({ image }),
   }),
 };

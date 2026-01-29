@@ -63,7 +63,8 @@
 }
 
 .legal-document strong {
-  @apply font-semibold text-heading;
+  @apply font-semibold;
+  color: var(--color-heading);
 }
 
 .legal-document em {

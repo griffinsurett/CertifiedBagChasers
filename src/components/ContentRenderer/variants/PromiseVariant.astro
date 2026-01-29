@@ -1,0 +1,90 @@
+---
+// src/components/ContentRenderer/variants/PromiseVariant.astro
+/**
+ * PromiseVariant - Our Commitments Section
+ *
+ * Displays promise/commitment cards in a masonry grid matching the React version.
+ * Layout is based on order (not tags):
+ * - Order 1: 2 cols + 2 rows (large) with background image
+ * - Order 2: 2 cols (wide) with gold line, no background
+ * - Order 3+: 1 col (small) with background images
+ */
+
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import SectionHeading from "@/components/SectionHeading.astro";
+import PromiseCard from "@/components/LoopComponents/PromiseCard.astro";
+
+interface Props extends BaseVariantProps {
+  eyebrow?: string;
+}
+
+const {
+  items = [],
+  title,
+  heading,
+  description,
+  className = "",
+  id,
+  eyebrow = "Our Promise",
+} = Astro.props as Props;
+
+// Process heading content (supports segmented headings)
+let displayTitle = title;
+let highlightedTitle = "";
+let afterTitle = "";
+
+if (heading && typeof heading === 'object' && 'before' in heading) {
+  displayTitle = heading.before || "";
+  highlightedTitle = heading.text || "";
+  afterTitle = heading.after || "";
+} else if (typeof heading === 'string') {
+  displayTitle = heading;
+}
+---
+
+<section
+  id={id}
+  class={`section-base bg-bg-dark ${className}`}
+>
+  <div class="max-w-[1200px] mx-auto">
+    <SectionHeading
+      eyebrow={eyebrow}
+      title={displayTitle}
+      highlightedTitle={highlightedTitle}
+      afterTitle={afterTitle}
+    />
+
+    {items.length > 0 && (
+      <div class="masonry-grid">
+        {items.map((item, index) => {
+          // Layout based on order (index after sorting)
+          // Order 1 (index 0): large (2 cols + 2 rows)
+          // Order 2 (index 1): wide (2 cols) with gold line
+          // Order 3+ (index 2+): small (1 col)
+          const isFirst = index === 0;
+          const isSecond = index === 1;
+
+          const gridClass = isFirst ? "masonry-card-large" :
+                           isSecond ? "masonry-card-wide" :
+                           "masonry-card-small";
+
+          // Only the wide card (second) gets the gold line
+          const hasGoldLine = isSecond;
+
+          // Wide card doesn't get a background image
+          const showBackgroundImage = !isSecond && item.featuredImage;
+
+          return (
+            <PromiseCard
+              title={item.title}
+              description={item.description || item.content}
+              gridClass={gridClass}
+              hasGoldLine={hasGoldLine}
+              featuredImage={showBackgroundImage ? item.featuredImage : undefined}
+            />
+          );
+        })}
+      </div>
+    )}
+  </div>
+</section>

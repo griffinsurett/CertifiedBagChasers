@@ -1,26 +1,37 @@
 [
   {
-    "id": "1",
+    "id": "instagram",
+    "title": "Instagram",
+    "link": "https://instagram.com/certifiedbagchasers",
+    "icon": "simple-icons:instagram",
+    "order": 1
+  },
+  {
+    "id": "twitter",
     "title": "Twitter",
-    "link": "https://twitter.com/griffin",
-    "icon": "lucide:twitter"
+    "link": "https://twitter.com/certifiedbagchasers",
+    "icon": "simple-icons:x",
+    "order": 2
   },
   {
-    "id": "2",
-    "title": "LinkedIn",
-    "link": "https://linkedin.com/griffin",
-    "icon": "lucide:linkedin"
+    "id": "youtube",
+    "title": "YouTube",
+    "link": "https://youtube.com/@certifiedbagchasers",
+    "icon": "simple-icons:youtube",
+    "order": 3
   },
   {
-    "id": "3",
-    "title": "GitHub",
-    "link": "https://github.com/griffin",
-    "icon": "lucide:github"
+    "id": "tiktok",
+    "title": "TikTok",
+    "link": "https://tiktok.com/@certifiedbagchasers",
+    "icon": "simple-icons:tiktok",
+    "order": 4
   },
   {
-    "id": "4",
-    "title": "Facebook",
-    "link": "https://facebook.com/griffin",
-    "icon": "simple-icons:facebook"
+    "id": "discord",
+    "title": "Discord",
+    "link": "https://discord.gg/certifiedbagchasers",
+    "icon": "simple-icons:discord",
+    "order": 5
   }
 ]

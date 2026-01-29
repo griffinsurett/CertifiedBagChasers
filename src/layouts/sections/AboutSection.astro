@@ -1,0 +1,50 @@
+---
+/**
+ * AboutSection Layout
+ *
+ * Reusable centered text section with eyebrow, heading, and body content.
+ * Used for "About Us" and similar text-heavy sections.
+ *
+ * Props:
+ * - eyebrow: Small text above heading
+ * - title: Main heading text
+ * - highlightedTitle: Part of title to highlight (gold metallic)
+ * - description: Optional description below title
+ * - maxWidth: Container max width (default: 900px)
+ */
+
+import SectionHeading from "@/components/SectionHeading.astro";
+
+export interface Props {
+  eyebrow?: string;
+  title?: string;
+  highlightedTitle?: string;
+  description?: string;
+  maxWidth?: string;
+  className?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  highlightedTitle,
+  description,
+  maxWidth = "900px",
+  className = "",
+} = Astro.props;
+---
+
+<div class={`section-base relative z-10 ${className}`}>
+  <div class="mx-auto text-center" style={`max-width: ${maxWidth}`}>
+    <SectionHeading
+      eyebrow={eyebrow}
+      title={title}
+      highlightedTitle={highlightedTitle}
+      description={description}
+    />
+
+    <div class="body-text">
+      <slot />
+    </div>
+  </div>
+</div>

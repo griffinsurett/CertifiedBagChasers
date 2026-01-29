@@ -1,0 +1,141 @@
+---
+// src/components/ContentRenderer/variants/TestimonialVariant.astro
+/**
+ * TestimonialVariant - Testimonials in masonry grid
+ *
+ * Displays text and video testimonials with quotes, ratings, and results.
+ * Uses SectionHeading for consistent styling with other CBC sections.
+ * Auto-generates video thumbnails at build time using ffmpeg.
+ */
+
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import SectionHeading from "@/components/SectionHeading.astro";
+import TestimonialMasonry from "@/components/LoopTemplates/TestimonialMasonry";
+import { getImageUrl } from "@/utils/images";
+import { generateVideoPoster } from "@/utils/videoThumbnails";
+
+interface Props extends BaseVariantProps {
+  eyebrow?: string;
+}
+
+const {
+  items = [],
+  title,
+  heading,
+  description,
+  className = "",
+  id,
+  eyebrow = "Success Stories",
+} = Astro.props as Props;
+
+// Process heading content
+let displayTitle = title;
+let highlightedTitle = "";
+
+if (heading && typeof heading === 'object' && 'before' in heading) {
+  displayTitle = heading.before || "";
+  highlightedTitle = heading.text || "";
+} else if (typeof heading === 'string') {
+  displayTitle = heading;
+}
+
+// Helper to check if item has a specific tag
+const hasTag = (item: any, tag: string) => {
+  return item.tags?.includes(tag) ?? false;
+};
+
+// Transform items for the masonry component (async for video poster generation)
+// Layout rules:
+// - Videos: based on videoAspect - portrait (2 rows), landscape (2 cols), square (1x1)
+// - Text with "featured" tag: span 2 columns (tm-span-2)
+// - Regular text: single column
+const masonryItems = await Promise.all(items.map(async (item) => {
+  const isVideo = item.isVideo || false;
+  const isFeatured = hasTag(item, 'featured');
+  const videoAspect = item.videoAspect || 'portrait';
+
+  // Determine spanning based on type and aspect ratio
+  let spanColumns = false;
+  let spanRows = false;
+
+  if (isVideo) {
+    // Video spanning based on aspect ratio
+    if (videoAspect === 'portrait') {
+      spanRows = true; // Tall video spans 2 rows
+    } else if (videoAspect === 'landscape') {
+      spanColumns = true; // Wide video spans 2 columns
+    }
+    // Square videos don't span (1x1)
+
+    // Featured videos span both directions
+    if (isFeatured) {
+      spanColumns = true;
+      spanRows = true;
+    }
+  } else {
+    // Text cards: featured ones span 2 columns
+    if (isFeatured) {
+      spanColumns = true;
+    }
+  }
+
+  // Base properties for all testimonials
+  const baseProps = {
+    id: item.slug,
+    name: item.title || "Anonymous",
+    role: item.role || "Customer",
+    resultsAmount: item.resultsAmount,
+    spanColumns,
+    spanRows,
+  };
+
+  if (isVideo && item.video) {
+    // Generate video poster at build time if not provided
+    let posterUrl = item.videoPoster ? getImageUrl(item.videoPoster, "") : undefined;
+
+    if (!posterUrl && item.video) {
+      try {
+        const posterResult = await generateVideoPoster(item.video);
+        posterUrl = posterResult.src;
+      } catch (error) {
+        console.warn(`Failed to generate poster for ${item.video}:`, error);
+      }
+    }
+
+    return {
+      ...baseProps,
+      type: 'video' as const,
+      video: item.video,
+      poster: posterUrl,
+      videoAspect,
+      centered: spanColumns && spanRows, // Center play button for featured videos
+    };
+  }
+
+  return {
+    ...baseProps,
+    type: 'text' as const,
+    quote: item.content || item.description || "",
+    rating: item.rating || 5,
+    resultsPeriod: item.resultsPeriod,
+  };
+}));
+---
+
+<section id={id} class={`section-base bg-[#080808] ${className}`}>
+  <div class="max-w-[1300px] mx-auto">
+    <SectionHeading
+      eyebrow={eyebrow}
+      title={displayTitle}
+      highlightedTitle={highlightedTitle}
+      description={description}
+    />
+
+    {masonryItems.length > 0 && (
+      <TestimonialMasonry
+        items={masonryItems}
+        client:visible
+      />
+    )}
+  </div>
+</section>

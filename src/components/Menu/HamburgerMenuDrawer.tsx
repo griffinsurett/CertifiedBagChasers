@@ -9,6 +9,7 @@ import { useState } from "react";
 import Modal from "@/components/Modal";
 import MobileMenuItem from "@/components/LoopComponents/Menu/MobileMenuItem";
 import HamburgerButton from "./HamburgerButton";
+import Button from "@/components/Button/Button";
 
 interface MobileMenuDrawerProps {
   items: any[];
@@ -64,6 +65,19 @@ export default function MobileMenuDrawer({
               />
             ))}
           </ul>
+
+          {/* Login Button */}
+          <div className="mt-8">
+            <Button
+              href="/login"
+              variant="secondary"
+              size="lg"
+              className="w-full"
+              onClick={handleNavigate}
+            >
+              Login
+            </Button>
+          </div>
         </nav>
       </Modal>
     </>

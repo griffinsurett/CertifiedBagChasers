@@ -1,0 +1,29 @@
+---
+// src/components/LoopComponents/TopicCard.astro
+/**
+ * TopicCard Component
+ *
+ * Displays a topic with an emoji icon and title.
+ * Simple, clean design matching the React TopicsSection.
+ */
+
+export interface Props {
+  title: string;
+  icon?: {
+    type?: string;
+    content?: string;
+  } | string;
+}
+
+const { title, icon } = Astro.props;
+
+// Extract emoji from icon object or use directly if string
+const emoji = typeof icon === 'string'
+  ? icon
+  : icon?.content || '📚';
+---
+
+<div class="flex flex-col items-center gap-3">
+  <div class="text-5xl">{emoji}</div>
+  <h3 class="text-2xl font-bold text-white">{title}</h3>
+</div>

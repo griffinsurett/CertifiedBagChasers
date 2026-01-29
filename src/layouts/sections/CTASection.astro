@@ -1,0 +1,90 @@
+---
+/**
+ * CTASection Layout
+ *
+ * Call-to-action section with centered heading, description, and button.
+ * Used for "Ready To Chase The Bag?" style final CTAs.
+ *
+ * Props:
+ * - title: Main heading text
+ * - highlightedTitle: Part of title to highlight with gold metallic effect
+ * - description: Description text
+ * - ctaText: Primary button text
+ * - ctaLink: Primary button link
+ * - footnote: Small text below buttons (e.g., "30-Day Money Back Guarantee")
+ * - maxWidth: Container max width
+ */
+
+import Button from "@/components/Button/Button";
+import WhopRating from "@/components/WhopRating";
+import BackgroundMedia from "@/components/BackgroundMedia.astro";
+import BackgroundImg from "@/assets/inside-the-nyse.jpg";
+
+export interface Props {
+  title?: string;
+  highlightedTitle?: string;
+  description?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  footnote?: string;
+  maxWidth?: string;
+  className?: string;
+}
+
+const {
+  title = "Ready To",
+  highlightedTitle = "Chase The Bag?",
+  description = "Stop watching from the sidelines. Join thousands of members who are actively building wealth and changing their financial futures.",
+  ctaText = "Join Now →",
+  ctaLink = "https://whop.com",
+  footnote = "30-Day Money Back Guarantee • Cancel Anytime",
+  maxWidth = "800px",
+  className = "",
+} = Astro.props;
+---
+
+<section class={`section-base relative overflow-hidden text-center ${className}`}>
+  <BackgroundMedia
+    backgroundMedia={{
+      image: { src: BackgroundImg, imageClass: "bg-fixed" },
+      overlayClass: "bg-black/70",
+    }}
+  />
+  <div class="mx-auto relative z-10" style={`max-width: ${maxWidth}`}>
+    {(title || highlightedTitle) && (
+      <h2 class="text-5xl font-extrabold mb-6 font-display uppercase">
+        {title && <Fragment set:html={title} />}
+        {title && highlightedTitle && " "}
+        {highlightedTitle && (
+          <span class="gold-metallic-heading">{highlightedTitle}</span>
+        )}
+      </h2>
+    )}
+
+    {description && (
+      <p class="text-xl text-text-muted mb-12 leading-relaxed">
+        {description}
+      </p>
+    )}
+
+    {ctaText && ctaLink && (
+      <Button
+        href={ctaLink}
+        variant="primary"
+        size="lg"
+        className="text-xl py-6 px-16"
+      >
+        {ctaText}
+      </Button>
+    )}
+
+    {/* Whop Rating */}
+    <WhopRating client:visible className="mt-6" />
+
+    {footnote && (
+      <p class="mt-4 text-text-dim text-sm">
+        {footnote}
+      </p>
+    )}
+  </div>
+</section>

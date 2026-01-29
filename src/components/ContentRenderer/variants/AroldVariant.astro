@@ -1,0 +1,92 @@
+---
+// src/components/ContentRenderer/variants/AroldVariant.astro
+/**
+ * AroldVariant - Mentor/Author Section Variant
+ *
+ * Two-column layout with bordered image container on one side and MDX content on the other.
+ * Matches the React AroldSection styling with gradient background and premium image treatment.
+ */
+
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import ImageContainer from "@/components/ImageContainer.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+
+interface Props extends BaseVariantProps {
+  imagePosition?: "left" | "right";
+}
+
+const {
+  items = [],
+  title,
+  heading,
+  className = "",
+  imagePosition = "left",
+  id,
+} = Astro.props as Props;
+
+// Get the first (and likely only) author item
+const author = items[0] as Record<string, any> | undefined;
+if (!author) return null;
+
+const isImageLeft = imagePosition === "left";
+
+// Get heading data from author or fall back to props
+const authorHeading = author.heading || heading;
+const headingBefore = authorHeading && typeof authorHeading === "object" ? authorHeading.before : title;
+const headingText = authorHeading && typeof authorHeading === "object" ? authorHeading.text : (typeof authorHeading === "string" ? authorHeading : author.title);
+
+// Get credentials from author data
+const credentials = author.credentials || [];
+
+// Get image from author
+const authorImage = author.featuredImage;
+
+// Render the MDX content if render function exists
+let Content: any = null;
+if (author.render) {
+  const rendered = await author.render();
+  Content = rendered.Content;
+}
+---
+
+<section id={id} class={`section-base bg-gradient-to-b from-bg to-bg-dark ${className}`}>
+  <div class="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+    {/* Image Column */}
+    <div class={`${isImageLeft ? "order-1" : "order-1 lg:order-2"}`}>
+      {authorImage && (
+        <ImageContainer
+          image={authorImage}
+          alt={author.title || ""}
+        />
+      )}
+    </div>
+
+    {/* Content Column */}
+    <div class={`${isImageLeft ? "order-2" : "order-2 lg:order-1"}`}>
+      <SectionHeading
+        eyebrow={title}
+        title={headingBefore}
+        highlightedTitle={headingText}
+        align="left"
+        className="mb-6"
+      />
+
+      {/* MDX Content */}
+      <div class="body-text mb-8">
+        {Content && <Content />}
+      </div>
+
+      {/* Credentials/Badges */}
+      {credentials.length > 0 && (
+        <div class="flex gap-6 flex-wrap">
+          {credentials.map((credential: { icon: string; text: string }) => (
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">{credential.icon}</span>
+              <span class="text-white font-semibold">{credential.text}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</section>

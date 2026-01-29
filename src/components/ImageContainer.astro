@@ -1,0 +1,62 @@
+---
+// src/components/ImageContainer.astro
+/**
+ * ImageContainer Component
+ *
+ * A bordered container for images with gradient background and radial overlays.
+ * Creates a premium, elevated look for portrait images.
+ */
+
+import { Image } from "astro:assets";
+
+export interface Props {
+  image: any;
+  alt?: string;
+  aspectRatio?: string;
+  className?: string;
+}
+
+const {
+  image,
+  alt = "",
+  aspectRatio = "aspect-[3/4]",
+  className = "",
+} = Astro.props;
+
+// Handle different image formats
+const imageSrc = typeof image === "string"
+  ? image
+  : image?.src
+    ? (typeof image.src === "string" ? image.src : image.src)
+    : image;
+---
+
+<div
+  class={`${aspectRatio} bg-gradient-to-br from-[#1f1a14] via-[#0f0d0b] to-[#0b0a09] rounded-2xl border-2 border-primary/30 flex items-center justify-center relative overflow-hidden ${className}`}
+>
+  {/* Top radial glow */}
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.08)_0%,transparent_45%)]" />
+
+  {/* Bottom gold radial glow */}
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(201,162,39,0.15)_0%,transparent_55%)]" />
+
+  {/* Image */}
+  {typeof imageSrc === "string" ? (
+    <img
+      src={imageSrc}
+      alt={alt}
+      class="relative w-full h-full object-cover mix-blend-lighten"
+    />
+  ) : (
+    <Image
+      src={imageSrc}
+      alt={alt}
+      class="relative w-full h-full object-cover mix-blend-lighten"
+      widths={[400, 800]}
+      sizes="(max-width: 1024px) 100vw, 50vw"
+    />
+  )}
+
+  {/* Bottom fade gradient */}
+  <div class="absolute inset-0 bg-gradient-to-t from-bg/80 via-transparent to-transparent" />
+</div>

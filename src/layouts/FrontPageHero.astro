@@ -3,24 +3,23 @@
 /**
  * Front Page Hero Layout
  *
- * Full-width hero section with optimized background media for homepage.
+ * Full-width hero section with gradient background for homepage.
  *
  * Features:
- * - Responsive background images with LCP optimization
- * - Optional video background with poster image
- * - Large centered text with gradient overlay
+ * - Dark gradient background with gold/green accents
+ * - Large centered text with metallic gold heading
  * - Primary and secondary CTAs
- * - Configurable minimum height (default 95vh)
- * - Supports both static images and video backgrounds
+ * - Configurable minimum height (default 100vh)
  *
  * This is a layout component for landing pages.
  * Use directly in your homepage or marketing pages.
  */
 
 import Button from "@/components/Button/Button";
+import WhopRating from "@/components/WhopRating";
 import BackgroundMedia from "@/components/BackgroundMedia.astro";
 import { ctaData } from "@/content/siteData";
-import DefaultImg from "@/assets/background.svg";
+import BackgroundImg from "@/assets/inside-the-nyse.jpg";
 
 export interface Props {
   title?: string;
@@ -60,15 +59,14 @@ const {
   secondaryCTA,
   className = "",
   id = "hero",
-  minHeight = "95vh",
+  minHeight = "100vh",
 } = Astro.props;
 
-// Prepare optimized background media
 const backgroundMedia = {
   image: {
-    src: image || DefaultImg,
-    imageClass: "bg-cover bg-center",
-    aboveTheFold: true, // Front page hero is always LCP
+    src: image || BackgroundImg,
+    imageClass: "bg-fixed",
+    aboveTheFold: true,
   },
   video: video
     ? {
@@ -82,41 +80,50 @@ const backgroundMedia = {
         videoClass: "object-cover",
       }
     : undefined,
-  overlayClass: "bg-gradient-to-b from-black/30 to-black/60",
+  overlayClass: "bg-black/80",
 };
 ---
 
 <section id={id} class={`relative ${className}`}>
   <div
-    class="relative flex items-center justify-center overflow-hidden"
+    class="relative flex flex-col items-center justify-center overflow-hidden px-5 pt-20 text-center"
     style={`min-height: ${minHeight}`}
   >
-    {/* Optimized background media with overlay */}
+    {/* Decorative lines overlay */}
+    <div class="hero-lines absolute inset-0 opacity-10 pointer-events-none"></div>
+
     <BackgroundMedia backgroundMedia={backgroundMedia} />
 
     {/* Hero Content */}
-    <div class="relative text-center text-bg px-8 max-w-4xl mx-auto z-10">
-      <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-        {title}
+    <div class="relative z-10 flex flex-col items-center space-y-5 max-w-4xl mx-auto">
+      {/* Badge */}
+      <div class="bg-primary/15 border border-primary px-8 py-1.5 rounded-full">
+        <span class="text-text font-semibold text-sm uppercase tracking-[2px]">
+          💰 Financial Freedom Starts Here
+        </span>
+      </div>
+
+      <h1 class="hero-heading text-[clamp(48px,8vw,100px)] leading-none max-w-[1000px]">
+        <span class="text-text block">Stop Chasing</span>
+        <span class="gold-metallic-heading block mt-1">Quick Fixes</span>
       </h1>
 
       {
         description && (
-          <p class="text-xl md:text-2xl mb-10 opacity-95 leading-relaxed max-w-3xl mx-auto">
+          <p class="text-lg text-text-secondary max-w-[600px] leading-tight">
             {description}
           </p>
         )
       }
 
       {/* CTA Buttons */}
-      <div class="flex gap-4 justify-center flex-wrap">
+      <div class="flex gap-2 justify-center flex-wrap">
         {
           primaryCTA && (
             <Button
               href={primaryCTA.link}
               variant="primary"
               size="lg"
-              className="shadow-xl hover:shadow-2xl transition-shadow"
             >
               {primaryCTA.text}
             </Button>
@@ -125,12 +132,15 @@ const backgroundMedia = {
 
         {
           secondaryCTA && (
-            <Button href={secondaryCTA.link} variant="ghost" size="lg">
+            <Button href={secondaryCTA.link} variant="secondary" size="lg">
               {secondaryCTA.text}
             </Button>
           )
         }
       </div>
+
+      {/* Whop Rating */}
+      <WhopRating client:visible className="mt-2" />
     </div>
   </div>
 
@@ -139,9 +149,46 @@ const backgroundMedia = {
 </section>
 
 <style>
-  /* Ensure text is readable on all backgrounds */
-  h1,
-  p {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  /* Hero gradient background */
+  .hero-gradient {
+    background:
+      linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 100%),
+      radial-gradient(ellipse at bottom left, rgba(201,162,39,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at top right, rgba(34,87,67,0.2) 0%, transparent 50%),
+      #0a0a0a;
+  }
+
+  /* Decorative lines */
+  .hero-lines {
+    background:
+      linear-gradient(45deg, transparent 40%, rgba(201, 162, 39, 0.3) 45%, transparent 50%),
+      linear-gradient(-45deg, transparent 40%, rgba(34, 87, 67, 0.3) 45%, transparent 50%);
+  }
+
+  /* Hero heading styles */
+  .hero-heading {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* Gold metallic heading gradient */
+  .gold-metallic-heading {
+    background: linear-gradient(
+      170deg,
+      #fffde8 0%,
+      #f7e588 8%,
+      #dfc040 20%,
+      #c9a227 35%,
+      #b8922a 50%,
+      #8a6a18 70%,
+      #5c4510 90%,
+      #3d2e0a 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(2px 3px 0px #2a1d05) drop-shadow(3px 6px 8px rgba(0, 0, 0, 0.7));
   }
 </style>

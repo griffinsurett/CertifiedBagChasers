@@ -1,0 +1,61 @@
+---
+// src/components/ContentRenderer/variants/TopicVariant.astro
+/**
+ * TopicVariant - Topics We Teach Section
+ *
+ * Displays topic cards with emoji icons and titles in a grid.
+ * Matches the React TopicsSection styling.
+ */
+
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import SectionHeading from "@/components/SectionHeading.astro";
+import TopicCard from "@/components/LoopComponents/TopicCard.astro";
+
+interface Props extends BaseVariantProps {
+  eyebrow?: string;
+}
+
+const {
+  items = [],
+  title,
+  heading,
+  description,
+  className = "",
+  id,
+  eyebrow = "What You'll Learn",
+} = Astro.props as Props;
+
+// Process heading content (supports segmented headings)
+let displayTitle = title;
+let highlightedTitle = "";
+
+if (heading && typeof heading === 'object' && 'before' in heading) {
+  displayTitle = heading.before || "";
+  highlightedTitle = heading.text || "";
+} else if (typeof heading === 'string') {
+  displayTitle = heading;
+}
+---
+
+<section id={id} class={`section-base relative z-10 ${className}`}>
+  <div class="max-w-[1200px] mx-auto">
+    <SectionHeading
+      eyebrow={eyebrow}
+      title={displayTitle}
+      highlightedTitle={highlightedTitle}
+    />
+
+    {items.length > 0 && (
+      <div class="topics-card">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8">
+          {items.map((item) => (
+            <TopicCard
+              title={item.title}
+              icon={item.icon}
+            />
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</section>

@@ -2,7 +2,7 @@
 /**
  * Secondary Button Variant
  *
- * Outlined button with transparent background.
+ * White outlined button with transparent background.
  * Used for secondary actions that need less emphasis than primary buttons.
  */
 
@@ -15,9 +15,14 @@ export default function SecondaryButton({
   className = "",
   ...props
 }: ButtonProps) {
-  // Outlined style with blue border
-  const variantClasses =
-    "bg-bg text-text hover:text-bg border-2 border-primary hover:bg-primary focus:ring-primary";
+  // White outline button styling matching React project
+  const variantClasses = `
+    bg-transparent border-2 border-white text-white
+    font-bold uppercase tracking-wider
+    rounded-lg
+    hover:bg-white/10
+    transition-all duration-300
+  `.replace(/\s+/g, ' ').trim();
 
   return (
     <ButtonBase

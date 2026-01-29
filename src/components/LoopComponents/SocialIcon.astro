@@ -2,14 +2,13 @@
 // src/components/LoopComponents/SocialIcon.astro
 /**
  * Social Icon Component
- * 
+ *
  * Individual social media icon with:
- * - Circular background
- * - Hover scale effect
+ * - Gold gradient border and hover effects
+ * - Dark gradient background
  * - Size variants (sm, md, lg)
- * - Optional link
- * - Accessibility labels
- * 
+ * - Hover lift and glow effect
+ *
  * Used in SocialMediaVariant for social media links.
  */
 
@@ -27,32 +26,37 @@ const { title, link, icon, size = 'md' } = Astro.props;
 // Default to globe icon if none specified
 const displayIcon = icon || 'lu:globe';
 
-// Padding scales with size
-const wrapperPadding = {
-  sm: 'p-2',
-  md: 'p-2.5',
-  lg: 'p-3',
+// Size configuration matching React version
+const sizeStyles = {
+  sm: { container: 'w-10 h-10', iconSize: 'sm' as const },
+  md: { container: 'w-[50px] h-[50px]', iconSize: 'md' as const },
+  lg: { container: 'w-15 h-15', iconSize: 'lg' as const },
 };
+
+const s = sizeStyles[size] || sizeStyles.md;
+
+// Base classes matching React styling
+const baseClasses = `${s.container} bg-gradient-to-br from-[#1a1a1a] to-bg-secondary border border-primary/30 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 no-underline hover:-translate-y-[3px] hover:shadow-[0_8px_25px_rgba(201,162,39,0.3)] hover:border-primary/60`;
 ---
 
 {/* Render as link if URL provided */}
 {link ? (
-  <a 
+  <a
     href={link}
     target="_blank"
     rel="noopener noreferrer"
-    class={`${wrapperPadding[size]} bg-surface hover:bg-primary/10 rounded-full inline-flex items-center justify-center transition-all duration-200 hover:scale-110`}
+    class={baseClasses}
     aria-label={`Visit our ${title} page`}
     title={title}
   >
-    <Icon icon={displayIcon} size={size} className="text-text" />
+    <Icon icon={displayIcon} size={s.iconSize} className="text-primary" />
   </a>
 ) : (
   /* Otherwise just display icon */
-  <div 
-    class={`${wrapperPadding[size]} bg-surface rounded-full inline-flex items-center justify-center`}
+  <div
+    class={baseClasses}
     title={title}
   >
-    <Icon icon={displayIcon} size={size} className="text-text" />
+    <Icon icon={displayIcon} size={s.iconSize} className="text-primary" />
   </div>
 )}

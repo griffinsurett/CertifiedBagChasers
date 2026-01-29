@@ -1,4 +1,8 @@
 /* src/styles/global.css */
+
+/* Google Fonts - Inter (body) & Oswald (headings) - MUST be first */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@700;800;900&display=swap');
+
 @import "tailwindcss";
 
 /* Tell Tailwind to scan integration components for class usage */
@@ -12,30 +16,42 @@
 @import "@/styles/menu.css";
 
 @theme {
-  /* ───── PRIMARY – change ONLY this one line for the brand ───── */
-  --color-primary: var(--color-blue-500);   /* your main brand color */
-  /* ───── ACCENT – secondary / interactive ───── */
-  --color-accent: var(--color-purple-700);  /* complementary accent color */
+  /* ───── FONTS ───── */
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Oswald', sans-serif;
 
-  /* ───── Neutrals ───── */
-  --color-text:         oklch(18% 0.03 260);   /* almost black */
-  --color-heading:      oklch(14% 0.03 260);   /* slightly darker */
-  --color-bg:           oklch(99.5% 0.004 260); /* off-white */
-  --color-surface:      oklch(97.5% 0.006 260); /* cards, nav, modals */
+  /* ───── PRIMARY – Gold brand color ───── */
+  --color-primary: #c9a227;
 
-  /* color helpers */
-  --color-primary-50:   oklch(from var(--color-primary) calc(l + 0.40) c h);
-  --color-primary-100:  oklch(from var(--color-primary) calc(l + 0.35) c h);
-  --color-primary-200:  oklch(from var(--color-primary) calc(l + 0.25) c h);
-  --color-primary-300:  oklch(from var(--color-primary) calc(l + 0.15) c h);
-  --color-primary-400:  oklch(from var(--color-primary) calc(l + 0.08) c h);
-  --color-primary-500:  var(--color-primary);
-  --color-primary-600:  oklch(from var(--color-primary) calc(l - 0.08) c h);
-  --color-primary-700:  oklch(from var(--color-primary) calc(l - 0.15) c h);
-  --color-primary-800:  oklch(from var(--color-primary) calc(l - 0.25) c h);
-  --color-primary-900:  oklch(from var(--color-primary) calc(l - 0.35) c h);
-  --color-primary-950:  oklch(from var(--color-primary) calc(l - 0.45) c h);
+  /* ───── ACCENT – Green for success/highlights ───── */
+  --color-accent: #4ade80;
 
+  /* ───── Neutrals (Dark Theme) ───── */
+  --color-text:         #ffffff;              /* white text */
+  --color-text-secondary: #b0b0b0;            /* muted gray */
+  --color-text-muted:   #888888;              /* more muted */
+  --color-text-dim:     #666666;              /* dimmest */
+  --color-heading:      #ffffff;              /* white headings */
+  --color-bg:           #0a0a0a;              /* main background */
+  --color-bg-secondary: #0d0d0d;              /* secondary bg */
+  --color-bg-tertiary:  #151515;              /* tertiary bg */
+  --color-bg-dark:      #050505;              /* darkest bg */
+  --color-surface:      #0f0f0f;              /* cards, nav, modals */
+
+  /* ───── Primary color scale (gold) ───── */
+  --color-primary-50:   #fffde8;              /* lightest gold */
+  --color-primary-100:  #f7e588;              /* gold-light */
+  --color-primary-200:  #f5e6a3;              /* gold-pale */
+  --color-primary-300:  #dfc040;              /* gold-medium */
+  --color-primary-400:  #d4b254;              /* gold-bright */
+  --color-primary-500:  #c9a227;              /* gold (primary) */
+  --color-primary-600:  #a67c00;              /* gold-dark */
+  --color-primary-700:  #8a6a18;              /* gold-darker */
+  --color-primary-800:  #5c4510;              /* gold-darkest */
+  --color-primary-900:  #3d2e0a;              /* gold-deep */
+  --color-primary-950:  #2a1f07;              /* gold-deepest */
+
+  /* ───── Accent color scale (green) ───── */
   --color-accent-50:   oklch(from var(--color-accent) calc(l + 0.40) c h);
   --color-accent-100:  oklch(from var(--color-accent) calc(l + 0.35) c h);
   --color-accent-200:  oklch(from var(--color-accent) calc(l + 0.25) c h);
@@ -50,7 +66,15 @@
 }
 
 body {
-  @apply overflow-x-hidden;
+  overflow-x: hidden;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-heading);
+  font-family: var(--font-display);
 }
 
 @layer components {
@@ -86,11 +110,22 @@ body {
   /* Link base styles */
   .link-base {
     @apply inline-flex items-center gap-1;
-    @apply text-primary hover:text-primary-700 hover:underline;
     @apply bg-transparent font-normal;
     @apply transition-colors duration-200;
     @apply focus:outline-none focus:ring-0 focus:ring-offset-0;
     @apply disabled:opacity-50 disabled:cursor-not-allowed;
+    color: inherit;
+  }
+
+  .link-base:hover {
+    color: inherit;
+  }
+
+  /* Footer link styles - muted with gold hover */
+  .footer-link {
+    @apply text-text-secondary hover:text-primary;
+    @apply transition-colors duration-300;
+    @apply cursor-pointer;
   }
 
   /* Link sizes (no padding) */
@@ -104,6 +139,243 @@ body {
 
   .link-lg {
     @apply text-lg;
+  }
+}
+
+/* Section base padding */
+.section-base {
+  padding: 100px 20px;
+}
+
+/* Text highlight - white bold text for emphasis */
+.text-highlight {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+/* Body text styling for content sections */
+.body-text {
+  color: var(--color-text-secondary);
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+/* Gold metallic heading gradient - used in SectionHeading and Hero */
+.gold-metallic-heading {
+  background: linear-gradient(
+    170deg,
+    #fffde8 0%,
+    #f7e588 8%,
+    #dfc040 20%,
+    #c9a227 35%,
+    #b8922a 50%,
+    #8a6a18 70%,
+    #5c4510 90%,
+    #3d2e0a 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(2px 3px 0px #2a1d05) drop-shadow(3px 6px 8px rgba(0, 0, 0, 0.7));
+}
+
+/* ============================================================================
+   Chart Component Styles - Growth Charts Section
+   ============================================================================ */
+
+/* Chart animations */
+@keyframes drawLineOurs {
+  0% { stroke-dashoffset: 1000; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes drawLineTheirs {
+  0% { stroke-dashoffset: 800; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Chart container */
+.chart-container {
+  background: linear-gradient(145deg, #0f0f0d 0%, #080808 100%);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201, 162, 39, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Chart line animations */
+.chart-line-ours {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawLineOurs 4s ease-out forwards;
+  animation-delay: 0.5s;
+}
+
+.chart-line-theirs {
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  animation: drawLineTheirs 3s ease-in-out forwards;
+  animation-delay: 0.5s;
+}
+
+/* Chart grid lines */
+.chart-grid-line {
+  stroke: rgba(255, 255, 255, 0.05);
+}
+
+/* Chart labels with fade animation */
+.chart-label {
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+/* ============================================================================
+   Topics Card Container
+   ============================================================================ */
+
+.topics-card {
+  @apply text-center;
+  @apply py-12 px-8;
+  @apply rounded-2xl;
+  @apply border border-primary/20;
+  @apply transition-all duration-300 ease-out;
+  @apply cursor-pointer;
+  background: linear-gradient(145deg, #151515 0%, #0d0d0d 100%);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.topics-card:hover {
+  @apply border-primary/40;
+  transform: translateY(-4px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(var(--color-primary-rgb, 212, 175, 55), 0.15);
+}
+
+/* ============================================================================
+   Testimonial & Social Proof Utilities
+   ============================================================================ */
+
+@layer utilities {
+  /* Testimonials masonry grid */
+  .testimonial-masonry {
+    @apply grid gap-5;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(200px, auto);
+  }
+
+  /* Grid spanning */
+  .tm-span-2 {
+    @apply col-span-2;
+  }
+
+  .tm-row-2 {
+    @apply row-span-2;
+  }
+
+  /* Testimonial text card base */
+  .testimonial-text-card {
+    @apply relative overflow-hidden rounded-xl p-8;
+    @apply border border-primary/20;
+    @apply shadow-[0_10px_40px_rgba(0,0,0,0.4)];
+    background: linear-gradient(145deg, #151515 0%, #0d0d0d 100%);
+  }
+
+  /* Testimonial video card base - uses fixed height for masonry layout */
+  .testimonial-video-card {
+    @apply relative overflow-hidden rounded-xl;
+    @apply border border-primary/20;
+    @apply shadow-[0_10px_40px_rgba(0,0,0,0.4)];
+    @apply cursor-pointer transition-transform duration-300;
+    @apply min-h-[300px];
+    background: linear-gradient(145deg, #151515 0%, #0d0d0d 100%);
+  }
+
+  /* Video cards that span 2 rows get full height */
+  .testimonial-video-card.tm-row-2 {
+    @apply min-h-0 h-full;
+  }
+
+  /* Video aspect ratio classes */
+  .testimonial-video-card.tm-video-portrait {
+    @apply min-h-[400px];
+  }
+
+  .testimonial-video-card.tm-video-landscape {
+    @apply min-h-[250px];
+  }
+
+  .testimonial-video-card.tm-video-square {
+    @apply min-h-[300px];
+    aspect-ratio: 1 / 1;
+  }
+
+  .testimonial-video-card:hover {
+    @apply scale-[1.02];
+  }
+
+  .testimonial-video-card:hover .play-btn {
+    @apply scale-110 bg-white;
+  }
+
+  /* Play button */
+  .play-btn {
+    @apply absolute left-5 bottom-[70px];
+    @apply w-12 h-12 rounded-full;
+    @apply flex items-center justify-center;
+    @apply transition-all duration-300;
+    @apply shadow-[0_4px_15px_rgba(0,0,0,0.3)];
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .play-btn::after {
+    content: '';
+    @apply w-0 h-0 ml-1;
+    border-left: 14px solid #0a0a0a;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+  }
+
+  /* Responsive testimonial grid */
+  @media (max-width: 1100px) {
+    .testimonial-masonry {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tm-span-2 {
+      @apply col-span-1;
+    }
+  }
+
+  @media (max-width: 650px) {
+    .testimonial-masonry {
+      @apply grid-cols-1;
+    }
+
+    .tm-span-2,
+    .tm-row-2 {
+      @apply col-span-1 row-span-1;
+    }
+
+    .testimonial-video-card {
+      @apply min-h-[350px];
+    }
+
+    .testimonial-video-card.tm-row-2 {
+      @apply min-h-[350px];
+    }
   }
 }
 
@@ -122,4 +394,151 @@ body {
   .animate-slide-up {
     animation: slide-up 0.3s ease-out;
   }
+
+  /* ============================================================================
+     Promise/Commitments Masonry Grid (matching React version)
+     ============================================================================ */
+
+  /* Masonry grid - 4 columns, 2 rows of 250px */
+  .masonry-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 250px);
+    gap: 24px;
+  }
+
+  /* Large card - 2 cols + 2 rows */
+  .masonry-card-large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  /* Wide card - 2 cols */
+  .masonry-card-wide {
+    grid-column: span 2;
+  }
+
+  /* Small card - 1 col */
+  .masonry-card-small {
+    grid-column: span 1;
+  }
+
+  /* Card inner container with hover effect */
+  .masonry-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(201, 162, 39, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .masonry-card-inner:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 15px 30px rgba(201, 162, 39, 0.2), 0 0 0 1px rgba(201, 162, 39, 0.2);
+  }
+
+  /* Text shadow utilities for masonry cards */
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  .text-shadow-lg {
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+  }
+
+  /* Responsive masonry */
+  @media (max-width: 900px) {
+    .masonry-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      gap: 20px;
+    }
+
+    .masonry-card-large,
+    .masonry-card-wide,
+    .masonry-card-small {
+      grid-column: span 1;
+      grid-row: span 1;
+      min-height: 300px;
+    }
+
+    .masonry-card-large {
+      min-height: 400px;
+    }
+  }
+}
+
+/* ============================================================================
+   Header Navigation
+   ============================================================================ */
+
+/* Login button styling */
+.btn-login {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-primary);
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+}
+
+.btn-login:hover {
+  background-color: color-mix(in srgb, var(--color-primary) 10%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary) 50%, transparent);
+}
+
+/* Desktop nav links styling */
+.header-nav-links a,
+.header-nav-links span {
+  cursor: pointer;
+  transition: color 0.3s;
+  color: var(--color-text-muted);
+}
+
+.header-nav-links a:hover,
+.header-nav-links span:hover {
+  color: var(--color-primary);
+}
+
+.header-nav-links a.active,
+.header-nav-links a[aria-current="page"],
+.header-nav-links a.text-primary {
+  color: var(--color-primary) !important;
+}
+
+/* Mobile nav links styling */
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.mobile-nav-links a,
+.mobile-nav-links span {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  transition: color 0.3s;
+  color: var(--color-text-muted);
+}
+
+.mobile-nav-links a:hover,
+.mobile-nav-links span:hover {
+  color: var(--color-primary);
+}
+
+.mobile-nav-links a.active,
+.mobile-nav-links a[aria-current="page"],
+.mobile-nav-links a.text-primary {
+  color: var(--color-primary) !important;
 }

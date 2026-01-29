@@ -1,0 +1,63 @@
+---
+/**
+ * SectionHeading Component
+ *
+ * Reusable section heading with eyebrow, title (with optional highlight), and description.
+ * Matches the React project's SectionHeading pattern.
+ *
+ * Props:
+ * - eyebrow: Small uppercase text above the title
+ * - title: Main heading text (can include HTML)
+ * - highlightedTitle: Part of title to render with gold metallic effect
+ * - afterTitle: Text to display after the highlighted title
+ * - description: Subtitle/description text below the title
+ * - align: Text alignment (left, center, right) - defaults to center
+ */
+
+export interface Props {
+  eyebrow?: string;
+  title?: string;
+  highlightedTitle?: string;
+  afterTitle?: string;
+  description?: string;
+  align?: 'left' | 'center' | 'right';
+  className?: string;
+}
+
+const {
+  eyebrow,
+  title,
+  highlightedTitle,
+  afterTitle,
+  description,
+  align = 'center',
+  className = '',
+} = Astro.props;
+
+const alignmentClass = {
+  left: 'text-left',
+  center: 'text-center',
+  right: 'text-right',
+}[align];
+---
+
+<div class={`mb-4 ${alignmentClass} ${className}`}>
+  {eyebrow && (
+    <span class="text-text text-sm uppercase tracking-[3px] font-semibold">{eyebrow}</span>
+  )}
+
+  {(title || highlightedTitle || afterTitle) && (
+    <h2 class="text-5xl font-extrabold uppercase font-display mt-4">
+      {title && <Fragment set:html={title} />}
+      {title && highlightedTitle && " "}
+      {highlightedTitle && (
+        <span class="gold-metallic-heading">{highlightedTitle}</span>
+      )}
+      {afterTitle && ` ${afterTitle}`}
+    </h2>
+  )}
+
+  {description && (
+    <p class="text-text-muted mt-4 max-w-[600px] mx-auto">{description}</p>
+  )}
+</div>
