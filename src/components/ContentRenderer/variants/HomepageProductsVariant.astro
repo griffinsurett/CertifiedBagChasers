@@ -1,0 +1,150 @@
+---
+// src/components/ContentRenderer/variants/HomepageProductsVariant.astro
+/**
+ * HomepageProductsVariant - Homepage Products/Pricing Section
+ *
+ * Displays featured products in a pricing grid matching the React PricingSection design.
+ * - Available products rendered in ProductTable loop template (3-column grid)
+ * - "Coming Soon" products displayed below the grid with special styling
+ * - Featured/most-popular product gets special highlighting
+ * - Trust badges displayed below the grid
+ *
+ * Usage: Query with byTag("products", "featured") to show only featured products
+ */
+
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import SectionHeading from "@/components/SectionHeading.astro";
+import ProductTable from "@/components/LoopTemplates/ProductTable";
+
+interface Props extends BaseVariantProps {
+  eyebrow?: string;
+  showTrustBadges?: boolean;
+}
+
+const {
+  items = [],
+  title,
+  heading,
+  description,
+  className = "",
+  id,
+  eyebrow = "Start Your Journey",
+  showTrustBadges = true,
+} = Astro.props as Props;
+
+// Process heading content (supports segmented headings)
+let displayTitle = title;
+let highlightedTitle = "";
+let afterTitle = "";
+
+if (heading && typeof heading === "object" && "before" in heading) {
+  displayTitle = heading.before || "";
+  highlightedTitle = heading.text || "";
+  afterTitle = heading.after || "";
+} else if (typeof heading === "string") {
+  displayTitle = heading;
+}
+
+// Split items into available and coming-soon (cast to any to access product-specific fields)
+const availableProducts = (items as any[]).filter((item) => item.status !== "coming-soon");
+const comingSoonProducts = (items as any[]).filter((item) => item.status === "coming-soon");
+
+// Trust badges data
+const trustBadges = [
+  { icon: "🔒", text: "Secure Payment" },
+  { icon: "💳", text: "Cancel Anytime" },
+  { icon: "⭐", text: "4.9/5 Rating" },
+  { icon: "👥", text: "100+ Members" },
+];
+---
+
+<section id={id} class={`py-24 px-5 bg-bg-dark ${className}`}>
+  <div class="max-w-[1200px] mx-auto">
+    <SectionHeading
+      eyebrow={eyebrow}
+      title={displayTitle}
+      highlightedTitle={highlightedTitle}
+      afterTitle={afterTitle}
+      description={description}
+      className="mb-15"
+    />
+
+    {/* Product Table - Available Products */}
+    {availableProducts.length > 0 && (
+      <ProductTable items={availableProducts} client:load />
+    )}
+
+    {/* Trust Badges */}
+    {showTrustBadges && (
+      <div class="flex justify-center gap-10 mt-15 flex-wrap">
+        {trustBadges.map((badge) => (
+          <div class="flex items-center gap-2 text-text-dim text-sm">
+            <span class="text-xl">{badge.icon}</span>
+            <span>{badge.text}</span>
+          </div>
+        ))}
+      </div>
+    )}
+
+    {/* Coming Soon Products - Displayed below the grid */}
+    {comingSoonProducts.map((product) => (
+      <div class="mt-15 p-10 pt-[50px] bg-gradient-to-br from-primary/10 to-primary/[0.03] rounded-2xl border border-primary/20 text-center relative overflow-visible">
+        {/* Floating emoji decoration */}
+        <div class="absolute -top-7 left-1/2 -translate-x-1/2 z-[2] flex items-center justify-center">
+          <span class="text-[40px] drop-shadow-lg absolute -rotate-12 -translate-x-[15px] opacity-70">
+            💵
+          </span>
+          <span class="text-[45px] drop-shadow-lg relative z-[2]">💵</span>
+          <span class="text-[40px] drop-shadow-lg absolute rotate-12 translate-x-[15px] opacity-70">
+            💵
+          </span>
+        </div>
+
+        {/* Accent glow */}
+        <div class="absolute -top-1/2 -right-[10%] w-[300px] h-[300px] bg-[radial-gradient(circle,rgba(201,162,39,0.1)_0%,transparent_70%)] pointer-events-none" />
+
+        {/* Coming Soon Badge */}
+        <div class="inline-block bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-1.5 px-4 rounded-full text-xs font-bold uppercase tracking-[1px] mb-4">
+          🚀 Coming Soon
+        </div>
+
+        {/* Title */}
+        <h3 class="text-[28px] font-extrabold font-display uppercase text-white mb-3">
+          {product.title?.includes("Course") ? (
+            <>
+              The Complete <span class="text-primary">Wealth Building</span> Course
+            </>
+          ) : (
+            product.title
+          )}
+        </h3>
+
+        {/* Description */}
+        <p class="text-text-muted text-base max-w-[500px] mx-auto mb-6 leading-relaxed">
+          {product.description}
+        </p>
+
+        {/* Waitlist Button - links to product page */}
+        <a
+          href={product.url}
+          class="inline-flex items-center gap-2 py-4 px-8 text-sm font-bold uppercase tracking-[1px] text-white border-2 border-white/30 rounded-lg bg-transparent transition-all duration-300 hover:bg-white/10 hover:border-white/50 no-underline"
+        >
+          <span>{product.ctaText || "Join The Waitlist"}</span>
+          <span class="text-lg">→</span>
+        </a>
+
+        {/* Early access note */}
+        <p class="text-[#555] text-[13px] mt-4">
+          🔔 Get early access + exclusive launch discount
+        </p>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  /* mt-15 utility (60px) - keeping as custom since Tailwind doesn't have mt-15 by default */
+  .mt-15 {
+    margin-top: 60px;
+  }
+</style>

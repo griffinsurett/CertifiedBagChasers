@@ -1,0 +1,142 @@
+---
+// src/components/LoopComponents/ProductCard.astro
+/**
+ * ProductCard Component
+ *
+ * Displays a product/pricing card matching the React PricingSection design.
+ * Features:
+ * - Large emoji/icon display
+ * - Title and subtitle
+ * - Price with optional note
+ * - Feature list with checkmarks
+ * - CTA button (gold for featured, outline for others)
+ * - "Most Popular" badge for featured items
+ *
+ * Uses Tailwind classes for all styling.
+ */
+
+import Icon from "@/integrations/icons/Icon.astro";
+
+export interface Props {
+  title: string;
+  description?: string;
+  icon?: string;
+  price?: string;
+  priceNote?: string;
+  features?: string[];
+  ctaText?: string;
+  link?: string;
+  status?: "available" | "coming-soon" | "free";
+  isMostPopular?: boolean;
+  eyebrow?: string;
+  className?: string;
+}
+
+const {
+  title,
+  description,
+  icon,
+  price,
+  priceNote,
+  features = [],
+  ctaText = "Learn More",
+  link,
+  status = "available",
+  isMostPopular = false,
+  eyebrow,
+  className = "",
+} = Astro.props;
+
+// Card classes using Tailwind
+const cardBaseClasses = "relative flex flex-col text-center rounded-[20px] p-8 md:p-10 border transition-all duration-300";
+const cardVariantClasses = isMostPopular
+  ? "bg-gradient-to-br from-[#1a1708] to-[#0f0d05] border-2 border-primary/40 scale-100 lg:scale-105 z-10 shadow-[0_25px_50px_rgba(201,162,39,0.15)]"
+  : "bg-gradient-to-br from-[#0f0f0f] to-[#0a0a0a] border-white/5 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)]";
+
+// Button classes using Tailwind
+const buttonBaseClasses = "block text-center py-4 px-8 rounded-lg font-bold text-sm uppercase tracking-[1px] no-underline mt-auto transition-all duration-300";
+const buttonVariantClasses = isMostPopular
+  ? "bg-gradient-to-r from-primary-900 via-primary-600 to-primary-300 text-bg hover:-translate-y-0.5 hover:shadow-[0_10px_40px_rgba(201,162,39,0.4)]"
+  : "bg-transparent border-2 border-primary text-primary hover:bg-primary/10";
+---
+
+<div class:list={[cardBaseClasses, cardVariantClasses, className]}>
+  {/* Gold glow effect for featured card */}
+  {isMostPopular && (
+    <div class="absolute inset-[-2px] rounded-[22px] bg-gradient-to-br from-primary-800 via-primary to-primary-100 opacity-30 -z-10" />
+  )}
+
+  {/* Most Popular Badge */}
+  {isMostPopular && (
+    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-2 px-5 rounded-full text-xs font-extrabold uppercase tracking-[1px] whitespace-nowrap z-10">
+      🔥 Most Popular
+    </div>
+  )}
+
+  {/* Eyebrow text */}
+  {eyebrow && (
+    <div class={`mb-6 ${isMostPopular ? 'mt-2' : ''}`}>
+      <span class="text-white text-sm font-semibold uppercase tracking-[3px]">
+        {eyebrow}
+      </span>
+    </div>
+  )}
+
+  {/* Icon */}
+  {icon && (
+    <div class="text-6xl mb-4 drop-shadow-lg flex items-center justify-center">
+      <Icon name={icon} class="w-16 h-16 text-primary" />
+    </div>
+  )}
+
+  {/* Title */}
+  <h3 class="text-[28px] font-extrabold font-display uppercase text-white mb-2">
+    {title}
+  </h3>
+
+  {/* Description */}
+  {description && (
+    <p class={`text-sm leading-relaxed mb-6 flex-1 ${isMostPopular ? 'text-primary' : 'text-text-muted'}`}>
+      {description}
+    </p>
+  )}
+
+  {/* Price */}
+  {price && (
+    <div class="mb-6">
+      <div class="flex items-baseline gap-2 justify-center">
+        <span class="text-5xl font-extrabold text-white">
+          {price}
+        </span>
+      </div>
+      {priceNote && (
+        <span class="text-[13px] text-text-dim block mt-1">
+          {priceNote}
+        </span>
+      )}
+    </div>
+  )}
+
+  {/* Features list */}
+  {features.length > 0 && (
+    <ul class="list-none p-0 mb-8 text-left">
+      {features.map((feature) => (
+        <li class="flex items-center gap-2.5 mb-3 text-text-secondary text-sm">
+          <span class="text-accent">✓</span> {feature}
+        </li>
+      ))}
+    </ul>
+  )}
+
+  {/* CTA Button */}
+  {link && (
+    <a
+      href={link}
+      target={link.startsWith("http") ? "_blank" : undefined}
+      rel={link.startsWith("http") ? "noopener noreferrer" : undefined}
+      class:list={[buttonBaseClasses, buttonVariantClasses]}
+    >
+      {ctaText} →
+    </a>
+  )}
+</div>

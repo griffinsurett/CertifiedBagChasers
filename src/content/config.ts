@@ -146,4 +146,22 @@ export const collections = {
     schema: ({ image }) =>
       baseSchema({ image }),
   }),
+
+  // ── products ────────────────────────────────────────────
+  "products": defineCollection({
+    schema: ({ image }) =>
+      baseSchema({ image }).extend({
+        // Pricing information
+        price: z.string().optional(),
+        priceNote: z.string().optional(),
+        // External link (e.g., Whop, Amazon)
+        link: z.string().url().optional(),
+        // Product status
+        status: z.enum(["available", "coming-soon", "free"]).default("available"),
+        // List of features/benefits
+        features: z.array(z.string()).default([]),
+        // CTA button text
+        ctaText: z.string().optional(),
+      }),
+  }),
 };

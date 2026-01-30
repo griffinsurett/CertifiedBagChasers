@@ -16,31 +16,7 @@
     "openInNewTab": false,
     "menu": ["main-menu", "quick-links"]
   },
-  {
-    "id": "products",
-    "title": "Products",
-    "url": "https://whop.com",
-    "order": 2,
-    "openInNewTab": true,
-    "menu": "quick-links"
-  },
-  {
-    "id": "book",
-    "title": "Book",
-    "url": "https://amazon.com",
-    "order": 3,
-    "openInNewTab": true,
-    "menu": "quick-links"
-  },
-  {
-    "id": "mentorship",
-    "title": "Mentorship",
-    "url": "https://whop.com",
-    "order": 4,
-    "openInNewTab": true,
-    "menu": "quick-links"
-  },
-  {
+    {
     "id": "privacy-policy",
     "title": "Privacy Policy",
     "url": "/privacy-policy",

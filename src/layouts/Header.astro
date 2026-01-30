@@ -9,6 +9,7 @@
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
 import { query, sortBy } from "@/utils/query";
 import Logo from "@/components/Logo.astro";
+import Button from "@/components/Button/Button";
 ---
 
 <header
@@ -59,9 +60,9 @@ import Logo from "@/components/Logo.astro";
 
   {/* Login Button - Right (Desktop) */}
   <div class="hidden md:flex items-center gap-4 absolute right-10">
-    <a href="/login" class="btn-login">
-      <span>→</span> Login
-    </a>
+    <Button variant="secondary" href="/login" size="sm">
+      → Login
+    </Button>
   </div>
 </header>
 

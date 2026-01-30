@@ -4,7 +4,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
 import { siteData, ctaData } from "@/content/siteData";
 import { query, sortByOrder } from "@/utils/query";
-import { byItemKeys } from "@/utils/query/snippets";
+import { byItemKeys, byTag } from "@/utils/query/snippets";
 import FrontPageHero from "@/layouts/FrontPageHero.astro";
 
 // Section layouts
@@ -120,6 +120,12 @@ import BackgroundImg from "@/assets/inside-the-nyse.jpg";
     <ContentRenderer
       query={query("promises").orderBy(sortByOrder())}
       variant="PromiseVariant"
+    />
+
+    <!-- Products / Pricing Section -->
+    <ContentRenderer
+      query={byTag("products", "featured").orderBy(sortByOrder())}
+      variant="HomepageProductsVariant"
     />
 
     <!-- Success Stories (Text Testimonials) -->

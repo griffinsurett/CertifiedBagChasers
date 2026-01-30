@@ -264,6 +264,10 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(var(--color-primary-rgb, 212, 175, 55), 0.15);
 }
 
+@utility hero-space {
+  @apply pt-20;
+}
+
 /* ============================================================================
    Testimonial & Social Proof Utilities
    ============================================================================ */
@@ -308,17 +312,19 @@ h1, h2, h3, h4, h5, h6 {
     @apply min-h-0 h-full;
   }
 
-  /* Video aspect ratio classes */
+  /* Video aspect ratio classes - use aspect-ratio for consistent sizing */
   .testimonial-video-card.tm-video-portrait {
-    @apply min-h-[400px];
+    @apply min-h-0;
+    aspect-ratio: 9 / 16;
   }
 
   .testimonial-video-card.tm-video-landscape {
-    @apply min-h-[250px];
+    @apply min-h-0;
+    aspect-ratio: 16 / 9;
   }
 
   .testimonial-video-card.tm-video-square {
-    @apply min-h-[300px];
+    @apply min-h-0;
     aspect-ratio: 1 / 1;
   }
 
@@ -375,6 +381,13 @@ h1, h2, h3, h4, h5, h6 {
 
     .testimonial-video-card.tm-row-2 {
       @apply min-h-[350px];
+    }
+
+    /* All video aspect ratios maintained on mobile */
+    .testimonial-video-card.tm-video-portrait,
+    .testimonial-video-card.tm-video-landscape,
+    .testimonial-video-card.tm-video-square {
+      @apply min-h-0;
     }
   }
 }
@@ -542,3 +555,4 @@ h1, h2, h3, h4, h5, h6 {
 .mobile-nav-links a.text-primary {
   color: var(--color-primary) !important;
 }
+

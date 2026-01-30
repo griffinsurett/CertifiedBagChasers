@@ -132,6 +132,13 @@ export const ItemsAddToMenuFields = z.object({
   customSort: z.string().optional(),
   groupBy: z.string().optional(),
   metadata: z.record(z.any()).optional(),
+
+  // Menu-specific link behavior (overrides item's linkBehavior for menu URLs)
+  // Use mode: 'field' to use external link instead of page URL
+  linkBehavior: z.object({
+    mode: z.enum(['standard', 'root', 'prefixed', 'field', 'none']).default('standard'),
+    link: z.string().default('link'),
+  }).optional(),
 });
 
 // ============================================================================
