@@ -10,6 +10,8 @@
 import type { BaseVariantProps } from "../ContentRenderer.types";
 import ImageContainer from "@/components/ImageContainer.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
+import { Image } from "astro:assets";
+import BestSellingAuthorBadge from "@/assets/best-selling-author.png";
 
 interface Props extends BaseVariantProps {
   imagePosition?: "left" | "right";
@@ -52,13 +54,21 @@ if (author.render) {
 <section id={id} class={`section-base bg-gradient-to-b from-bg to-bg-dark ${className}`}>
   <div class="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
     {/* Image Column */}
-    <div class={`${isImageLeft ? "order-1" : "order-1 lg:order-2"}`}>
+    <div class={`relative ${isImageLeft ? "order-1" : "order-1 lg:order-2"}`}>
       {authorImage && (
         <ImageContainer
           image={authorImage}
           alt={author.title || ""}
         />
       )}
+      {/* Best Selling Author Badge - positioned on edge of image */}
+      <div class="absolute -bottom-4 -right-4 lg:-right-8 z-10">
+        <Image
+          src={BestSellingAuthorBadge}
+          alt="Amazon Best Selling Author"
+          class="w-28 h-28 md:w-36 md:h-36 lg:w-44 lg:h-44 drop-shadow-2xl"
+        />
+      </div>
     </div>
 
     {/* Content Column */}
