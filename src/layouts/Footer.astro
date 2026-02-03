@@ -16,6 +16,7 @@ import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro"
 import { query, sortBy } from "@/utils/query";
 import PreferencesLayout from "./PreferencesLayout.astro";
 import Logo from "@/components/Logo.astro";
+import NewsletterForm from "@/components/Form/forms/NewsletterForm.astro";
 
 // Query for quick links menu items
 const quickLinksQuery = query("menu-items")
@@ -40,8 +41,8 @@ const legalQuery = query("menu-items")
   .orderBy(sortBy("order", "asc"));
 ---
 
-<footer class="bg-bg-dark border-t border-primary/20 px-5 mt-auto">
-  <div class="max-w-[1200px] mx-auto">
+<footer class="bg-bg-dark border-t border-primary/20 px-5 w-95/100 mt-auto">
+  <div class="mx-auto w-95/100">
     {/* Main Footer Grid */}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 py-10">
       {/* Column 1: Logo & Description */}
@@ -82,23 +83,40 @@ const legalQuery = query("menu-items")
         <PreferencesLayout layout="vertical" className="footer-links" />
       </div>
 
-      {/* Column 4: Social Media */}
-      <div>
-        <h4 class="text-text mb-4 font-bold">Follow Us</h4>
-        <ContentRenderer
-          query={query("social-media")}
-          variant="SocialMediaVariant"
-          size="sm"
-          alignment="left"
-        />
+      {/* Column 4: Newsletter + Social Media */}
+      <div class="space-y-6">
+        <NewsletterForm />
+
+        <div>
+          <h4 class="text-text mb-4 font-bold">Follow Us</h4>
+          <ContentRenderer
+            query={query("social-media")}
+            variant="SocialMediaVariant"
+            size="sm"
+            alignment="left"
+          />
+        </div>
       </div>
     </div>
 
     {/* Bottom Section */}
-    <div class="border-t border-primary/10 py-5 text-center">
-      <p class="text-text-secondary text-sm">
-        &copy; {new Date().getFullYear()} {siteData.legalName}. All rights reserved.
-      </p>
+    <div class="border-t border-primary/10 py-5">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 text-text-secondary text-sm">
+        <div class="flex items-center gap-2">
+          &copy; {new Date().getFullYear()} {siteData.legalName}. All rights reserved.
+        </div>
+        <div>
+          <span>
+            Powered By{" "}
+            <a
+              href="https://griffinswebservices.com"
+              class="hover:underline transition-all duration-300"
+            >
+              Griffin's Web Services
+            </a>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </footer>
