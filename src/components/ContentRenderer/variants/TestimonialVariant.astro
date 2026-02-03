@@ -44,42 +44,39 @@ const hasTag = (item: any, tag: string) => {
   return item.tags?.includes(tag) ?? false;
 };
 
-// Transform items for the masonry component (async for video poster generation)
-// Layout rules:
-// - Videos: based on videoAspect - portrait (2 rows), landscape (2 cols), square (1x1)
-// - Text with "featured" tag: span 2 columns (tm-span-2)
-// - Regular text: single column
-const masonryItems = await Promise.all(items.map(async (item) => {
-  const isVideo = item.isVideo || false;
-  const isFeatured = hasTag(item, 'featured');
-  const videoAspect = item.videoAspect || 'portrait';
+// Auto-detect video orientation from filename (used when aspect isn't explicitly set)
+const detectOrientation = (videoPath: string): 'portrait' | 'landscape' | 'square' => {
+  const lower = videoPath.toLowerCase();
+  if (lower.includes('landscape')) return 'landscape';
+  if (lower.includes('square')) return 'square';
+  return 'portrait';
+};
 
-  // Determine spanning based on type and aspect ratio
+// Transform items for the masonry component (async for video poster generation)
+// Layout rules (matching i75):
+// - Videos: portrait (2 rows), landscape (2 cols), square (1x1)
+// - Text with "featured" tag: span 2 columns
+const transformedItems = await Promise.all(items.map(async (item) => {
+  const isVideo = Boolean(item.video);
+  const isFeatured = hasTag(item, 'featured');
+  const detectedAspect = item.video ? detectOrientation(item.video) : 'portrait';
+  const videoAspect = item.videoAspect && item.videoAspect !== 'portrait'
+    ? item.videoAspect
+    : detectedAspect;
+
   let spanColumns = false;
   let spanRows = false;
 
   if (isVideo) {
-    // Video spanning based on aspect ratio
     if (videoAspect === 'portrait') {
-      spanRows = true; // Tall video spans 2 rows
-    } else if (videoAspect === 'landscape') {
-      spanColumns = true; // Wide video spans 2 columns
-    }
-    // Square videos don't span (1x1)
-
-    // Featured videos span both directions
-    if (isFeatured) {
-      spanColumns = true;
       spanRows = true;
-    }
-  } else {
-    // Text cards: featured ones span 2 columns
-    if (isFeatured) {
+    } else if (videoAspect === 'landscape') {
       spanColumns = true;
     }
+  } else if (isFeatured) {
+    spanColumns = true;
   }
 
-  // Base properties for all testimonials
   const baseProps = {
     id: item.slug,
     name: item.title || "Anonymous",
@@ -87,11 +84,12 @@ const masonryItems = await Promise.all(items.map(async (item) => {
     resultsAmount: item.resultsAmount,
     spanColumns,
     spanRows,
+    isVideo,
+    videoAspect,
   };
 
   if (isVideo && item.video) {
-    // Generate video poster at build time if not provided
-    let posterUrl = item.videoPoster ? getImageUrl(item.videoPoster, "") : undefined;
+    let posterUrl = item.videoPoster ? getImageUrl(item.videoPoster, "") : "";
 
     if (!posterUrl && item.video) {
       try {
@@ -102,13 +100,17 @@ const masonryItems = await Promise.all(items.map(async (item) => {
       }
     }
 
+    if (!posterUrl) {
+      const fallbackPoster = item.bannerImage || item.featuredImage;
+      posterUrl = fallbackPoster ? getImageUrl(fallbackPoster, "") : "";
+    }
+
     return {
       ...baseProps,
       type: 'video' as const,
       video: item.video,
-      poster: posterUrl,
-      videoAspect,
-      centered: spanColumns && spanRows, // Center play button for featured videos
+      poster: posterUrl || undefined,
+      centered: false,
     };
   }
 
@@ -120,6 +122,52 @@ const masonryItems = await Promise.all(items.map(async (item) => {
     resultsPeriod: item.resultsPeriod,
   };
 }));
+
+// Smart auto-ordering for optimal masonry layout (dense packing handles the rest)
+const landscapeVideos = transformedItems.filter(
+  (item) => item.isVideo && item.videoAspect === 'landscape'
+);
+const portraitVideos = transformedItems.filter(
+  (item) => item.isVideo && item.videoAspect === 'portrait'
+);
+const squareVideos = transformedItems.filter(
+  (item) => item.isVideo && item.videoAspect === 'square'
+);
+const featuredText = transformedItems.filter(
+  (item) => !item.isVideo && item.spanColumns
+);
+const regularText = transformedItems.filter(
+  (item) => !item.isVideo && !item.spanColumns
+);
+
+const masonryItems: typeof transformedItems = [];
+
+masonryItems.push(...landscapeVideos);
+
+const allText = [...featuredText, ...regularText];
+const portraitCount = portraitVideos.length;
+const textCount = allText.length;
+
+if (portraitCount > 0 && textCount > 0) {
+  const textPerVideo = Math.floor(textCount / (portraitCount + 1));
+  let textIdx = 0;
+
+  for (let i = 0; i < portraitCount; i++) {
+    for (let j = 0; j < textPerVideo && textIdx < textCount; j++) {
+      masonryItems.push(allText[textIdx++]);
+    }
+    masonryItems.push(portraitVideos[i]);
+  }
+
+  while (textIdx < textCount) {
+    masonryItems.push(allText[textIdx++]);
+  }
+} else {
+  masonryItems.push(...portraitVideos);
+  masonryItems.push(...allText);
+}
+
+masonryItems.push(...squareVideos);
 ---
 
 <section id={id} class={`section-base bg-[#080808] ${className}`}>
@@ -134,7 +182,7 @@ const masonryItems = await Promise.all(items.map(async (item) => {
     {masonryItems.length > 0 && (
       <TestimonialMasonry
         items={masonryItems}
-        client:visible
+        client:load
       />
     )}
   </div>

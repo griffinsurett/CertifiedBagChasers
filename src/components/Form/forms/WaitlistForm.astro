@@ -1,0 +1,127 @@
+---
+// src/components/Form/forms/WaitlistForm.astro
+/**
+ * Waitlist Form - Astro Version
+ *
+ * Simple email capture form for waitlist signups.
+ * Used in OtherHero right slot for optin product pages.
+ */
+import Button from "@/components/Button/Button";
+import FormWrapper from "@/components/Form/FormWrapper";
+import Input from "@/components/Form/inputs/Input";
+import Checkbox from "@/components/Form/inputs/Checkbox";
+
+interface Props {
+  title?: string;
+  description?: string;
+  submitText?: string;
+  successMessage?: string;
+  variant?: "primary" | "secondary" | "tertiary";
+  className?: string;
+  productName?: string;
+}
+
+const {
+  title = "Join the Waitlist",
+  description = "Be the first to know when this launches. Get early access and exclusive discounts.",
+  submitText = "Join Waitlist",
+  successMessage = "You're on the list! We'll notify you when we launch.",
+  variant = "primary",
+  className = "",
+  productName = "",
+} = Astro.props;
+
+const handleSubmit = async (values: any) => {
+  console.log("Waitlist form submitted:", { ...values, productName });
+};
+---
+
+<div class={`bg-gradient-to-br from-[#1a1708] to-[#0f0d05] rounded-2xl border border-primary/30 p-8 md:p-10 w-full max-w-md ${className}`}>
+  {/* Form Header */}
+  <div class="text-center mb-8">
+    <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">
+      {title}
+    </h3>
+    <p class="text-text-muted">
+      {description}
+    </p>
+  </div>
+
+  {/* Form */}
+  <FormWrapper
+    client:idle
+    onSubmit={handleSubmit}
+    successMessage={successMessage}
+    errorMessage="There was an error. Please try again."
+    resetOnSuccess={true}
+    className="w-full"
+  >
+    <div class="flex flex-col sm:flex-row gap-4 mb-4">
+      <Input
+        name="firstName"
+        label="First Name"
+        type="text"
+        required={true}
+        placeholder="First name"
+        containerClassName="mb-0 flex-1"
+        inputClassName="w-full px-4 py-3 bg-bg border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder:text-text-dim"
+      />
+
+      <Input
+        name="lastName"
+        label="Last Name"
+        type="text"
+        required={true}
+        placeholder="Last name"
+        containerClassName="mb-0 flex-1"
+        inputClassName="w-full px-4 py-3 bg-bg border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder:text-text-dim"
+      />
+    </div>
+
+    <Input
+      name="email"
+      label="Email Address"
+      type="email"
+      required={true}
+      placeholder="you@email.com"
+      containerClassName="mb-4"
+      inputClassName="w-full px-4 py-3 bg-bg border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder:text-text-dim"
+    />
+
+    <Input
+      name="phone"
+      label="Phone Number"
+      type="tel"
+      required={true}
+      placeholder="Your phone number"
+      containerClassName="mb-4"
+      inputClassName="w-full px-4 py-3 bg-bg border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder:text-text-dim"
+    />
+
+    <Checkbox
+      name="consent"
+      required
+      containerClassName="mb-6"
+      checkboxClassName="w-4 h-4 text-primary border-white/20 rounded"
+    >
+      <span class="text-text-muted text-sm">
+        I agree to receive updates and marketing communications.
+      </span>
+    </Checkbox>
+
+    <Button
+      variant={variant}
+      type="submit"
+      className="w-full"
+    >
+      {submitText} →
+    </Button>
+
+    {/* Trust indicators */}
+    <div class="mt-6 pt-6 border-t border-white/10 flex flex-wrap justify-center gap-4 text-text-dim text-xs">
+      <span class="flex items-center gap-1">🔒 Secure & Private</span>
+      <span class="flex items-center gap-1">📧 No Spam</span>
+      <span class="flex items-center gap-1">🚫 Unsubscribe Anytime</span>
+    </div>
+  </FormWrapper>
+</div>

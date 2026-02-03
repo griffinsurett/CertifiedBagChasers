@@ -5,20 +5,15 @@
  *
  * For products that require user opt-in (waitlist, applications, etc.)
  * Features:
- * - OtherHero with gradient background (no image)
- * - Two-column layout: Content + Form
+ * - OtherHero with centered gradient background (FrontPageHero style)
+ * - Form section below the hero
  * - Features list with checkmarks
  * - MDX content support
- * - Integrated form (waitlist or application)
  */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import OtherHero from '@/layouts/OtherHero.astro';
-import Icon from '@/components/Icon';
-import Button from '@/components/Button/Button';
-import FormWrapper from '@/components/Form/FormWrapper';
-import Input from '@/components/Form/inputs/Input';
-import Textarea from '@/components/Form/inputs/Textarea';
-import Checkbox from '@/components/Form/inputs/Checkbox';
+import WaitlistForm from '@/components/Form/forms/WaitlistForm.astro';
+import ApplicationForm from '@/components/Form/forms/ApplicationForm.astro';
 import type { CollectionLayoutProps } from './types';
 
 const {
@@ -56,30 +51,26 @@ const successMessage = isApplication
   ? "Thank you for applying! We'll review your application and get back to you within 48 hours."
   : "You're on the list! We'll notify you when we launch.";
 
-// Form submission handler
-const handleSubmit = async (values: any) => {
-  console.log(`${isApplication ? 'Application' : 'Waitlist'} form submitted:`, values);
-};
+const buttonVariant = isPremiumOffering ? "tertiary" : isComingSoon ? "secondary" : "primary";
 ---
 
 <BaseLayout {...seoProps}>
   <main class="flex-1">
-    {/* Hero with gradient background */}
+    {/* Hero with centered gradient background */}
     <OtherHero
       title={data.title}
       description={data.description}
-      icon={data.icon}
+      heading={data.heading}
       price={data.price}
       priceNote={data.priceNote}
       status={data.status}
       tags={data.tags}
-      minHeight="60vh"
     />
 
-    {/* Main Content Section */}
+    {/* Form Section - Below Hero */}
     <section class="py-16 md:py-24 px-5 bg-bg">
       <div class="max-w-[1200px] mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
 
           {/* Left Column - Features & Content */}
           <div>
@@ -109,119 +100,26 @@ const handleSubmit = async (values: any) => {
           </div>
 
           {/* Right Column - Form */}
-          <div>
-            <div class="bg-gradient-to-br from-[#1a1708] to-[#0f0d05] rounded-2xl border border-primary/30 p-8 md:p-10 sticky top-24">
-              {/* Form Header */}
-              <div class="text-center mb-8">
-                <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">
-                  {formTitle}
-                </h3>
-                <p class="text-text-muted">
-                  {formDescription}
-                </p>
-              </div>
-
-              {/* Form */}
-              <FormWrapper
-                client:idle
-                onSubmit={handleSubmit}
+          <div class="lg:sticky lg:top-24">
+            {isApplication ? (
+              <ApplicationForm
+                title={formTitle}
+                description={formDescription}
+                submitText={submitButtonText}
                 successMessage={successMessage}
-                errorMessage="There was an error. Please try again."
-                resetOnSuccess={true}
-                className="w-full"
-              >
-                <Input
-                  name="firstName"
-                  label="First Name"
-                  type="text"
-                  required={true}
-                  placeholder="Your first name"
-                  containerClassName="mb-4"
-                  inputClassName="w-full px-4 py-3 bg-bg border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white"
-                />
-
-                <Input
-                  name="lastName"
-                  label="Last Name"
-                  type="text"
-                  required={true}
-                  placeholder="Your last name"
-                  containerClassName="mb-4"
-                  inputClassName="w-full px-4 py-3 bg-bg border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white"
-                />
-
-                <Input
-                  name="email"
-                  label="Email Address"
-                  type="email"
-                  required={true}
-                  placeholder="you@email.com"
-                  containerClassName="mb-4"
-                  inputClassName="w-full px-4 py-3 bg-bg border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white"
-                />
-
-                {/* Additional fields for application form */}
-                {isApplication && (
-                  <>
-                    <Input
-                      name="phone"
-                      label="Phone Number"
-                      type="tel"
-                      required={true}
-                      placeholder="Your phone number"
-                      containerClassName="mb-4"
-                      inputClassName="w-full px-4 py-3 bg-bg border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white"
-                    />
-
-                    <Textarea
-                      name="goals"
-                      label="What are your financial goals?"
-                      required={true}
-                      placeholder="Tell us about your goals and what you hope to achieve..."
-                      rows={4}
-                      containerClassName="mb-4"
-                      textareaClassName="w-full px-4 py-3 bg-bg border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white resize-none"
-                    />
-
-                    <Textarea
-                      name="whyYou"
-                      label="Why should we work with you?"
-                      required={true}
-                      placeholder="Tell us why you're serious about this opportunity..."
-                      rows={4}
-                      containerClassName="mb-4"
-                      textareaClassName="w-full px-4 py-3 bg-bg border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white resize-none"
-                    />
-                  </>
-                )}
-
-                <Checkbox
-                  name="consent"
-                  required
-                  containerClassName="mb-6"
-                  checkboxClassName="w-4 h-4 text-primary border-white/20 rounded"
-                >
-                  <span class="text-text-muted text-sm">
-                    I agree to receive updates and marketing communications.
-                  </span>
-                </Checkbox>
-
-                <Button
-                  variant={isPremiumOffering ? "tertiary" : isComingSoon ? "secondary" : "primary"}
-                  type="submit"
-                  className="w-full"
-                >
-                  {submitButtonText} →
-                </Button>
-
-                {/* Trust indicators */}
-                <div class="mt-6 pt-6 border-t border-white/10 flex flex-wrap justify-center gap-4 text-text-dim text-xs">
-                  <span class="flex items-center gap-1">🔒 Secure & Private</span>
-                  <span class="flex items-center gap-1">📧 No Spam</span>
-                  <span class="flex items-center gap-1">🚫 Unsubscribe Anytime</span>
-                </div>
-              </FormWrapper>
-            </div>
+                variant={buttonVariant}
+                productName={data.title}
+              />
+            ) : (
+              <WaitlistForm
+                title={formTitle}
+                description={formDescription}
+                submitText={submitButtonText}
+                successMessage={successMessage}
+                variant={buttonVariant}
+                productName={data.title}
+              />
+            )}
           </div>
         </div>
       </div>

@@ -355,24 +355,25 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   /* Responsive testimonial grid */
-  @media (max-width: 1100px) {
+  @media (max-width: 1023px) {
     .testimonial-masonry {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .tm-span-2 {
-      @apply col-span-1;
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 
-  @media (max-width: 650px) {
+  @media (max-width: 767px) {
+    .testimonial-masonry {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 639px) {
     .testimonial-masonry {
       @apply grid-cols-1;
     }
 
-    .tm-span-2,
-    .tm-row-2 {
-      @apply col-span-1 row-span-1;
+    .tm-span-2 {
+      @apply col-span-1;
     }
 
     .testimonial-video-card {
@@ -555,4 +556,3 @@ h1, h2, h3, h4, h5, h6 {
 .mobile-nav-links a.text-primary {
   color: var(--color-primary) !important;
 }
-
