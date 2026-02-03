@@ -53,10 +53,16 @@ const legalQuery = query("menu-items")
       </div>
 
       {/* Column 2: Quick Links */}
-      <div>
+      <div class="space-y-6">
         <h4 class="text-text mb-4 font-bold">Quick Links</h4>
         <ContentRenderer
           query={quickLinksQuery}
+          variant="ListVariant"
+          layout="vertical"
+          className="footer-links"
+        />
+         <ContentRenderer
+          query={query("products")}
           variant="ListVariant"
           layout="vertical"
           className="footer-links"
