@@ -1,18 +1,10 @@
 ---
-// src/layouts/FrontPageHero.astro
+// src/layouts/FrontPageHeroWide.astro
 /**
- * Front Page Hero Layout
+ * Front Page Hero (Wide)
  *
- * Full-width hero section with gradient background for homepage.
- *
- * Features:
- * - Dark gradient background with gold/green accents
- * - Large centered text with metallic gold heading
- * - Primary and secondary CTAs
- * - Configurable minimum height (default 100vh)
- *
- * This is a layout component for landing pages.
- * Use directly in your homepage or marketing pages.
+ * Duplicate of FrontPageHero with expanded content width.
+ * Use for product pages that need more horizontal breathing room.
  */
 
 import Button from "@/components/Button/Button";
@@ -118,7 +110,7 @@ const secondaryIsExternal = secondaryCTA?.link?.startsWith("http");
     <BackgroundMedia backgroundMedia={backgroundMedia} />
 
     {/* Hero Content */}
-    <div class="relative z-10 flex flex-col items-center space-y-5 max-w-4xl mx-auto">
+    <div class="relative z-10 flex flex-col items-center space-y-5 max-w-[1200px] mx-auto">
       {/* Badge */}
       <div class="bg-primary/15 border border-primary px-8 py-1.5 rounded-full">
         <span class="text-text font-semibold text-sm uppercase tracking-[2px]">
@@ -126,7 +118,7 @@ const secondaryIsExternal = secondaryCTA?.link?.startsWith("http");
         </span>
       </div>
 
-      <h1 class="hero-heading text-[clamp(48px,8vw,100px)] leading-none max-w-[1000px]">
+      <h1 class="hero-heading text-[clamp(48px,8vw,100px)] leading-none max-w-[1200px]">
         {eyebrowLine && (
           <span class="text-text block">{eyebrowLine}</span>
         )}
@@ -140,7 +132,7 @@ const secondaryIsExternal = secondaryCTA?.link?.startsWith("http");
 
       {
         description && (
-          <p class="text-lg text-text-secondary max-w-[600px] leading-tight">
+          <p class="text-lg text-text-secondary max-w-[800px] leading-tight">
             {description}
           </p>
         )

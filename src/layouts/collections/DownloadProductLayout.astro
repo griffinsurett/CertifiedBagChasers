@@ -1,0 +1,249 @@
+---
+// src/layouts/collections/DownloadProductLayout.astro
+/**
+ * Download Product Layout
+ *
+ * Landing page layout for downloadable tools/templates.
+ * Features:
+ * - Hero with download card
+ * - "What's included" feature grid
+ * - Compatibility + Quick-start steps
+ * - Optional preview image
+ * - MDX content section
+ */
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import OtherHero from "@/layouts/OtherHero.astro";
+import Button from "@/components/Button/Button";
+import SectionHeading from "@/components/SectionHeading.astro";
+import { getImageSrc } from "./helpers/layoutHelpers";
+import type { CollectionLayoutProps } from "./types";
+
+const {
+  entry,
+  collection,
+  collectionMeta,
+  Content,
+  isIndexPage,
+  seoProps = {},
+  ...extraProps
+} = Astro.props as CollectionLayoutProps;
+
+const data = entry?.data || {};
+const features = data.features ?? [];
+
+const compatibilityPattern = /(excel|sheet|sheets|numbers|csv|xls|xlsx|google|mac|windows|office)/i;
+const compatibilityItems = features.filter((feature: string) => compatibilityPattern.test(feature));
+const filteredIncludedItems = compatibilityItems.length > 0
+  ? features.filter((feature: string) => !compatibilityPattern.test(feature))
+  : features;
+const includedItems = filteredIncludedItems.length > 0 ? filteredIncludedItems : features;
+
+const previewImage = getImageSrc(data.bannerImage || data.featuredImage);
+
+const downloadLink = data.link;
+const hasDownloadLink = Boolean(downloadLink);
+const isExternal = typeof downloadLink === "string" && downloadLink.startsWith("http");
+const ctaText = data.ctaText || "Download Now";
+const secondaryCtaText = "See What's Inside";
+const highlightItems = features.slice(0, 3);
+
+const quickStartSteps = [
+  "Download the file to your device.",
+  "Open it in Excel or Google Sheets.",
+  "Follow the first tab to customize your numbers.",
+];
+---
+
+<BaseLayout {...seoProps}>
+  <main class="flex-1">
+    <OtherHero
+      title={data.title}
+      description={data.description}
+      heading={data.heading}
+      price={data.price}
+      priceNote={data.priceNote}
+      status={data.status}
+      tags={data.tags}
+      minHeight="85vh"
+    >
+      <div class="flex flex-wrap gap-3">
+        {hasDownloadLink ? (
+          <Button
+            href={downloadLink}
+            variant="primary"
+            size="lg"
+            target={isExternal ? "_blank" : undefined}
+            rel={isExternal ? "noopener noreferrer" : undefined}
+          >
+            {ctaText}
+          </Button>
+        ) : (
+          <Button variant="secondary" size="lg" disabled>
+            {ctaText}
+          </Button>
+        )}
+        <Button href="#download-details" variant="secondary" size="lg">
+          {secondaryCtaText}
+        </Button>
+      </div>
+
+      {highlightItems.length > 0 && (
+        <ul class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-text-secondary">
+          {highlightItems.map((item: string) => (
+            <li class="flex items-start gap-2">
+              <span class="text-primary mt-0.5">+</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div slot="right" class="w-full max-w-[420px]">
+        <div class="relative rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary via-bg to-bg-dark p-6 md:p-8 shadow-[0_30px_60px_rgba(0,0,0,0.45)]">
+          <div class="flex items-center justify-between text-xs uppercase tracking-[2px] text-text-dim mb-3">
+            <span>Download</span>
+            {data.status === "free" && (
+              <span class="text-primary font-semibold">Free Access</span>
+            )}
+          </div>
+
+          {data.price && (
+            <div class="mb-3">
+              <div class="text-4xl md:text-5xl font-extrabold text-white">
+                {data.price}
+              </div>
+              {data.priceNote && (
+                <div class="text-text-dim text-sm mt-2">
+                  {data.priceNote}
+                </div>
+              )}
+            </div>
+          )}
+
+          {highlightItems.length > 0 && (
+            <ul class="space-y-3 text-text-secondary text-sm mb-6">
+              {highlightItems.map((item: string) => (
+                <li class="flex items-start gap-2">
+                  <span class="text-accent mt-0.5">+</span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+
+          {hasDownloadLink ? (
+            <Button
+              href={downloadLink}
+              variant="primary"
+              size="lg"
+              className="w-full"
+              target={isExternal ? "_blank" : undefined}
+              rel={isExternal ? "noopener noreferrer" : undefined}
+            >
+              {ctaText}
+            </Button>
+          ) : (
+            <Button variant="secondary" size="lg" className="w-full" disabled>
+              {ctaText}
+            </Button>
+          )}
+
+          <p class="text-xs text-text-dim mt-4">
+            Compatible with modern spreadsheet apps.
+          </p>
+        </div>
+      </div>
+    </OtherHero>
+
+    <section id="download-details" class="py-16 md:py-24 px-5 bg-bg">
+      <div class="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-[1.2fr_0.8fr] gap-10 lg:gap-16">
+        <div>
+          <SectionHeading
+            eyebrow="Inside The File"
+            title="What's Included"
+            description="Everything you need to set up a clear, repeatable budgeting system."
+            align="left"
+          />
+
+          {includedItems.length > 0 && (
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
+              {includedItems.map((feature: string) => (
+                <div class="rounded-xl border border-white/10 bg-bg-secondary/60 p-5">
+                  <div class="text-primary text-xl mb-2">+</div>
+                  <p class="text-text-secondary text-sm leading-relaxed m-0">
+                    {feature}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div class="space-y-6">
+          {compatibilityItems.length > 0 && (
+            <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary to-bg-dark p-6">
+              <h3 class="text-xl font-bold text-white mb-4">
+                Compatibility
+              </h3>
+              <ul class="space-y-3 text-text-secondary text-sm">
+                {compatibilityItems.map((item: string) => (
+                  <li class="flex items-start gap-2">
+                    <span class="text-accent mt-0.5">+</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary to-bg-dark p-6">
+            <h3 class="text-xl font-bold text-white mb-4">
+              Quick Start
+            </h3>
+            <ol class="space-y-3 text-text-secondary text-sm list-decimal list-inside">
+              {quickStartSteps.map((step) => (
+                <li>{step}</li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {previewImage && (
+      <section class="py-16 md:py-24 px-5 bg-bg-secondary">
+        <div class="max-w-[1100px] mx-auto">
+          <SectionHeading
+            eyebrow="Preview"
+            title="See The Layout"
+            description="A clean, focused interface built for quick updates."
+          />
+          <div class="rounded-2xl border border-white/10 bg-bg p-4 md:p-6 mt-8 overflow-hidden">
+            <img
+              src={previewImage}
+              alt={`${data.title} preview`}
+              class="w-full h-auto rounded-xl"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+    )}
+
+    {Content && (
+      <section class="py-16 md:py-24 px-5 bg-bg">
+        <div class="max-w-[900px] mx-auto">
+          <SectionHeading
+            eyebrow="Why It Works"
+            title="Built For Real Use"
+            description="Use this tool monthly to keep your money organized and intentional."
+            align="left"
+          />
+          <div class="prose prose-lg prose-invert max-w-none mt-8">
+            <Content />
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
+</BaseLayout>
