@@ -19,6 +19,7 @@ import SectionHeading from "@/components/SectionHeading.astro";
 import Button from "@/components/Button/Button";
 import OurApproachChart from "@/components/Charts/OurApproachChart";
 import GetRichQuickChart from "@/components/Charts/GetRichQuickChart";
+import { ctaData } from "@/content/siteData";
 
 export interface Props {
   eyebrow?: string;
@@ -37,8 +38,8 @@ const {
   description = "See why our approach builds lasting wealth while shortcuts lead to disaster.",
   bottomMessage = "5 years of steady growth beats 1 year of chaos. Every time.",
   bottomSubtext = "We teach strategies that compound over years, not schemes that collapse in months.",
-  ctaText = "Join Our Community →",
-  ctaLink = "https://whop.com/certifiedbagchasers/",
+  ctaText = ctaData.text,
+  ctaLink = ctaData.link,
   className = "",
 } = Astro.props;
 ---

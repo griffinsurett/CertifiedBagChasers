@@ -19,6 +19,7 @@ import Button from "@/components/Button/Button";
 import WhopRating from "@/components/WhopRating";
 import BackgroundMedia from "@/components/BackgroundMedia.astro";
 import BackgroundImg from "@/assets/inside-the-nyse.jpg";
+import { ctaData } from "@/content/siteData";
 
 export interface Props {
   title?: string;
@@ -35,8 +36,8 @@ const {
   title = "Ready To",
   highlightedTitle = "Chase The Bag?",
   description = "Stop watching from the sidelines. Join thousands of members who are actively building wealth and changing their financial futures.",
-  ctaText = "Join Now →",
-  ctaLink = "https://whop.com/certifiedbagchasers/",
+  ctaText = ctaData.text,
+  ctaLink = ctaData.link,
   footnote = "30-Day Money Back Guarantee • Cancel Anytime",
   maxWidth = "800px",
   className = "",

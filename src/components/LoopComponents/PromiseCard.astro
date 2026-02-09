@@ -33,9 +33,9 @@ const isWide = gridClass.includes("wide");
 const isSmall = gridClass.includes("small");
 
 // Card-specific gradient overlays (matching React version)
-const overlayGradient = isLarge ? "bg-gradient-to-t from-[rgba(10,10,6,0.98)] via-[rgba(15,14,10,0.7)] to-[rgba(20,18,12,0.5)]" :
-                        isWide ? "bg-gradient-to-r from-[rgba(12,11,8,0.98)] to-[rgba(12,11,8,0.8)]" :
-                        "bg-gradient-to-t from-[rgba(10,12,8,0.98)] to-[rgba(10,12,8,0.7)]";
+const overlayGradient = isLarge ? "bg-gradient-to-t from-[rgba(10,10,6,0.82)] via-[rgba(15,14,10,0.5)] to-[rgba(20,18,12,0.3)]" :
+                        isWide ? "bg-gradient-to-r from-[rgba(12,11,8,0.85)] to-[rgba(12,11,8,0.55)]" :
+                        "bg-gradient-to-t from-[rgba(10,12,8,0.82)] to-[rgba(10,12,8,0.5)]";
 
 // Card background gradient (dark base)
 const cardBgGradient = isLarge ? "bg-gradient-to-br from-[#1a1810] via-[#0d0c08] to-[#0a0a06]" :
@@ -63,7 +63,7 @@ const imageSrc = featuredImage
         backgroundMedia={{
           image: {
             src: imageSrc,
-            imageClass: "opacity-25 mix-blend-luminosity",
+            imageClass: "opacity-45",
           },
           overlayClass: overlayGradient,
         }}
