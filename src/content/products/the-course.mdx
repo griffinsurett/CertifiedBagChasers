@@ -10,13 +10,15 @@ itemLayout: "@/layouts/collections/OptinProductLayout.astro"
 tags:
   - featured
 features:
-  - Self-paced learning modules
-  - Budgeting basics to advanced strategies
-  - Investment fundamentals
-  - Portfolio building techniques
-  - Lifetime access
+  - Self-paced modules across all six wealth-building pillars
+  - Personal finance systems (budgeting, debt control, cash flow)
+  - Investing fundamentals and portfolio-building frameworks
+  - Wealth mindset training for disciplined decision-making
+  - Income stream strategies to diversify earning power
+  - Asset protection and market analysis for risk-aware growth
 ctaText: Join Waitlist
 order: 3
 ---
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import { query, sortByOrder } from "@/utils/query";
 
-Coming soon: A comprehensive course that takes you from financial basics to advanced wealth-building strategies.
