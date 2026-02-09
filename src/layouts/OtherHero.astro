@@ -24,6 +24,7 @@ export interface Props {
   tags?: string[];
   className?: string;
   minHeight?: string;
+  singleColumn?: boolean;
 }
 
 const {
@@ -36,6 +37,7 @@ const {
   tags = [],
   className = "",
   minHeight = "100vh",
+  singleColumn = false,
 } = Astro.props;
 
 // Map heading schema to display
@@ -52,11 +54,12 @@ const isPremiumOffering = tags?.includes("premium-offering");
 
 // Check if there's content in the right slot
 const hasRightSlot = Astro.slots.has("right");
+const showRightColumn = hasRightSlot && !singleColumn;
 ---
 
 <section class={`relative ${className}`}>
   <div
-    class="hero-gradient relative flex items-center overflow-hidden px-5 hero-space py-16 md:py-24"
+    class="relative flex items-center overflow-hidden px-5 hero-space py-16 md:py-24"
     style={`min-height: ${minHeight}`}
   >
     {/* Decorative lines overlay */}
@@ -64,7 +67,10 @@ const hasRightSlot = Astro.slots.has("right");
 
     {/* Two-column layout - always two columns */}
     <div class="relative z-10 max-w-[1200px] mx-auto w-full">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class:list={[
+        "grid grid-cols-1 items-center",
+        showRightColumn ? "lg:grid-cols-2 gap-12 lg:gap-16" : "",
+      ]}>
 
         {/* Left Column - Text Content */}
         <div class="text-left">
@@ -127,10 +133,12 @@ const hasRightSlot = Astro.slots.has("right");
           <slot />
         </div>
 
-        {/* Right Column - Slot for additional content (always visible) */}
-        <div class="flex items-center justify-center">
-          <slot name="right" />
-        </div>
+        {/* Right Column - Slot for additional content */}
+        {showRightColumn && (
+          <div class="flex items-center justify-center">
+            <slot name="right" />
+          </div>
+        )}
       </div>
     </div>
   </div>

@@ -56,24 +56,46 @@ const buttonVariant = isPremiumOffering ? "tertiary" : isComingSoon ? "secondary
 
 <BaseLayout {...seoProps}>
   <main class="flex-1">
-    {/* Hero with centered gradient background */}
-    <OtherHero
-      title={data.title}
-      description={data.description}
-      heading={data.heading}
-      price={data.price}
-      priceNote={data.priceNote}
-      status={data.status}
-      tags={data.tags}
-    />
-
-    {/* Form Section - Below Hero */}
-    <section class="py-16 md:py-24 px-5 bg-bg">
+    <section class="px-5 bg-bg">
       <div class="max-w-[1200px] mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+        <div class="flex flex-col gap-10 lg:flex-row lg:gap-14 lg:items-start">
+          {/* Left Column - Hero + all page content */}
+          <article class="min-w-0 pb-16 md:pb-24 lg:flex-1">
+            <OtherHero
+              title={data.title}
+              description={data.description}
+              heading={data.heading}
+              price={data.price}
+              priceNote={data.priceNote}
+              status={data.status}
+              tags={data.tags}
+              singleColumn={true}
+              className="mb-10 md:mb-14"
+            />
 
-          {/* Left Column - Features & Content */}
-          <div>
+            {/* Mobile form placement */}
+            <div class="lg:hidden mb-10">
+              {isApplication ? (
+                <ApplicationForm
+                  title={formTitle}
+                  description={formDescription}
+                  submitText={submitButtonText}
+                  successMessage={successMessage}
+                  variant={buttonVariant}
+                  productName={data.title}
+                />
+              ) : (
+                <WaitlistForm
+                  title={formTitle}
+                  description={formDescription}
+                  submitText={submitButtonText}
+                  successMessage={successMessage}
+                  variant={buttonVariant}
+                  productName={data.title}
+                />
+              )}
+            </div>
+
             {/* Features List */}
             {data.features && data.features.length > 0 && (
               <div class="mb-10">
@@ -97,10 +119,10 @@ const buttonVariant = isPremiumOffering ? "tertiary" : isComingSoon ? "secondary
                 <Content />
               </div>
             )}
-          </div>
+          </article>
 
-          {/* Right Column - Form */}
-          <div class="lg:sticky lg:top-24">
+          {/* Desktop sticky right column */}
+          <div class="hidden lg:block lg:flex-1 sticky-section self-start">
             {isApplication ? (
               <ApplicationForm
                 title={formTitle}
@@ -109,6 +131,7 @@ const buttonVariant = isPremiumOffering ? "tertiary" : isComingSoon ? "secondary
                 successMessage={successMessage}
                 variant={buttonVariant}
                 productName={data.title}
+                className="max-w-none"
               />
             ) : (
               <WaitlistForm
@@ -118,6 +141,7 @@ const buttonVariant = isPremiumOffering ? "tertiary" : isComingSoon ? "secondary
                 successMessage={successMessage}
                 variant={buttonVariant}
                 productName={data.title}
+                className="max-w-none"
               />
             )}
           </div>
