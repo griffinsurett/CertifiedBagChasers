@@ -13,6 +13,8 @@ import TopicCard from "@/components/LoopComponents/TopicCard.astro";
 
 interface Props extends BaseVariantProps {
   eyebrow?: string;
+  layout?: "default" | "col-only";
+  align?: "left" | "center" | "right";
 }
 
 const {
@@ -23,7 +25,14 @@ const {
   className = "",
   id,
   eyebrow = "What You'll Learn",
+  layout = "default",
+  align = "center",
 } = Astro.props as Props;
+
+const gridClass =
+  layout === "col-only"
+    ? "grid grid-cols-1 gap-x-10 gap-y-8"
+    : "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8";
 
 // Process heading content (supports segmented headings)
 let displayTitle = title;
@@ -43,11 +52,12 @@ if (heading && typeof heading === 'object' && 'before' in heading) {
       eyebrow={eyebrow}
       title={displayTitle}
       highlightedTitle={highlightedTitle}
+      align={align}
     />
 
     {items.length > 0 && (
       <div class="topics-card">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8">
+        <div class={gridClass}>
           {items.map((item) => (
             <TopicCard
               title={item.title}
