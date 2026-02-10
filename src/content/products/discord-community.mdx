@@ -1,13 +1,14 @@
 ---
 title: Discord Community
 description: Get direct access to Arold, daily insights, live sessions, and a community of serious wealth builders. This is where the real magic happens.
+longDescription: Get direct access to Arold, daily market insight, live sessions, and a focused network of people serious about building wealth through disciplined execution.
 icon: "fa6-brands:discord"
 bannerImage: "../../assets/discord-server.jpg"
 price: "$20"
 priceNote: "/month • Cancel anytime • 30-day guarantee"
 link: "https://whop.com/certifiedbagchasers/certifiedbagchasers/?utm_source=store_page&funnelId=store_48e4f5e5-3fc3-4f9a-87a3-a2e10ba322d7"
 status: available
-itemLayout: "@/layouts/collections/MembershipProductLayout.astro"
+itemLayout: "@/layouts/collections/DiscordProductLayout.astro"
 tags:
   - featured
   - most-popular
@@ -26,5 +27,127 @@ cta:
   ctaText: Back To Top
 order: 1
 ---
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import ProductWhySection from "@/components/ProductWhySection.astro";
+import SectionTabs from "@/components/SectionTabs.astro";
+import VideoPlaceholder from "@/components/VideoPlaceholder.astro";
+import { query, sortByOrder } from "@/utils/query";
+import { Image } from "astro:assets";
+import DiscordImage from "@/assets/discord-server.jpg";
 
-Join a community of serious wealth builders and get direct access to Arold's daily insights and strategies.
+export const communityTabs = [
+  { id: "about", label: "About" },
+  { id: "testimonials", label: "Testimonials" },
+];
+
+export const communityBenefits = [
+  "Daily market analysis and real-time insight from experienced operators",
+  "Weekly live Q&A sessions so you can ask questions and get direct feedback",
+  "Private community of serious wealth builders committed to execution",
+  "Trade ideas, strategy breakdowns, and accountability from peers",
+  "A clear environment designed to sharpen decision-making and discipline",
+  "Mentor access and community support to keep your momentum high",
+];
+
+export const whyCommunityParagraphs = [
+  "Most people lose momentum because they are learning alone and guessing what to do next. The Discord Community gives you consistent direction and a room full of people who value strategy over hype.",
+  "You get exposure to real conversations, live feedback, and practical frameworks that help you avoid costly mistakes and execute with more confidence.",
+  "If you want to stay sharper, move faster, and build with discipline, this is the environment built for that.",
+];
+
+export const whyCommunityChecklist = [
+  "You want direct access to guidance instead of learning in isolation",
+  "You are serious about improving your strategy and consistency",
+  "You want accountability from a focused wealth-building network",
+];
+
+<SectionTabs
+  tabs={communityTabs}
+  group="community-overview"
+  className="mb-8 md:mb-10"
+  showBackToTop={true}
+  backToTopHref="#product-top"
+  backToTopLabel="Back To Top"
+/>
+
+<div class="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-8 lg:gap-10 items-start mb-12 md:mb-16">
+  <div class="order-2 lg:order-1">
+    <section id="about" data-section-tabs-section="community-overview" class="scroll-mt-36 mb-12 md:mb-14">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-5">
+        About Discord Community
+      </h2>
+      <div class="prose prose-lg prose-invert max-w-none">
+        <p>
+          The Discord Community is where learning turns into execution. You are
+          not joining for generic motivation or recycled clips. You are joining
+          for direct insight, practical strategy, and real accountability from
+          people who are actively working to build wealth.
+        </p>
+        <p>
+          If you want faster feedback, better decision-making, and a room that
+          keeps you focused on action, this is where that happens.
+        </p>
+      </div>
+    </section>
+
+    <section id="what-youll-get" class="scroll-mt-36">
+      <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">
+        What's Included
+      </h2>
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 md:gap-y-7">
+        {communityBenefits.map((feature) => (
+          <li class="flex items-start gap-4">
+            <span class="text-primary shrink-0 mt-0.5">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <span class="text-text-secondary text-lg leading-relaxed">
+              {feature}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+
+  <div class="order-1 lg:order-2 sticky-section self-start">
+    <Image
+      src={DiscordImage}
+      alt="Discord Community"
+      class="w-full h-auto block rounded-xl border border-primary/20"
+      loading="lazy"
+    />
+  </div>
+</div>
+
+<section id="video-overview" class="scroll-mt-36 mb-12 md:mb-16">
+  <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">
+    Watch The Community Breakdown
+  </h2>
+  <VideoPlaceholder cardClassName="mx-0" />
+</section>
+
+<ProductWhySection
+  id="why-community"
+  title="Why You'll Want This Discord Community"
+  paragraphs={whyCommunityParagraphs}
+  checklistTitle="This community is for you if:"
+  checklistItems={whyCommunityChecklist}
+  image={DiscordImage}
+  imageAlt="Discord Community"
+/>
+
+<section id="topics" class="scroll-mt-36 mb-12 md:mb-16">
+  <ContentRenderer
+    query={query("topics").orderBy(sortByOrder())}
+    variant="TopicVariant"
+  />
+</section>
+
+<section id="testimonials" data-section-tabs-section="community-overview" class="scroll-mt-36">
+  <ContentRenderer
+    query={query("testimonials").where((entry) => !!entry.data.socialMediaPost).orderBy(sortByOrder())}
+    variant="SocialProofVariant"
+  />
+</section>
