@@ -1,0 +1,36 @@
+---
+/**
+ * Reusable VSL placeholder block.
+ *
+ * Used on homepage and opt-in product pages.
+ */
+interface Props {
+  className?: string;
+  cardClassName?: string;
+  label?: string;
+}
+
+const {
+  className = "",
+  cardClassName = "mx-auto",
+  label = "Watch The Free Training",
+} = Astro.props as Props;
+---
+
+<div class={`w-full ${className} flex`}>
+  <div
+    class={`w-full max-w-[900px] aspect-video bg-neutral-900 rounded-xl border border-neutral-700 flex flex-col items-center justify-center relative overflow-hidden ${cardClassName}`}
+  >
+    <div
+      class="w-20 h-20 bg-primary rounded-full flex items-center justify-center cursor-pointer"
+    >
+      <div
+        class="w-0 h-0 border-t-[15px] border-t-transparent border-b-[15px] border-b-transparent border-l-[24px] border-l-white ml-1.5"
+      >
+      </div>
+    </div>
+    <p class="mt-5 text-neutral-400 text-sm uppercase tracking-widest">
+      {label}
+    </p>
+  </div>
+</div>

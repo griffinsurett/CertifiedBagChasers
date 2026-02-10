@@ -151,6 +151,28 @@ export const collections = {
   "products": defineCollection({
     schema: ({ image }) =>
       baseSchema({ image }).extend({
+        // Extended product page description (used in product layouts)
+        longDescription: z.string().optional(),
+        // Optional hero highlight boxes shown under product hero
+        heroHighlights: z
+          .array(
+            z.object({
+              title: z.string(),
+              description: z.string().optional(),
+              link: z.string().optional(),
+            })
+          )
+          .max(5)
+          .optional(),
+        // Product CTA section configuration (displayed at end of product pages)
+        cta: z
+          .object({
+            eyebrow: z.string().optional(),
+            title: z.string().optional(),
+            description: z.string().optional(),
+            ctaText: z.string().optional(),
+          })
+          .optional(),
         // Pricing information
         price: z.string().optional(),
         priceNote: z.string().optional(),

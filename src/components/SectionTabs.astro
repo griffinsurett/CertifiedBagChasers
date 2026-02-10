@@ -1,0 +1,140 @@
+---
+import Button from "@/components/Button/Button";
+
+export interface TabItem {
+  id: string;
+  label: string;
+}
+
+export interface Props {
+  tabs: TabItem[];
+  group?: string;
+  className?: string;
+  showBackToTop?: boolean;
+  backToTopHref?: string;
+  backToTopLabel?: string;
+}
+
+const {
+  tabs = [],
+  group = "default-tabs",
+  className = "",
+  showBackToTop = false,
+  backToTopHref = "#product-top",
+  backToTopLabel = "Back To Top",
+} = Astro.props;
+---
+
+{
+  tabs.length > 0 && (
+    <nav class={`sticky top-[88px] md:top-[96px] z-30 ${className}`}>
+      <div
+        class="rounded-xl border border-white/10 bg-bg-secondary/90 backdrop-blur-md p-2 flex flex-wrap items-center gap-2"
+        data-section-tabs-nav={group}
+      >
+        <div class="flex flex-wrap gap-2">
+          {tabs.map((tab, index) => (
+            <a
+              href={`#${tab.id}`}
+              data-section-tab={tab.id}
+              class:list={["section-tab", index === 0 && "is-active"]}
+            >
+              {tab.label}
+            </a>
+          ))}
+        </div>
+
+        {
+          showBackToTop && (
+            <Button
+              href={backToTopHref}
+              variant="primary"
+              size="sm"
+              className="ml-auto whitespace-nowrap"
+            >
+              {backToTopLabel}
+            </Button>
+          )
+        }
+      </div>
+    </nav>
+  )
+}
+
+<script is:inline>
+  (() => {
+    const initSectionTabs = () => {
+      const navs = Array.from(document.querySelectorAll("[data-section-tabs-nav]"));
+      if (!navs.length) return;
+
+      navs.forEach((nav) => {
+        if (nav.getAttribute("data-section-tabs-ready") === "true") return;
+
+        const group = nav.getAttribute("data-section-tabs-nav");
+        if (!group) return;
+
+        const links = Array.from(nav.querySelectorAll("[data-section-tab]"));
+        const sections = Array.from(
+          document.querySelectorAll(`[data-section-tabs-section="${group}"]`)
+        );
+
+        if (!links.length || !sections.length) return;
+
+        const setActive = (id) => {
+          links.forEach((link) => {
+            const tabId = link.getAttribute("data-section-tab");
+            link.classList.toggle("is-active", tabId === id);
+          });
+        };
+
+        const updateActive = () => {
+          const scrollPosition = window.scrollY + 180;
+          let currentId = sections[0].id;
+
+          sections.forEach((section) => {
+            if (scrollPosition >= section.offsetTop) {
+              currentId = section.id;
+            }
+          });
+
+          setActive(currentId);
+        };
+
+        nav.setAttribute("data-section-tabs-ready", "true");
+        updateActive();
+        window.addEventListener("scroll", updateActive, { passive: true });
+        window.addEventListener("hashchange", updateActive);
+      });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initSectionTabs, { once: true });
+    } else {
+      initSectionTabs();
+    }
+  })();
+</script>
+
+<style>
+  .section-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-text-secondary, #b8b8b8);
+    padding: 0.65rem 1rem;
+    border-radius: 0.65rem;
+    transition: color 200ms ease, background-color 200ms ease;
+  }
+
+  .section-tab:hover {
+    color: var(--color-white, #ffffff);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .section-tab.is-active {
+    color: var(--color-bg, #0a0a0a);
+    background: linear-gradient(135deg, #dfc040 0%, #c9a227 55%, #8a6a18 100%);
+  }
+</style>

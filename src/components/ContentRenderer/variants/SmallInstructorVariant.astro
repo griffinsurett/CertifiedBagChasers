@@ -1,0 +1,47 @@
+---
+// src/components/ContentRenderer/variants/SmallInstructorVariant.astro
+/**
+ * SmallInstructorVariant
+ *
+ * Compact inline instructor row:
+ * - "Instructor:" label
+ * - Circular instructor image
+ * - Instructor name
+ */
+
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import { getImageSrc } from "@/layouts/collections/helpers/layoutHelpers";
+
+interface Props extends BaseVariantProps {
+  label?: string;
+}
+
+const {
+  items = [],
+  label = "Instructor:",
+  className = "",
+} = Astro.props as Props;
+
+const instructor = items[0] as Record<string, any> | undefined;
+if (!instructor) return null;
+
+const instructorName = instructor.title || "Arold Norelus";
+const instructorImage = getImageSrc(instructor.featuredImage);
+---
+
+<div class={`flex items-center gap-3 text-white ${className}`}>
+  <span class="text-sm md:text-base uppercase tracking-[1px] text-text-dim font-semibold">
+    {label}
+  </span>
+  {instructorImage && (
+    <img
+      src={instructorImage}
+      alt={instructorName}
+      class="w-10 h-10 rounded-full object-cover border border-white/20"
+      loading="lazy"
+    />
+  )}
+  <span class="text-base md:text-lg font-semibold text-white">
+    {instructorName}
+  </span>
+</div>

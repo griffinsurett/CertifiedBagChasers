@@ -16,20 +16,24 @@
 
 export interface Props {
   eyebrow?: string;
+  eyebrowClass?: string;
   title?: string;
   highlightedTitle?: string;
   afterTitle?: string;
   description?: string;
+  descriptionClass?: string;
   align?: 'left' | 'center' | 'right';
   className?: string;
 }
 
 const {
   eyebrow,
+  eyebrowClass,
   title,
   highlightedTitle,
   afterTitle,
   description,
+  descriptionClass = "mx-auto",
   align = 'center',
   className = '',
 } = Astro.props;
@@ -43,7 +47,7 @@ const alignmentClass = {
 
 <div class={`mb-4 ${alignmentClass} ${className}`}>
   {eyebrow && (
-    <span class="text-text text-sm uppercase tracking-[3px] font-semibold">{eyebrow}</span>
+    <span class={`text-text text-sm uppercase tracking-[3px] font-semibold ${eyebrowClass}`}>{eyebrow}</span>
   )}
 
   {(title || highlightedTitle || afterTitle) && (
@@ -58,6 +62,6 @@ const alignmentClass = {
   )}
 
   {description && (
-    <p class="text-text-muted mt-4 max-w-[600px] mx-auto">{description}</p>
+    <p class={`text-text-muted mt-4 max-w-[600px] ${descriptionClass}`}>{description}</p>
   )}
 </div>

@@ -1,0 +1,47 @@
+---
+import Button from "@/components/Button/Button";
+
+export interface Props {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  ctaText?: string;
+  ctaLink?: string;
+  className?: string;
+}
+
+const {
+  eyebrow = "Take The Next Step",
+  title = "Ready To Start?",
+  description = "If this is the right fit, take action now and lock in your momentum.",
+  ctaText = "Back To Top",
+  ctaLink = "#product-top",
+  className = "",
+} = Astro.props;
+---
+
+<section class={`py-16 md:py-24 px-5 bg-bg-secondary/60 border-t border-white/10 ${className}`}>
+  <div class="max-w-[900px] mx-auto text-center">
+    {eyebrow && (
+      <p class="text-sm uppercase tracking-[3px] text-text-dim font-semibold">
+        {eyebrow}
+      </p>
+    )}
+
+    {title && (
+      <h2 class="text-4xl md:text-5xl font-extrabold uppercase font-display text-white mt-4">
+        {title}
+      </h2>
+    )}
+
+    {description && (
+      <p class="text-text-muted text-lg leading-relaxed max-w-[700px] mx-auto mt-4 mb-8">
+        {description}
+      </p>
+    )}
+
+    <Button href={ctaLink} variant="primary" size="lg">
+      {ctaText}
+    </Button>
+  </div>
+</section>

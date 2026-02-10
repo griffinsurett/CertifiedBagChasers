@@ -269,7 +269,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @utility sticky-section {
-  @apply lg:sticky lg:top-35;
+  @apply lg:sticky lg:top-25;
 }
 
 /* ============================================================================

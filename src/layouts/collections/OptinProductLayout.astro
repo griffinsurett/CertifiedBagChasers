@@ -10,12 +10,15 @@
  * - Features list with checkmarks
  * - MDX content support
  */
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import OtherHero from '@/layouts/OtherHero.astro';
-import WaitlistForm from '@/components/Form/forms/WaitlistForm.astro';
-import ApplicationForm from '@/components/Form/forms/ApplicationForm.astro';
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import OtherHero from "@/layouts/OtherHero.astro";
+import WaitlistForm from "@/components/Form/forms/WaitlistForm.astro";
+import ApplicationForm from "@/components/Form/forms/ApplicationForm.astro";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
-import type { CollectionLayoutProps } from './types';
+import VideoPlaceholder from "@/components/VideoPlaceholder.astro";
+import ProductBottomCta from "@/components/ProductBottomCta.astro";
+import WhopInfoNotice from "@/components/WhopInfoNotice.astro";
+import type { CollectionLayoutProps } from "./types";
 import { query, sortByOrder } from "@/utils/query";
 
 const {
@@ -29,55 +32,123 @@ const {
 } = Astro.props as CollectionLayoutProps;
 
 const data = entry?.data || {};
+const productDescription = data.longDescription ?? data.description;
+const productCta = data.cta ?? {};
 
 // Determine form type based on product status/tags
-const isComingSoon = data.status === 'coming-soon';
-const isPremiumOffering = data.tags?.includes('premium-offering');
-const isApplication = isPremiumOffering || data.price === 'Apply';
+const isComingSoon = data.status === "coming-soon";
+const isPremiumOffering = data.tags?.includes("premium-offering");
+const isApplication = isPremiumOffering || data.price === "Apply";
 
 // Form configuration
 const formTitle = isApplication
-  ? 'Apply for Mentorship'
+  ? "Apply for Mentorship"
   : isComingSoon
-    ? 'Join the Waitlist'
-    : 'Get Started';
+    ? "Join the Waitlist"
+    : "Get Started";
 
 const formDescription = isApplication
-  ? 'Fill out the application below. We review all applications within 48 hours.'
+  ? "Fill out the application below. We review all applications within 48 hours."
   : isComingSoon
-    ? 'Be the first to know when this launches. Get early access and exclusive discounts.'
-    : 'Enter your details to get started.';
+    ? "Be the first to know when this launches. Get early access and exclusive discounts."
+    : "Enter your details to get started.";
 
-const submitButtonText = isApplication ? 'Submit Application' : 'Join Waitlist';
+const submitButtonText = isApplication ? "Submit Application" : "Join Waitlist";
 const successMessage = isApplication
   ? "Thank you for applying! We'll review your application and get back to you within 48 hours."
   : "You're on the list! We'll notify you when we launch.";
 
-const buttonVariant = isPremiumOffering ? "tertiary" : isComingSoon ? "secondary" : "primary";
+const buttonVariant = isPremiumOffering
+  ? "tertiary"
+  : isComingSoon
+    ? "secondary"
+    : "primary";
 ---
 
 <BaseLayout {...seoProps}>
-  <main class="flex-1">
+  <main id="product-top" class="flex-1">
     <section class="px-5 bg-bg">
-      <div class="max-w-[1200px] mx-auto">
+      <div class="">
         <div class="flex flex-col gap-10 lg:flex-row lg:gap-14 lg:items-start">
           {/* Left Column - Hero + all page content */}
           <article class="min-w-0 pb-16 md:pb-24 lg:flex-1">
             <OtherHero
               title={data.title}
-              description={data.description}
+              description={productDescription}
               heading={data.heading}
+              image={data.bannerImage || data.featuredImage}
               price={data.price}
               priceNote={data.priceNote}
               status={data.status}
               tags={data.tags}
               singleColumn={true}
               className="mb-10 md:mb-14"
-            />
+            >
+              <ContentRenderer
+                slot="under-heading"
+                query={query("authors").orderBy(sortByOrder()).limit(1)}
+                variant="SmallInstructorVariant"
+              />
+              <WhopInfoNotice
+                slot="under-description"
+                text="We’ll be using Whop for enrollment, secure checkout, and member access."
+              />
+            </OtherHero>
 
             {/* Mobile form placement */}
             <div class="lg:hidden mb-10">
-              {isApplication ? (
+              {
+                isApplication ? (
+                  <ApplicationForm
+                    title={formTitle}
+                    description={formDescription}
+                    submitText={submitButtonText}
+                    successMessage={successMessage}
+                    variant={buttonVariant}
+                    productName={data.title}
+                  />
+                ) : (
+                  <WaitlistForm
+                    title={formTitle}
+                    description={formDescription}
+                    submitText={submitButtonText}
+                    successMessage={successMessage}
+                    variant={buttonVariant}
+                    productName={data.title}
+                  />
+                )
+              }
+            </div>
+
+            {/* VSL Video Placeholder */}
+            <div class="min-h-screen flex flex-col items-center gap-18">
+              <VideoPlaceholder />
+              {
+                data.features && data.features.length > 0 && (
+                  <div class="mb-20">
+                    <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">
+                      What's Included
+                    </h2>
+                    <ul class="space-y-4">
+                      {data.features.map((feature: string) => (
+                        <li class="flex items-start gap-3">
+                          <span class="text-primary text-xl mt-0.5">✓</span>
+                          <span class="text-text-secondary text-lg">
+                            {feature}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              }
+            </div>
+          </article>
+
+          {/* Desktop sticky right column */}
+          <div class="hidden lg:block lg:flex-1 sticky-section self-start">
+            {
+              isApplication ? (
                 <ApplicationForm
                   title={formTitle}
                   description={formDescription}
@@ -85,6 +156,7 @@ const buttonVariant = isPremiumOffering ? "tertiary" : isComingSoon ? "secondary
                   successMessage={successMessage}
                   variant={buttonVariant}
                   productName={data.title}
+                  className="max-w-none"
                 />
               ) : (
                 <WaitlistForm
@@ -94,79 +166,39 @@ const buttonVariant = isPremiumOffering ? "tertiary" : isComingSoon ? "secondary
                   successMessage={successMessage}
                   variant={buttonVariant}
                   productName={data.title}
+                  className="max-w-none"
                 />
-              )}
-            </div>
-
-                        {/* VSL Video Placeholder */}
-            <div class="min-h-screen flex flex-col items-center gap-18">
-              <div class="w-full max-w-[900px] aspect-video bg-neutral-900 rounded-xl border border-neutral-700 flex flex-col items-center justify-center relative overflow-hidden">
-                <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center cursor-pointer">
-                  <div class="w-0 h-0 border-t-[15px] border-t-transparent border-b-[15px] border-b-transparent border-l-[24px] border-l-white ml-1.5"></div>
-                </div>
-                <p class="mt-5 text-neutral-400 text-sm uppercase tracking-widest">
-                  Watch The Free Training
-                </p>
-              </div>
-                          {data.features && data.features.length > 0 && (
-              <div class="mb-20">
-                <h2 class="text-2xl md:text-3xl font-bold text-white mb-6">
-                  What's Included
-                </h2>
-                <ul class="space-y-4">
-                  {data.features.map((feature: string) => (
-                    <li class="flex items-start gap-3">
-                      <span class="text-primary text-xl mt-0.5">✓</span>
-                      <span class="text-text-secondary text-lg">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            </div>
-
-
-            <ContentRenderer
-              query={query("topics").orderBy(sortByOrder())}
-              variant="TopicVariant"
-              align="left"
-              className="!py-0 !px-0 mb-10"
-            />
-
-          </article>
-
-          {/* Desktop sticky right column */}
-          <div class="hidden lg:block lg:flex-1 sticky-section self-start">
-            {isApplication ? (
-              <ApplicationForm
-                title={formTitle}
-                description={formDescription}
-                submitText={submitButtonText}
-                successMessage={successMessage}
-                variant={buttonVariant}
-                productName={data.title}
-                className="max-w-none"
-              />
-            ) : (
-              <WaitlistForm
-                title={formTitle}
-                description={formDescription}
-                submitText={submitButtonText}
-                successMessage={successMessage}
-                variant={buttonVariant}
-                productName={data.title}
-                className="max-w-none"
-              />
-            )}
+              )
+            }
           </div>
-                      {/* MDX Content */}
-            {Content && (
+        </div>
+        <ContentRenderer
+            query={query("topics").orderBy(sortByOrder())}
+            variant="TopicVariant"
+          />
+
+          {/* MDX Content */}
+          {
+            Content && (
               <div class="prose prose-lg prose-invert max-w-none">
                 <Content />
               </div>
-            )}
-        </div>
+            )
+          }
+              <!-- Real Member Wins (Social Media Posts) -->
+      <ContentRenderer
+        query={query("testimonials").where((entry) => !!entry.data.socialMediaPost).orderBy(sortByOrder())}
+        variant="SocialProofVariant"
+      />
       </div>
     </section>
+
+    <ProductBottomCta
+      eyebrow={productCta.eyebrow}
+      title={productCta.title}
+      description={productCta.description}
+      ctaText={productCta.ctaText}
+      ctaLink="#product-top"
+    />
   </main>
 </BaseLayout>

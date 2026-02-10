@@ -13,11 +13,13 @@
  * - Decorative lines overlay
  * - Right slot for additional content
  */
+import BackgroundMedia from "@/components/BackgroundMedia.astro";
 
 export interface Props {
   title: string;
   description?: string;
   heading?: string | { before?: string; text?: string; after?: string };
+  image?: any;
   price?: string;
   priceNote?: string;
   status?: "available" | "coming-soon" | "free";
@@ -31,6 +33,7 @@ const {
   title,
   description,
   heading,
+  image,
   price,
   priceNote,
   status = "available",
@@ -40,13 +43,14 @@ const {
   singleColumn = false,
 } = Astro.props;
 
-// Map heading schema to display
-// heading.before -> eyebrow (small text above title)
-// heading.text -> highlighted part of the big heading (gold metallic)
-// heading.after -> text after highlighted part
-const eyebrow = heading && typeof heading === 'object' && 'before' in heading ? heading.before : undefined;
-const highlightedText = heading && typeof heading === 'object' && 'text' in heading ? heading.text : (typeof heading === 'string' ? heading : undefined);
-const afterText = heading && typeof heading === 'object' && 'after' in heading ? heading.after : undefined;
+// OtherHero display contract:
+// - heading: top white line
+// - title: bottom gold line
+// Keep a fallback for legacy object-shaped heading values.
+const headingText =
+  typeof heading === "string"
+    ? heading
+    : heading?.before || heading?.text || heading?.after;
 
 const isMostPopular = tags?.includes("most-popular");
 const isComingSoon = status === "coming-soon";
@@ -55,18 +59,34 @@ const isPremiumOffering = tags?.includes("premium-offering");
 // Check if there's content in the right slot
 const hasRightSlot = Astro.slots.has("right");
 const showRightColumn = hasRightSlot && !singleColumn;
+const hasUnderDescriptionSlot = Astro.slots.has("under-description");
+const hasUnderHeroOverlapSlot = Astro.slots.has("under-hero-overlap");
+const hasBackgroundImage = Boolean(image);
+
+const backgroundMedia = hasBackgroundImage
+  ? {
+      image: {
+        src: image,
+        imageClass: "bg-fixed",
+        aboveTheFold: true,
+      },
+      overlayClass: "bg-black/75",
+    }
+  : undefined;
 ---
 
-<section class={`relative ${className}`}>
+<section class:list={["relative", className, !hasBackgroundImage && "hero-gradient"]}>
   <div
-    class="relative flex items-center overflow-hidden px-5 hero-space py-16 md:py-24"
+    class="relative flex items-center overflow-hidden w-full py-16 md:py-24"
     style={`min-height: ${minHeight}`}
   >
+    {backgroundMedia && <BackgroundMedia backgroundMedia={backgroundMedia} />}
+
     {/* Decorative lines overlay */}
-    <div class="hero-lines absolute inset-0 opacity-10 pointer-events-none"></div>
+    <div class="hero-lines absolute inset-0 z-[1] opacity-10 pointer-events-none"></div>
 
     {/* Two-column layout - always two columns */}
-    <div class="relative z-10 max-w-[1200px] mx-auto w-full">
+    <div class="relative z-10 w-90/100 mx-auto mt-10 md:mt-4">
       <div class:list={[
         "grid grid-cols-1 items-center",
         showRightColumn ? "lg:grid-cols-2 gap-12 lg:gap-16" : "",
@@ -76,43 +96,53 @@ const showRightColumn = hasRightSlot && !singleColumn;
         <div class="text-left">
           {/* Status Badge */}
           {isComingSoon && (
-            <div class="inline-block bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-1.5 px-4 rounded-full text-xs font-bold uppercase tracking-[1px] mb-6">
+            <div class="inline-block bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-1.5 px-4 rounded-full text-xs font-bold uppercase tracking-[1px] mb-4">
               🚀 Coming Soon
             </div>
           )}
 
           {isMostPopular && !isComingSoon && (
-            <div class="inline-block bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-1.5 px-4 rounded-full text-xs font-bold uppercase tracking-[1px] mb-6">
+            <div class="inline-block bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-1.5 px-4 rounded-full text-xs font-bold uppercase tracking-[1px] mb-4">
               🔥 Most Popular
             </div>
           )}
 
           {isPremiumOffering && !isComingSoon && !isMostPopular && (
-            <div class="inline-block bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-1.5 px-4 rounded-full text-xs font-bold uppercase tracking-[1px] mb-6">
+            <div class="inline-block bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-1.5 px-4 rounded-full text-xs font-bold uppercase tracking-[1px] mb-4">
               ⭐ Premium Offering
             </div>
           )}
 
           {/* Big Text Heading */}
-          <h1 class="hero-heading text-[clamp(36px,6vw,80px)] leading-none mb-6">
-            {eyebrow && (
-              <span class="text-text block text-[clamp(18px,3vw,36px)] mb-2">{eyebrow}</span>
+          <h1 class="hero-heading text-[clamp(36px,6vw,80px)] leading-none mb-3">
+            {headingText && (
+              <span class="text-text block text-[clamp(18px,3vw,36px)] mb-2">{headingText}</span>
             )}
-            {highlightedText ? (
-              <span class="gold-metallic-heading block">{highlightedText}</span>
-            ) : (
-              <span class="gold-metallic-heading block">{title}</span>
-            )}
-            {afterText && (
-              <span class="text-text block mt-2 text-[clamp(18px,3vw,36px)]">{afterText}</span>
-            )}
+            <span class="gold-metallic-heading block">{title}</span>
           </h1>
+
+          {/* Optional content directly under heading */}
+          {Astro.slots.has("under-heading") && (
+            <div class="mb-3">
+              <slot name="under-heading" />
+            </div>
+          )}
 
           {/* Description */}
           {description && (
-            <p class="text-lg md:text-xl text-text-secondary mb-6 leading-relaxed">
+            <p class:list={[
+              "text-lg md:text-xl text-text-secondary leading-relaxed",
+              hasUnderDescriptionSlot ? "mb-3" : "mb-6",
+            ]}>
               {description}
             </p>
+          )}
+
+          {/* Optional content directly under description */}
+          {hasUnderDescriptionSlot && (
+            <div class="mb-6">
+              <slot name="under-description" />
+            </div>
           )}
 
           {/* Price */}
@@ -143,6 +173,13 @@ const showRightColumn = hasRightSlot && !singleColumn;
     </div>
   </div>
 </section>
+
+{/* Optional overlap slot rendered below hero with built-in negative margin */}
+{hasUnderHeroOverlapSlot && (
+  <div class="relative z-20 -mt-6 md:-mt-10 lg:w-90/100 mx-auto">
+    <slot name="under-hero-overlap" />
+  </div>
+)}
 
 <style>
   /* Hero gradient background */

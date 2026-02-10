@@ -10,6 +10,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import FrontPageHeroWide from "@/layouts/FrontPageHeroWide.astro";
 import Button from "@/components/Button/Button";
 import SectionHeading from "@/components/SectionHeading.astro";
+import ProductBottomCta from "@/components/ProductBottomCta.astro";
 import type { CollectionLayoutProps } from "./types";
 
 const {
@@ -23,6 +24,7 @@ const {
 } = Astro.props as CollectionLayoutProps;
 
 const data = entry?.data || {};
+const productDescription = data.longDescription ?? data.description;
 const features = data.features ?? [];
 
 const heroHeading =
@@ -42,14 +44,15 @@ const secondaryCTA = { text: "See What's Inside", link: "#membership-details" };
 
 const cardHighlights = features.slice(0, 4);
 const isExternal = primaryCTA?.link?.startsWith("http");
+const productCta = data.cta ?? {};
 ---
 
 <BaseLayout {...seoProps}>
-  <main class="flex-1">
+  <main id="product-top" class="flex-1">
     <FrontPageHeroWide
       eyebrow={heroEyebrow}
       heading={heroHeading}
-      description={data.description}
+      description={productDescription}
       image={data.bannerImage || data.featuredImage}
       primaryCTA={primaryCTA}
       secondaryCTA={secondaryCTA}
@@ -137,5 +140,13 @@ const isExternal = primaryCTA?.link?.startsWith("http");
         </div>
       </div>
     </section>
+
+    <ProductBottomCta
+      eyebrow={productCta.eyebrow}
+      title={productCta.title}
+      description={productCta.description}
+      ctaText={productCta.ctaText}
+      ctaLink="#product-top"
+    />
   </main>
 </BaseLayout>

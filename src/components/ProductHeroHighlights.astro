@@ -1,0 +1,52 @@
+---
+export interface HeroHighlightItem {
+  title: string;
+  description?: string;
+  link?: string;
+}
+
+export interface Props {
+  items?: HeroHighlightItem[];
+  className?: string;
+}
+
+const {
+  items = [],
+  className = "",
+} = Astro.props;
+
+const displayItems = items.slice(0, 5);
+---
+
+{
+  displayItems.length > 0 && (
+    <section class={`relative z-20 ${className}`}>
+      <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary/95 via-bg/95 to-bg-dark/95 shadow-[0_20px_50px_rgba(0,0,0,0.45)] overflow-hidden">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 divide-y sm:divide-y-0 lg:divide-x divide-white/10">
+          {displayItems.map((item) => (
+            <div class="p-5 md:p-6">
+              {item.link ? (
+                <a
+                  href={item.link}
+                  class="text-white text-xl md:text-2xl font-bold underline decoration-primary/70 underline-offset-4 hover:text-primary transition-colors"
+                >
+                  {item.title}
+                </a>
+              ) : (
+                <h3 class="text-white text-xl md:text-2xl font-bold m-0">
+                  {item.title}
+                </h3>
+              )}
+
+              {item.description && (
+                <p class="text-text-muted text-sm md:text-base leading-relaxed mt-2 m-0">
+                  {item.description}
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

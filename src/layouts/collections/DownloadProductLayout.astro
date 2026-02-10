@@ -15,6 +15,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import OtherHero from "@/layouts/OtherHero.astro";
 import Button from "@/components/Button/Button";
 import SectionHeading from "@/components/SectionHeading.astro";
+import ProductBottomCta from "@/components/ProductBottomCta.astro";
 import { getImageSrc } from "./helpers/layoutHelpers";
 import type { CollectionLayoutProps } from "./types";
 
@@ -29,6 +30,7 @@ const {
 } = Astro.props as CollectionLayoutProps;
 
 const data = entry?.data || {};
+const productDescription = data.longDescription ?? data.description;
 const features = data.features ?? [];
 
 const compatibilityPattern = /(excel|sheet|sheets|numbers|csv|xls|xlsx|google|mac|windows|office)/i;
@@ -46,6 +48,7 @@ const isExternal = typeof downloadLink === "string" && downloadLink.startsWith("
 const ctaText = data.ctaText || "Download Now";
 const secondaryCtaText = "See What's Inside";
 const highlightItems = features.slice(0, 3);
+const productCta = data.cta ?? {};
 
 const quickStartSteps = [
   "Download the file to your device.",
@@ -55,11 +58,12 @@ const quickStartSteps = [
 ---
 
 <BaseLayout {...seoProps}>
-  <main class="flex-1">
+  <main id="product-top" class="flex-1">
     <OtherHero
       title={data.title}
-      description={data.description}
+      description={productDescription}
       heading={data.heading}
+      image={data.bannerImage || data.featuredImage}
       price={data.price}
       priceNote={data.priceNote}
       status={data.status}
@@ -245,5 +249,13 @@ const quickStartSteps = [
         </div>
       </section>
     )}
+
+    <ProductBottomCta
+      eyebrow={productCta.eyebrow}
+      title={productCta.title}
+      description={productCta.description}
+      ctaText={productCta.ctaText}
+      ctaLink="#product-top"
+    />
   </main>
 </BaseLayout>

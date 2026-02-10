@@ -12,6 +12,7 @@ import AboutSection from "@/layouts/sections/AboutSection.astro";
 import DifferenceSection from "@/layouts/sections/DifferenceSection.astro";
 import CTASection from "@/layouts/sections/CTASection.astro";
 import BackgroundMedia from "@/components/BackgroundMedia.astro";
+import VideoPlaceholder from "@/components/VideoPlaceholder.astro";
 
 // Assets
 import BackgroundImg from "@/assets/inside-the-nyse.jpg";
@@ -36,14 +37,7 @@ import BackgroundImg from "@/assets/inside-the-nyse.jpg";
 
     <!-- VSL Video Section (placeholder) -->
     <section class="py-20 px-5 flex flex-col items-center">
-      <div class="w-full max-w-[900px] aspect-video bg-neutral-900 rounded-xl border border-neutral-700 flex flex-col items-center justify-center relative overflow-hidden">
-        <div class="w-20 h-20 bg-primary rounded-full flex items-center justify-center cursor-pointer">
-          <div class="w-0 h-0 border-t-[15px] border-t-transparent border-b-[15px] border-b-transparent border-l-[24px] border-l-white ml-1.5"></div>
-        </div>
-        <p class="mt-5 text-neutral-400 text-sm uppercase tracking-widest">
-          Watch The Free Training
-        </p>
-      </div>
+      <VideoPlaceholder />
     </section>
 
     <!-- About Us + Social Proof Section with Background -->

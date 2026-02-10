@@ -1,12 +1,14 @@
 ---
 title: The Course
-description: A comprehensive, self-paced program covering everything from budgeting basics to advanced investment strategies.
+description: Six core wealth pillars. One clear system. Learn to build income, grow capital, and protect what you earn.
+longDescription: A practical, step-by-step system to help you take control of your money, build stronger income streams, grow capital with confidence, and protect what you’ve worked for.
 icon: "fa6:graduation-cap"
 heading:
-  before: "Financial Education"
-  text: "Master Your Finances"
+  before: "Manage The Motion of Money"
+  text: "The Course"
+bannerImage: "../../assets/inside-the-nyse.jpg"
 status: coming-soon
-itemLayout: "@/layouts/collections/OptinProductLayout.astro"
+itemLayout: "@/layouts/collections/CourseProductLayout.astro"
 tags:
   - featured
 features:
@@ -16,9 +18,207 @@ features:
   - Wealth mindset training for disciplined decision-making
   - Income stream strategies to diversify earning power
   - Asset protection and market analysis for risk-aware growth
+heroHighlights:
+  - title: 6 Wealth Pillars
+    description: Build income, control cash flow, invest smart, and protect what you grow.
+    link: "#what-youll-learn"
+  - title: Beginner-Friendly
+    description: No finance degree needed. Start where you are and build momentum fast.
+  - title: Practical Frameworks
+    description: Real systems you can apply immediately to your money decisions.
+  - title: Self-Paced Format
+    description: Learn on your own schedule without falling behind.
+  - title: Built For Results
+    description: Designed to move you from confusion to confident execution.
 ctaText: Join Waitlist
+cta:
+  eyebrow: Build Your Foundation
+  title: Ready To Master Your Finances?
+  description: Take the next step, lock in your spot, and start building a real wealth system you can execute with confidence.
+  ctaText: Get Notified When Were Ready!
 order: 3
 ---
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import Button from "@/components/Button/Button";
+import SectionTabs from "@/components/SectionTabs.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
+import VideoPlaceholder from "@/components/VideoPlaceholder.astro";
 import { query, sortByOrder } from "@/utils/query";
 
+
+export const courseTabs = [
+  { id: "about", label: "About" },
+  { id: "testimonials", label: "Testimonials" },
+];
+
+export const whatsIncluded = [
+  "Self-paced modules across all six wealth-building pillars",
+  "Personal finance systems (budgeting, debt control, cash flow)",
+  "Investing fundamentals and portfolio-building frameworks",
+  "Wealth mindset training for disciplined decision-making",
+  "Income stream strategies to diversify earning power",
+  "Asset protection and market analysis for risk-aware growth",
+];
+
+<SectionTabs
+  tabs={courseTabs}
+  group="course-overview"
+  className="mb-8 md:mb-10"
+  showBackToTop={true}
+  backToTopHref="#product-top"
+  backToTopLabel="Back To Top"
+/>
+
+<section id="about" data-section-tabs-section="course-overview" class="scroll-mt-36 mb-12 md:mb-16">
+  <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-5">
+    About This Course
+  </h2>
+  <div class="prose prose-lg prose-invert max-w-none">
+    <p>
+      Managing the Motion of Money is a practical system for people who want
+      structure, clarity, and confidence with their finances. Instead of random
+      tips, you get a step-by-step framework that helps you understand exactly
+      what to do with your income, how to grow capital intelligently, and how
+      to protect what you build over time.
+    </p>
+    <p>
+      This course is built for action. You’ll learn how to improve day-to-day
+      money decisions, avoid common mistakes, and execute with more discipline.
+      Whether you're just getting started or trying to level up, the goal is
+      the same: build a repeatable wealth process you can trust.
+    </p>
+  </div>
+</section>
+
+<section id="what-youll-learn" class="scroll-mt-36 mb-12 md:mb-16">
+  <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">
+    What's Included
+  </h2>
+  <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 md:gap-y-7">
+    {whatsIncluded.map((feature) => (
+      <li class="flex items-start gap-4">
+        <span class="text-primary shrink-0 mt-0.5">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+        <span class="text-text-secondary text-lg leading-relaxed">
+          {feature}
+        </span>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<section id="video-overview" class="scroll-mt-36 mb-12 md:mb-16">
+  <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">
+    Watch The Course Breakdown
+  </h2>
+  <VideoPlaceholder cardClassName="mx-0" />
+</section>
+
+<section id="why-this-course" class="scroll-mt-36 mb-12 md:mb-16">
+  <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-5">
+    Why You'll Want This Course
+  </h2>
+  <p class="text-text-secondary text-lg leading-relaxed mb-4">
+    Most people work hard, make decent money, and still feel behind. The
+    issue is not effort. The issue is no clear system for where money
+    should go, how it should grow, and how to protect it long term.
+  </p>
+  <p class="text-text-secondary text-lg leading-relaxed mb-4">
+    This course gives you practical financial structure you can actually
+    follow. You will stop bouncing between random advice and start making
+    confident decisions with a proven framework.
+  </p>
+  <p class="text-text-secondary text-lg leading-relaxed mb-6">
+    If you want more control, less stress, and a real path to wealth, this
+    is the foundation that makes everything else easier.
+  </p>
+
+  <h4 class="text-xl pt-6 font-extrabold font-display uppercase text-white mb-4">
+    This course is for you if:
+  </h4>
+  <ul class="space-y-3">
+    <li class="flex items-start gap-2 text-text-secondary">
+      <span class="gold-metallic-heading mt-0.5">✓</span>
+      You are tired of guessing with your money every month
+    </li>
+    <li class="flex items-start gap-2 text-text-secondary">
+      <span class="gold-metallic-heading mt-0.5">✓</span>
+      You want a clear game plan for income, investing, and protection
+    </li>
+    <li class="flex items-start gap-2 text-text-secondary">
+      <span class="gold-metallic-heading mt-0.5">✓</span>
+      You are ready to build wealth with discipline and confidence
+    </li>
+  </ul>
+</section>
+
+<section id="topics" class="scroll-mt-36 mb-12 md:mb-16">
+  <ContentRenderer
+    query={query("topics").orderBy(sortByOrder())}
+    variant="SkillsPillsVariant"
+    title="Skills You Gain"
+    align="left"
+  />
+</section>
+
+<section class="mb-12 md:mb-16">
+  <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary/90 via-bg to-bg-dark p-7 md:p-10 lg:p-12">
+    <div class="grid grid-cols-1 lg:grid-cols-[1.4fr_0.6fr] gap-8 lg:gap-10 items-center">
+      <div className="text-left">
+        <SectionHeading
+          eyebrow="From Arold Norelus"
+          title='"If your money has no system, your future has no direction."'
+          align="left"
+          className="!mb-5"
+          description="Most people stay stuck because they move money with emotion instead of
+          a plan. This course gives you a proven wealth framework to earn with
+          purpose, invest with clarity, and protect your progress so your money
+          finally starts working for you."
+          descriptionClass="m-0"
+        />
+        <Button
+          variant="primary"
+          href="#product-top"
+        >
+          Start Building My Wealth System
+        </Button>
+        {/* <WhopRating className="flex justify-left items-start" /> */}
+      </div>
+
+      <div class="rounded-xl border border-primary/20 bg-bg-secondary/60 p-6">
+        <h4 class="text-xl font-extrabold font-display uppercase text-white mb-4">
+          What changes in the next 90 days:
+        </h4>
+        <ul class="space-y-3">
+          <li class="flex items-start gap-2 text-text-secondary">
+            <span class="gold-metallic-heading mt-0.5">✓</span>
+            Build a clear money operating system for every month
+          </li>
+          <li class="flex items-start gap-2 text-text-secondary">
+            <span class="gold-metallic-heading mt-0.5">✓</span>
+            Make disciplined investing decisions instead of emotional ones
+          </li>
+          <li class="flex items-start gap-2 text-text-secondary">
+            <span class="gold-metallic-heading mt-0.5">✓</span>
+            Grow income and protect what you build with confidence
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="testimonials" data-section-tabs-section="course-overview" class="scroll-mt-36">
+  <ContentRenderer
+    query={query("testimonials").where((entry) => !!entry.data.socialMediaPost).orderBy(sortByOrder())}
+    variant="SocialProofVariant"
+  />
+  
+    <ContentRenderer
+      query={query("testimonials").where((entry) => !entry.data.socialMediaPost).orderBy(sortByOrder())}
+      variant="TestimonialVariant"
+    />
+</section>

@@ -1,0 +1,59 @@
+---
+// src/components/ContentRenderer/variants/SkillsPillsVariant.astro
+/**
+ * SkillsPillsVariant - Oval/pill style skills list
+ *
+ * Designed for "Skills you'll gain" style sections.
+ * Uses topic/item titles and renders them as rounded pills.
+ */
+
+import type { BaseVariantProps } from "../ContentRenderer.types";
+
+interface Props extends BaseVariantProps {
+  align?: "left" | "center" | "right";
+  maxVisible?: number;
+}
+
+const {
+  items = [],
+  title = "Skills You Gain",
+  description,
+  className = "",
+  id,
+  align = "left",
+  maxVisible,
+} = Astro.props as Props;
+
+const visibleItems =
+  typeof maxVisible === "number" && maxVisible > 0
+    ? items.slice(0, maxVisible)
+    : items;
+
+const alignmentClass = {
+  left: "text-left",
+  center: "text-center",
+  right: "text-right",
+}[align];
+---
+
+<section id={id} class={`relative z-10 ${className}`}>
+  <div class="max-w-[1200px]">
+    <div class={alignmentClass}>
+      {title && (
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">
+          {title}
+        </h2>
+      )}
+    </div>
+
+    {visibleItems.length > 0 && (
+      <div class="flex flex-wrap gap-3 md:gap-4">
+        {visibleItems.map((item) => (
+          <span class="inline-flex items-center rounded-full bg-neutral-900 border border-neutral-700 px-5 py-2.5 text-white text-sm md:text-base leading-none">
+            {item.title}
+          </span>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
