@@ -122,10 +122,10 @@ export const whyCommunityChecklist = [
 </div>
 
 <section id="video-overview" class="scroll-mt-36 mb-12 md:mb-16">
-  <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">
+  <h2 class="text-3xl md:text-4xl font-extrabold text-center text-white mb-6">
     Watch The Community Breakdown
   </h2>
-  <VideoPlaceholder cardClassName="mx-0" />
+  <VideoPlaceholder />
 </section>
 
 <ProductWhySection
@@ -142,6 +142,8 @@ export const whyCommunityChecklist = [
   <ContentRenderer
     query={query("topics").orderBy(sortByOrder())}
     variant="TopicVariant"
+    eyebrow="Inside The Discord"
+    heading={{ before: "What You'll Learn", text: "In The Community" }}
   />
 </section>
 
