@@ -88,22 +88,40 @@ const {
         };
 
         const updateActive = () => {
-          const scrollPosition = window.scrollY + 180;
+          const activationOffset = 180;
           let currentId = sections[0].id;
 
           sections.forEach((section) => {
-            if (scrollPosition >= section.offsetTop) {
+            const top = section.getBoundingClientRect().top;
+            if (top <= activationOffset) {
               currentId = section.id;
             }
           });
 
+          const hashId = window.location.hash.replace("#", "");
+          if (hashId && sections.some((section) => section.id === hashId)) {
+            currentId = hashId;
+          }
+
           setActive(currentId);
         };
+
+        links.forEach((link) => {
+          const tabId = link.getAttribute("data-section-tab");
+          if (!tabId) return;
+
+          link.addEventListener("click", () => {
+            setActive(tabId);
+            requestAnimationFrame(updateActive);
+            setTimeout(updateActive, 160);
+          });
+        });
 
         nav.setAttribute("data-section-tabs-ready", "true");
         updateActive();
         window.addEventListener("scroll", updateActive, { passive: true });
         window.addEventListener("hashchange", updateActive);
+        window.addEventListener("resize", updateActive);
       });
     };
 

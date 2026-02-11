@@ -1,0 +1,28 @@
+---
+interface Props {
+  src: string;
+  title?: string;
+  className?: string;
+}
+
+const {
+  src,
+  title = "Featured Product Video",
+  className = "",
+} = Astro.props as Props;
+---
+
+<div class={`w-full ${className}`}>
+  <video
+    class="w-full aspect-video rounded-xl border border-neutral-700 bg-neutral-900"
+    controls
+    preload="metadata"
+    playsinline
+  >
+    <source src={src} type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+  {title && (
+    <p class="mt-3 text-sm text-text-secondary">{title}</p>
+  )}
+</div>

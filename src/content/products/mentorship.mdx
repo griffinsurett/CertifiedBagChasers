@@ -1,43 +1,298 @@
 ---
 title: 1-on-1 Mentorship
-description: Personal guidance directly from Arold. Limited spots available for those serious about accelerating their journey.
+description: Direct personal mentorship with Arold for people serious about execution.
+longDescription: A high-touch mentorship program built for people who want direct guidance, clear strategy, and accountability from Arold.
 icon: "fa6:bullseye"
 heading:
   before: "Premium Offering"
-  text: "Accelerate Your Journey"
+  text: "1-on-1 Mentorship"
+bannerImage: "../../assets/inside-the-nyse.jpg"
 price: "Apply"
 priceNote: "Limited spots available"
 status: available
-itemLayout: "@/layouts/collections/OptinProductLayout.astro"
+itemLayout: "@/layouts/collections/BarebonesCustomLayout.astro"
 tags:
   - featured
   - premium-offering
 features:
-  - Weekly 1-hour video calls with Arold
-  - Personalized wealth-building strategy
-  - Direct messaging access 24/7
-  - Custom investment portfolio review
-  - Business/side hustle coaching
-  - Accountability check-ins
-  - Priority Discord access
-  - All products included free
-ctaText: Learn More
+  - Weekly private 1-on-1 strategy calls with Arold
+  - Personalized wealth-building game plan
+  - Direct accountability and execution tracking
+  - Portfolio and risk review based on your goals
+  - Priority Discord access and all core products included
+ctaText: Apply for Mentorship
 cta:
   eyebrow: Personal Guidance
   title: Ready To Apply For Mentorship?
-  description: Go back to the top, complete the application, and let’s map your next moves with direct 1-on-1 support.
+  description: Apply now and we will review your submission within 48 hours.
   ctaText: Back To Top
 order: 5
 ---
+import ApplicationForm from "@/components/Form/forms/ApplicationForm.astro";
+import Button from "@/components/Button/Button";
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import ProductFeaturedVideo from "@/components/ProductFeaturedVideo.astro";
+import ProductFormModal from "@/components/ProductFormModal.astro";
+import ProductHeroHighlights from "@/components/ProductHeroHighlights.astro";
+import ProductWhySection from "@/components/ProductWhySection.astro";
+import SectionTabs from "@/components/SectionTabs.astro";
+import WhopInfoNotice from "@/components/WhopInfoNotice.astro";
+import FrontPageHeroWide from "@/layouts/FrontPageHeroWide.astro";
+import { Image } from "astro:assets";
+import { query, sortByOrder } from "@/utils/query";
+import AroldImage from "@/assets/arold.jpg";
+import BestSellingAuthorBadge from "@/assets/best-selling-author.png";
+import MentorshipHeroImage from "@/assets/inside-the-nyse.jpg";
 
-Personal guidance from Arold for those serious about accelerating their wealth-building journey.
+export const mentorshipTabs = [
+  { id: "about", label: "About" },
+  { id: "testimonials", label: "Testimonials" },
+];
 
-## Requirements
+export const mentorshipHeroHighlights = [
+  {
+    title: "Direct Access",
+    description: "Weekly private calls with Arold focused on your exact situation.",
+    link: "#what-youll-get",
+  },
+  {
+    title: "Personal Strategy",
+    description: "A tailored plan for income, investing, and long-term wealth execution.",
+  },
+  {
+    title: "High Accountability",
+    description: "Direct feedback and clear next steps so you keep moving every week.",
+  },
+  {
+    title: "Priority Support",
+    description: "Priority Discord access and fast communication when decisions matter.",
+  },
+  {
+    title: "Limited Spots",
+    description: "Application-based enrollment to maintain quality and attention.",
+  },
+];
 
-- Serious commitment to growth
-- Ready to take action
-- Open to feedback
-- Long-term mindset
-- Application required
+export const mentorshipBenefits = [
+  "Weekly private 1-on-1 video calls with Arold",
+  "Personalized wealth strategy aligned to your goals",
+  "Direct accountability and progress check-ins",
+  "Portfolio and risk review with practical adjustments",
+  "Business and income growth coaching based on your current stage",
+  "Priority Discord access plus all core products included",
+];
 
-Applications reviewed within 48 hours. Only serious applicants will be contacted.
+export const whyMentorshipParagraphs = [
+  "Mentorship is for people who do not need more random content. They need direct guidance, sharper decision-making, and faster execution.",
+  "You get a personal strategy built around your current position, goals, and constraints, with consistent feedback so you avoid expensive mistakes.",
+  "If you are serious about accelerating your progress and want real accountability, this is built for that level of commitment.",
+];
+
+export const whyMentorshipChecklist = [
+  "You are ready to execute, not just consume information",
+  "You want direct feedback on your strategy and decisions",
+  "You are committed to long-term wealth building with discipline",
+];
+
+export const mentorshipTitle = "1-on-1 Mentorship";
+export const mentorshipHeading = { before: "Premium Offering", text: "1-on-1 Mentorship" };
+export const mentorshipDescription =
+  "A high-touch mentorship program with direct guidance, personal strategy, and accountability from Arold.";
+export const mentorshipModalId = "mentorship-application-modal";
+
+export const formTitle = "Apply for Mentorship";
+export const formDescription =
+  "Submit your application below. We review all mentorship applications within 48 hours.";
+export const submitButtonText = "Submit Application";
+export const successMessage =
+  "Application received. We'll review it and get back to you within 48 hours.";
+
+<FrontPageHeroWide
+  eyebrow="Premium Offering"
+  heading={mentorshipHeading}
+  description={mentorshipDescription}
+  image={MentorshipHeroImage}
+  primaryCTA={{ text: "Apply for Mentorship", link: `#${mentorshipModalId}` }}
+  secondaryCTA={{ text: "See What's Inside", link: "#membership-details" }}
+/>
+
+<ProductHeroHighlights
+  items={mentorshipHeroHighlights}
+  className="w-90/100 mx-auto -mt-6 md:-mt-10 mb-10 md:mb-14"
+/>
+
+<ProductFormModal id={mentorshipModalId}>
+  <ApplicationForm
+    title={formTitle}
+    description={formDescription}
+    submitText={submitButtonText}
+    successMessage={successMessage}
+    variant="tertiary"
+    productName={mentorshipTitle}
+    className="max-w-none"
+  />
+</ProductFormModal>
+
+<section id="membership-details" class="py-16 md:py-24 bg-bg">
+  <div class="w-90/100 mx-auto">
+    <SectionTabs
+      tabs={mentorshipTabs}
+      group="mentorship-overview"
+      className="mb-8 md:mb-10"
+    />
+
+    {props.entry?.data?.featuredVideo?.src && (
+      <section id="video-overview" class="scroll-mt-36 mb-10 md:mb-12">
+        <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-4">
+          Mentorship Breakdown
+        </h2>
+        <div class="max-w-[900px]">
+          <ProductFeaturedVideo
+            src={props.entry.data.featuredVideo.src}
+            title={props.entry.data.featuredVideo.title ?? ""}
+          />
+        </div>
+      </section>
+    )}
+
+    <div class="mb-10 rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary via-bg to-bg-dark p-5 md:p-6">
+      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p class="h6 uppercase tracking-[2px] text-text-dim mb-1">Mentorship Access</p>
+          <p class="text-text-secondary text-sm">
+            Limited spots available. Applications are reviewed within 48 hours.
+          </p>
+        </div>
+
+        <Button href={`#${mentorshipModalId}`} variant="primary" size="lg">
+          Apply for Mentorship
+        </Button>
+      </div>
+
+      <WhopInfoNotice
+        text="Applications, checkout, and member access are powered through Whop."
+        variant="small"
+        className="mt-4 w-full justify-start rounded-xl"
+      />
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-10 lg:gap-12 items-start">
+      <div>
+        <section id="about" data-section-tabs-section="mentorship-overview" class="scroll-mt-36 mb-12 md:mb-14">
+          <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-5">
+            About 1-on-1 Mentorship
+          </h2>
+          <div class="prose prose-lg prose-invert max-w-none">
+            <p>
+              This mentorship is for people who want direct strategic support, not generic advice.
+              You work directly with Arold to improve decisions, tighten execution, and make faster
+              progress with a plan built around your reality.
+            </p>
+            <p>
+              Every session is focused on implementation. The goal is clear: remove guesswork,
+              improve consistency, and build long-term wealth with discipline.
+            </p>
+          </div>
+        </section>
+
+        <section id="what-youll-get" class="scroll-mt-36 mb-12 md:mb-16">
+          <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">
+            What's Included
+          </h2>
+          <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6 md:gap-y-7">
+            {mentorshipBenefits.map((feature) => (
+              <li class="flex items-start gap-4">
+                <span class="text-primary shrink-0 mt-0.5">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                </span>
+                <span class="text-text-secondary text-lg leading-relaxed">
+                  {feature}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <ProductWhySection
+          id="why-mentorship"
+          title="Why You'll Want 1-on-1 Mentorship"
+          paragraphs={whyMentorshipParagraphs}
+          checklistTitle="This mentorship is for you if:"
+          checklistItems={whyMentorshipChecklist}
+        />
+
+        <section id="topics" class="scroll-mt-36 mb-12 md:mb-16">
+          <ContentRenderer
+            query={query("topics").orderBy(sortByOrder())}
+            variant="TopicVariant"
+            eyebrow="Mentorship Focus"
+            heading={{ before: "What We Work On", text: "Together" }}
+          />
+        </section>
+
+        <section id="testimonials" data-section-tabs-section="mentorship-overview" class="scroll-mt-36">
+          <ContentRenderer
+            query={query("testimonials").where((entry) => !!entry.data.socialMediaPost).orderBy(sortByOrder())}
+            variant="SocialProofVariant"
+          />
+        </section>
+      </div>
+
+      <aside class="sticky-section self-start">
+        <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary via-bg to-bg-dark p-5 md:p-6 shadow-[0_24px_50px_rgba(0,0,0,0.45)]">
+          <p class="h6 uppercase tracking-[2px] text-text-dim mb-3">
+            Your Instructor
+          </p>
+          <h3 class="text-2xl md:text-3xl font-extrabold text-white mb-4">
+            Arold Norelus
+          </h3>
+
+          <div class="relative mb-5">
+            <Image
+              src={AroldImage}
+              alt="Arold Norelus"
+              class="w-full h-auto rounded-xl border border-white/15 object-cover"
+            />
+            <div class="absolute -bottom-4 -right-4 z-10">
+              <Image
+                src={BestSellingAuthorBadge}
+                alt="Amazon Best Selling Author"
+                class="w-20 h-20 md:w-24 md:h-24 drop-shadow-2xl"
+              />
+            </div>
+          </div>
+
+          <p class="text-text-secondary text-sm leading-relaxed mb-3">
+            Arold is a best-selling author and market-focused mentor known for turning complex
+            financial ideas into practical execution frameworks.
+          </p>
+          <p class="text-text-secondary text-sm leading-relaxed mb-4">
+            In this mentorship, he helps you build a personal strategy, sharpen your decisions,
+            and execute consistently with direct feedback every step of the way.
+          </p>
+
+          <ul class="space-y-2 mb-5">
+            <li class="flex items-start gap-2 text-sm text-text-secondary">
+              <span class="text-primary mt-0.5">✓</span>
+              Personalized strategy aligned to your actual goals
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-secondary">
+              <span class="text-primary mt-0.5">✓</span>
+              Weekly direct feedback to remove guesswork
+            </li>
+            <li class="flex items-start gap-2 text-sm text-text-secondary">
+              <span class="text-primary mt-0.5">✓</span>
+              Accountability that keeps your execution consistent
+            </li>
+          </ul>
+
+          <Button href={`#${mentorshipModalId}`} variant="primary" size="lg" className="w-full">
+            Apply for Mentorship
+          </Button>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>

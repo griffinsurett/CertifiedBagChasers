@@ -2,21 +2,25 @@
 export interface Props {
   text?: string;
   className?: string;
+  variant?: "default" | "small";
 }
 
 const {
   text = "Enrollment and member access are powered through Whop.",
   className = "",
-} = Astro.props;
+  variant = "default",
+} = Astro.props as Props;
+
+const isSmall = variant === "small";
 ---
 
-<div class={`inline-flex items-center gap-2 rounded-full border border-white/15 bg-bg-secondary/60 px-4 py-2 ${className}`}>
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+<div class={`inline-flex items-center gap-2 rounded-full border border-white/15 bg-bg-secondary/60 ${isSmall ? "px-3 py-1.5" : "px-4 py-2"} ${className}`}>
+  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
     <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#fff"></path>
     <path d="M2 17L12 22L22 17" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
     <path d="M2 12L12 17L22 12" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
   </svg>
-  <span class="text-sm md:text-base text-text-secondary">
+  <span class={`${isSmall ? "text-xs md:text-sm" : "text-sm md:text-base"} text-text-secondary`}>
     {text}
   </span>
 </div>

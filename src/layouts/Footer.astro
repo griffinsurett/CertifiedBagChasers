@@ -46,11 +46,22 @@ const legalQuery = query("menu-items")
     {/* Main Footer Grid */}
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 py-10">
       {/* Column 1: Logo & Description */}
-      <div>
+      <div class="space-y-8">
+        <div>
         <Logo shadow={false} className="w-60 h-auto mb-4" />
         <p class="text-text-muted leading-relaxed">
           Making wise money moves for long-term success. Every small step counts on the journey to financial freedom.
         </p>
+        </div>
+        <div>
+          <h4 class="text-text mb-4 font-bold">Follow Us</h4>
+          <ContentRenderer
+            query={query("social-media")}
+            variant="SocialMediaVariant"
+            size="sm"
+            alignment="left"
+          />
+        </div>
       </div>
 
       {/* Column 2: Quick Links */}
@@ -86,16 +97,6 @@ const legalQuery = query("menu-items")
       {/* Column 4: Newsletter + Social Media */}
       <div class="space-y-6">
         <NewsletterForm />
-
-        <div>
-          <h4 class="text-text mb-4 font-bold">Follow Us</h4>
-          <ContentRenderer
-            query={query("social-media")}
-            variant="SocialMediaVariant"
-            size="sm"
-            alignment="left"
-          />
-        </div>
       </div>
     </div>
 

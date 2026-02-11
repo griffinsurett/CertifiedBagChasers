@@ -151,6 +151,13 @@ export const collections = {
   "products": defineCollection({
     schema: ({ image }) =>
       baseSchema({ image }).extend({
+        // Optional featured video shown in product sidebars
+        featuredVideo: z
+          .object({
+            src: z.string(),
+            title: z.string().optional(),
+          })
+          .optional(),
         // Extended product page description (used in product layouts)
         longDescription: z.string().optional(),
         // Optional hero highlight boxes shown under product hero

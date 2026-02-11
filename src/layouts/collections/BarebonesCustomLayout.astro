@@ -1,0 +1,20 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { CollectionLayoutProps } from "./types";
+
+const {
+  entry,
+  collection,
+  collectionMeta,
+  Content,
+  isIndexPage,
+  seoProps = {},
+  ...extraProps
+} = Astro.props as CollectionLayoutProps;
+---
+
+<BaseLayout {...seoProps}>
+  <main id="product-top" class="flex-1">
+    {Content && <Content entry={entry} collection={collection} collectionMeta={collectionMeta} />}
+  </main>
+</BaseLayout>

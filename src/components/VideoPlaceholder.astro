@@ -29,8 +29,10 @@ const {
       >
       </div>
     </div>
-    <p class="mt-5 text-neutral-400 text-sm uppercase tracking-widest">
-      {label}
-    </p>
+    {label && (
+      <p class="mt-5 text-neutral-400 text-sm uppercase tracking-widest">
+        {label}
+      </p>
+    )}
   </div>
 </div>

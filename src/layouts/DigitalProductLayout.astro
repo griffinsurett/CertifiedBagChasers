@@ -1,0 +1,165 @@
+---
+import Button from "@/components/Button/Button";
+import SectionTabs from "@/components/SectionTabs.astro";
+import WhopInfoNotice from "@/components/WhopInfoNotice.astro";
+
+interface TabItem {
+  id: string;
+  label: string;
+}
+
+export interface Props {
+  tabs?: TabItem[];
+  tabsGroup?: string;
+  tabsClassName?: string;
+  showBackToTop?: boolean;
+  backToTopHref?: string;
+  backToTopLabel?: string;
+  className?: string;
+  gridClassName?: string;
+  mainClassName?: string;
+  sidebarClassName?: string;
+  sidebarCardClassName?: string;
+  videoSectionId?: string;
+  videoSectionClassName?: string;
+  videoTitle?: string;
+  sidebarLabel?: string;
+  price?: string;
+  pricePeriod?: string;
+  priceNote?: string;
+  ctaText?: string;
+  ctaHref?: string;
+  ctaVariant?: "primary" | "secondary" | "tertiary" | "link";
+  ctaSize?: "sm" | "md" | "lg";
+  ctaClassName?: string;
+  showNotice?: boolean;
+  noticeText?: string;
+  noticeVariant?: "default" | "small";
+  noticeClassName?: string;
+}
+
+const {
+  tabs = [],
+  tabsGroup = "digital-product-tabs",
+  tabsClassName = "mb-8 md:mb-10",
+  showBackToTop = false,
+  backToTopHref = "#product-top",
+  backToTopLabel = "Back To Top",
+  className = "",
+  gridClassName = "",
+  mainClassName = "",
+  sidebarClassName = "",
+  sidebarCardClassName = "",
+  videoSectionId = "video-overview",
+  videoSectionClassName = "scroll-mt-36 mb-5",
+  videoTitle = "",
+  sidebarLabel = "",
+  price = "",
+  pricePeriod = "",
+  priceNote = "",
+  ctaText = "",
+  ctaHref = "",
+  ctaVariant = "primary",
+  ctaSize = "lg",
+  ctaClassName = "w-full",
+  showNotice = true,
+  noticeText = "Checkout and member access are powered through Whop.",
+  noticeVariant = "small",
+  noticeClassName = "mt-4 w-full justify-start rounded-xl",
+} = Astro.props as Props;
+
+const hasVideoSlot = Astro.slots.has("video");
+const hasNoticeSlot = Astro.slots.has("notice");
+const hasCta = !!(ctaHref && ctaText);
+const hasPricing = !!(price || pricePeriod || priceNote);
+const isExternalCta = ctaHref?.startsWith("http");
+---
+
+<div
+  class={`grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-8 lg:gap-12 items-start ${className} ${gridClassName}`}
+>
+  <div class={`min-w-0 ${mainClassName}`}>
+    <SectionTabs
+      tabs={tabs}
+      group={tabsGroup}
+      className={tabsClassName}
+      showBackToTop={showBackToTop}
+      backToTopHref={backToTopHref}
+      backToTopLabel={backToTopLabel}
+    />
+
+    <slot />
+  </div>
+
+  <aside class={`sticky-section self-start ${sidebarClassName}`}>
+    <div
+      class={`rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary via-bg to-bg-dark p-6 md:p-7 shadow-[0_24px_50px_rgba(0,0,0,0.45)] ${sidebarCardClassName}`}
+    >
+      {
+        hasVideoSlot && (
+          <section id={videoSectionId} class={videoSectionClassName}>
+            {sidebarLabel && (
+              <p class="h6 uppercase tracking-[2px] text-text-dim mb-3">
+                {sidebarLabel}
+              </p>
+            )}
+            <slot name="video" />
+          </section>
+        )
+      }
+
+      {
+        hasPricing && (
+          <div class="mb-5">
+            <div class="flex items-end gap-2">
+              {price && (
+                <p class="text-4xl md:text-5xl font-extrabold text-white leading-none">
+                  {price}
+                </p>
+              )}
+              {pricePeriod && (
+                <p class="text-text-dim text-sm md:text-base leading-none mb-1">
+                  {pricePeriod}
+                </p>
+              )}
+            </div>
+            {priceNote && <p class="text-text-dim text-sm mt-2">{priceNote}</p>}
+          </div>
+        )
+      }
+
+      {
+        hasCta && (
+          <Button
+            href={ctaHref}
+            variant={ctaVariant}
+            size={ctaSize}
+            className={ctaClassName}
+            target={isExternalCta ? "_blank" : undefined}
+            rel={isExternalCta ? "noopener noreferrer" : undefined}
+          >
+            {ctaText}
+          </Button>
+        )
+      }
+
+      <slot name="after-cta" />
+
+      {
+        hasNoticeSlot ? (
+          <slot name="notice" />
+        ) : (
+          showNotice && (
+            <WhopInfoNotice
+              text={noticeText}
+              variant={noticeVariant}
+              className={noticeClassName}
+            />
+          )
+        )
+      }
+
+      <slot name="sidebar-bottom" />
+    </div>
+  </aside>
+</div>
