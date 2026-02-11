@@ -36,6 +36,10 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
         // Only "most-popular" tag gets the featured card styling (gold border, badge, etc.)
         const isMostPopular = product.tags?.includes("most-popular");
         const isPremiumOffering = product.tags?.includes("premium-offering");
+        const primaryHref = product.link || product.url;
+        const hasInternalPage = Boolean(product.url);
+        const isPrimaryExternal = typeof primaryHref === "string" && primaryHref.startsWith("http");
+        const showLearnMore = Boolean(product.link && hasInternalPage);
 
         // Determine eyebrow text based on status/price
         let eyebrow = "";
@@ -133,15 +137,28 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
               </ul>
             )}
 
-            {/* CTA Button - uses url from prepareEntry (e.g. /products/slug) */}
-            {product.url && (
-              <Button
-                variant={isMostPopular ? "primary" : isPremiumOffering ? "tertiary" : "secondary"}
-                href={product.url}
-                className="mt-auto w-full py-3"
-              >
-                {product.ctaText || "Learn More"} →
-              </Button>
+            {/* Primary CTA prefers external product link when available */}
+            {primaryHref && (
+              <div className="mt-auto">
+                <Button
+                  variant={isMostPopular ? "primary" : isPremiumOffering ? "tertiary" : "secondary"}
+                  href={primaryHref}
+                  className="w-full py-3"
+                  target={isPrimaryExternal ? "_blank" : undefined}
+                  rel={isPrimaryExternal ? "noopener noreferrer" : undefined}
+                >
+                  {product.ctaText || "Learn More"} →
+                </Button>
+
+                {showLearnMore && (
+                  <a
+                    href={product.url}
+                    className="inline-flex justify-center w-full mt-3 text-sm text-text-secondary hover:text-primary underline underline-offset-4 transition-colors"
+                  >
+                    Learn More
+                  </a>
+                )}
+              </div>
             )}
           </div>
         );
@@ -168,4 +185,3 @@ function reorderWithMostPopularInMiddle(products: any[]): any[] {
 
   return reordered;
 }
-
