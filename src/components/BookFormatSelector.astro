@@ -1,0 +1,208 @@
+---
+import Icon from "@/components/Icon";
+
+export interface BookFormatVariant {
+  id: string;
+  name: string;
+  icon?: string;
+  price: string;
+  consumeType: string;
+  delivery: string;
+  description: string;
+  ctaText: string;
+  ctaHref: string;
+  availability?: string;
+  highlights?: string[];
+}
+
+export interface Props {
+  id?: string;
+  variants: BookFormatVariant[];
+  defaultVariantId?: string;
+  className?: string;
+}
+
+const {
+  id = "book-format-selector",
+  variants = [],
+  defaultVariantId,
+  className = "",
+} = Astro.props as Props;
+
+const safeVariants = variants.filter((variant) => Boolean(variant?.id));
+const fallbackVariant = safeVariants[0];
+const defaultVariant =
+  safeVariants.find((variant) => variant.id === defaultVariantId) ?? fallbackVariant;
+
+if (!defaultVariant) return null;
+---
+
+<div
+  data-book-format-selector={id}
+  data-default-variant={defaultVariant.id}
+  class={`rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary via-bg to-bg-dark p-6 md:p-7 shadow-[0_24px_50px_rgba(0,0,0,0.45)] ${className}`}
+>
+  <p class="h6 uppercase tracking-[2px] text-text-dim mb-3">
+    Choose Your Format
+  </p>
+
+  <div class="space-y-3 mb-6">
+    {safeVariants.map((variant) => (
+      <button
+        type="button"
+        data-book-format-option={variant.id}
+        data-active={variant.id === defaultVariant.id ? "true" : "false"}
+        class="book-format-option w-full rounded-xl border border-white/10 bg-bg-secondary/50 p-4 text-left transition-colors"
+      >
+        <div class="flex items-start justify-between gap-3">
+          <div class="flex items-center gap-2">
+            {variant.icon && (
+              <Icon icon={variant.icon} size="md" className="text-primary shrink-0" />
+            )}
+            <span class="text-base md:text-lg font-bold text-white">{variant.name}</span>
+          </div>
+          <span class="text-base font-bold text-white">{variant.price}</span>
+        </div>
+        <p class="text-sm text-text-secondary mt-2">{variant.consumeType}</p>
+      </button>
+    ))}
+  </div>
+
+  <div class="rounded-xl border border-white/10 bg-bg-secondary/50 p-4 md:p-5">
+    <div class="flex items-center justify-between gap-3 mb-2">
+      <p data-book-value="name" class="text-xl font-extrabold text-white">
+        {defaultVariant.name}
+      </p>
+      <p data-book-value="price" class="text-2xl font-extrabold text-white">
+        {defaultVariant.price}
+      </p>
+    </div>
+
+    <p data-book-value="description" class="text-sm text-text-secondary mb-4">
+      {defaultVariant.description}
+    </p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+      <div class="rounded-lg border border-white/10 bg-bg/50 p-3">
+        <p class="text-[11px] uppercase tracking-[2px] text-text-dim mb-1">How You Consume</p>
+        <p data-book-value="consumeType" class="text-sm text-text-secondary">{defaultVariant.consumeType}</p>
+      </div>
+      <div class="rounded-lg border border-white/10 bg-bg/50 p-3">
+        <p class="text-[11px] uppercase tracking-[2px] text-text-dim mb-1">Delivery</p>
+        <p data-book-value="delivery" class="text-sm text-text-secondary">{defaultVariant.delivery}</p>
+      </div>
+    </div>
+
+    <ul data-book-highlights class="space-y-2 mb-5">
+      {(defaultVariant.highlights ?? []).map((item) => (
+        <li class="flex items-start gap-2 text-sm text-text-secondary">
+          <span class="text-primary mt-0.5">✓</span>
+          {item}
+        </li>
+      ))}
+    </ul>
+
+    <a
+      data-book-cta
+      href={defaultVariant.ctaHref}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="btn-base btn-lg w-full bg-gradient-to-r from-primary-900 via-primary-600 to-primary-100 hover:from-primary-800 hover:via-primary hover:to-primary-50 text-bg font-bold uppercase tracking-widest rounded transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_40px_rgba(201,162,39,0.4)] [text-shadow:0_1px_0_rgba(255,255,255,0.3)]"
+    >
+      {defaultVariant.ctaText}
+    </a>
+
+    <p class="text-xs text-text-dim mt-3">
+      {defaultVariant.availability ?? "Format availability may vary by region."}
+    </p>
+  </div>
+</div>
+
+<script is:inline define:vars={{ selectorId: id, bookVariants: safeVariants }}>
+  (() => {
+    const root = document.querySelector(
+      `[data-book-format-selector="${selectorId}"]`
+    );
+    if (!root || root.getAttribute("data-ready") === "true") return;
+
+    const variants = Array.isArray(bookVariants) ? bookVariants : [];
+    if (!variants.length) return;
+
+    const variantMap = new Map(variants.map((variant) => [variant.id, variant]));
+    const options = Array.from(root.querySelectorAll("[data-book-format-option]"));
+    const cta = root.querySelector("[data-book-cta]");
+    const highlightsList = root.querySelector("[data-book-highlights]");
+
+    const valueNode = (key) => root.querySelector(`[data-book-value="${key}"]`);
+
+    const setText = (key, value) => {
+      const node = valueNode(key);
+      if (node) node.textContent = value || "";
+    };
+
+    const renderHighlights = (items) => {
+      if (!highlightsList) return;
+      highlightsList.innerHTML = "";
+      (items || []).forEach((item) => {
+        const li = document.createElement("li");
+        li.className = "flex items-start gap-2 text-sm text-text-secondary";
+
+        const check = document.createElement("span");
+        check.className = "text-primary mt-0.5";
+        check.textContent = "✓";
+
+        const text = document.createTextNode(item);
+        li.appendChild(check);
+        li.appendChild(text);
+        highlightsList.appendChild(li);
+      });
+    };
+
+    const updateActiveStyles = (activeId) => {
+      options.forEach((option) => {
+        const optionId = option.getAttribute("data-book-format-option");
+        option.setAttribute("data-active", optionId === activeId ? "true" : "false");
+      });
+    };
+
+    const applyVariant = (variantId) => {
+      const variant = variantMap.get(variantId) || variants[0];
+      if (!variant) return;
+
+      root.setAttribute("data-selected-variant", variant.id);
+      updateActiveStyles(variant.id);
+
+      setText("name", variant.name);
+      setText("price", variant.price);
+      setText("description", variant.description);
+      setText("consumeType", variant.consumeType);
+      setText("delivery", variant.delivery);
+
+      if (cta) {
+        cta.setAttribute("href", variant.ctaHref);
+        cta.textContent = variant.ctaText;
+      }
+
+      renderHighlights(variant.highlights);
+    };
+
+    options.forEach((option) => {
+      option.addEventListener("click", () => {
+        const variantId = option.getAttribute("data-book-format-option");
+        if (!variantId) return;
+        applyVariant(variantId);
+      });
+    });
+
+    const initialVariant = root.getAttribute("data-default-variant") || variants[0].id;
+    applyVariant(initialVariant);
+    root.setAttribute("data-ready", "true");
+  })();
+</script>
+
+<style>
+  .book-format-option[data-active="true"] {
+    border-color: color-mix(in oklab, var(--color-primary) 50%, transparent);
+    background: color-mix(in oklab, var(--color-primary) 10%, transparent);
+  }
+</style>

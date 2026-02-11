@@ -1,24 +1,230 @@
 ---
-title: Budgeting Tool
-description: Our proprietary budgeting spreadsheet that's helped thousands take control of their finances. Free download.
+title: Free Budgeting Tool
+description: Need help managing your finances? Use our free budgeting spreadsheet to track income, expenses, savings, debt, and long-term goals.
+longDescription: Introducing our intuitive, free budgeting tool designed to help you manage your finances with ease and clarity.
 icon: "fa6:chart-simple"
+heading:
+  before: "Need Help Managing Your Finances?"
+  text: "Free Budgeting Tool"
+bannerImage: "../../assets/excel-arold.png"
+featuredImage: "../../assets/excel-arold.png"
 price: "FREE"
+priceNote: "Works with Excel, Google Sheets, and similar spreadsheet apps"
+link: "https://www.dropbox.com/scl/fi/3gqsgxp9z8va2vohslr7x/Budget-Template.xlsx?rlkey=mo5lrx3xsdfi4zx0dmc2f2tbt&st=abor1slx&dl=0"
+featuredVideo:
+  src: "/sample-video-testimonial.mp4"
+  title: "Budgeting Tool Walkthrough"
 status: free
-itemLayout: "@/layouts/collections/DownloadProductLayout.astro"
+itemLayout: "@/layouts/collections/BarebonesCustomLayout.astro"
 features:
-  - Income & expense tracking
-  - Automatic savings calculator
-  - Investment allocation planner
-  - Debt payoff tracker
-  - Monthly & yearly views
-  - Works with Excel & Google Sheets
+  - Income and expense tracking in one place
+  - Savings and emergency fund planning
+  - Debt visibility and payoff structure
+  - Goal setting and monthly variance analysis
+  - Retirement planning support
+  - Investment tracking fields
+  - Works with Excel and Google Sheets
 ctaText: Download Now
 cta:
   eyebrow: Get Organized
   title: Ready To Use The Budgeting Tool?
-  description: Head back up, download the file, and start tracking your money with a clear system built for consistency.
+  description: Download the file and start tracking your finances with a clean, practical system.
   ctaText: Back To Top
 order: 4
 ---
+import Button from "@/components/Button/Button";
+import BackgroundMedia from "@/components/BackgroundMedia.astro";
+import ProductFeaturedVideo from "@/components/ProductFeaturedVideo.astro";
+import BudgetHeroImage from "@/assets/excel-arold.png";
 
-The CBC Budget Master - A comprehensive spreadsheet that helps you track income, expenses, savings goals, and investments. Used by over 10,000 community members.
+export const budgetingHighlights = [
+  "Track your full financial picture in one view",
+  "See where your money is moving month to month",
+  "Build systems for savings, debt reduction, and investing",
+  "Set realistic goals and monitor variance over time",
+];
+
+export const supportedPlatforms = [
+  "Microsoft Excel (.xlsx)",
+  "Google Sheets",
+  "Apple Numbers and similar spreadsheet apps",
+];
+
+export const quickStartSteps = [
+  "Download the template and make your own copy.",
+  "Enter your income, fixed expenses, variable expenses, and debt details.",
+  "Set your savings and financial goals, then review monthly variance to stay on track.",
+];
+
+<section id="budget-tool-top" class="pt-20 md:pt-24 pb-16 bg-bg">
+  <div class="relative w-full h-[220px] md:h-[250px] overflow-hidden bg-[#0d1118] border-y border-white/10">
+    <BackgroundMedia
+      backgroundMedia={{
+        image: { src: BudgetHeroImage, aboveTheFold: true },
+        overlayClass: "bg-gradient-to-r from-[#111827]/90 via-[#1e293b]/75 to-[#0b1220]/80",
+      }}
+    />
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.12),transparent_40%),radial-gradient(circle_at_85%_10%,rgba(201,162,39,0.2),transparent_35%)]"></div>
+  </div>
+
+  <div class="w-90/100 mx-auto relative -mt-12 md:-mt-18 px-4 md:px-8 pb-6 md:pb-10">
+    <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary/95 via-bg/95 to-bg-dark/95 p-6 md:p-10 shadow-[0_24px_50px_rgba(0,0,0,0.45)]">
+      <p class="text-sm uppercase tracking-[2px] text-primary mb-2 font-semibold">
+        {typeof props.entry?.data?.heading === "object"
+          ? (props.entry.data.heading.before ?? "")
+          : (props.entry?.data?.heading ?? "")}
+      </p>
+
+      <h1 class="text-[clamp(36px,5vw,64px)] leading-none font-extrabold text-white mb-4">
+        {typeof props.entry?.data?.heading === "object"
+          ? (props.entry.data.heading.text ?? props.entry?.data?.title ?? "Free Budgeting Tool")
+          : (props.entry?.data?.title ?? "Free Budgeting Tool")}
+      </h1>
+
+      <p class="text-text-secondary text-lg md:text-xl leading-relaxed mb-5 max-w-[1000px]">
+        Introducing our intuitive, free budgeting tool designed to help you manage your finances
+        with ease and clarity. With a comprehensive layout that categorizes your income,
+        expenses, savings, and debts, you can track your financial health at a glance.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3 mb-4">
+        {props.entry?.data?.link ? (
+          <Button
+            href={props.entry.data.link}
+            variant="primary"
+            size="lg"
+            target={props.entry.data.link.startsWith("http") ? "_blank" : undefined}
+            rel={props.entry.data.link.startsWith("http") ? "noopener noreferrer" : undefined}
+          >
+            Download Free Tool
+          </Button>
+        ) : (
+          <Button variant="secondary" size="lg" disabled>Add Download Link</Button>
+        )}
+        <Button href="#budget-tool-details" variant="secondary" size="lg">
+          See What's Included
+        </Button>
+      </div>
+
+      <p class="text-sm text-text-secondary mb-5">
+        {props.entry?.data?.link
+          ? "No paywall. Get instant access and start tracking today."
+          : "Set `link:` in frontmatter to enable download."}
+      </p>
+
+      <div class="flex flex-wrap gap-2">
+        {supportedPlatforms.map((platform) => (
+          <span class="inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs text-primary">
+            {platform}
+          </span>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="budget-tool-details" class="pb-20 md:pb-24 bg-bg">
+  <div class="w-90/100 mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-10 lg:gap-12 items-start">
+    <div>
+      <div class="mb-8 rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary via-bg to-bg-dark p-4 md:p-5 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+        <img
+          src={BudgetHeroImage.src}
+          alt="Free Budgeting Tool featured preview"
+          class="w-full h-auto rounded-xl border border-white/10"
+          loading="lazy"
+        />
+      </div>
+
+      <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-5">
+        Keep Your Financial Goals In Sight
+      </h2>
+      <p class="text-text-secondary text-lg leading-relaxed mb-4">
+        Whether you're planning for retirement, building an emergency fund, or preparing to invest,
+        this spreadsheet gives you customizable fields to account for every major part of your
+        financial life.
+      </p>
+      <p class="text-text-secondary text-lg leading-relaxed mb-8">
+        You can track targets, compare actual performance, and use variance analysis to make better
+        decisions month over month. The goal is simple: help you move with confidence and secure
+        your financial future through structure and visibility.
+      </p>
+
+      <h3 class="text-2xl md:text-3xl font-extrabold text-white mb-5">
+        What This Template Covers
+      </h3>
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-5 mb-10">
+        {budgetingHighlights.map((item) => (
+          <li class="flex items-start gap-3">
+            <span class="text-primary shrink-0 mt-0.5">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+            <span class="text-text-secondary text-lg leading-relaxed">{item}</span>
+          </li>
+        ))}
+      </ul>
+
+      <h3 class="text-2xl md:text-3xl font-extrabold text-white mb-5">
+        Quick Start
+      </h3>
+      <ol class="space-y-4 text-text-secondary text-lg leading-relaxed list-decimal list-inside">
+        {quickStartSteps.map((step) => (
+          <li>{step}</li>
+        ))}
+      </ol>
+    </div>
+
+    <aside class="sticky-section self-start">
+      <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary via-bg to-bg-dark p-6 md:p-7 shadow-[0_24px_50px_rgba(0,0,0,0.45)]">
+        <p class="h6 uppercase tracking-[2px] text-text-dim mb-3">
+          Free Download
+        </p>
+        <p class="text-4xl font-extrabold text-white mb-2">FREE</p>
+        <p class="text-sm text-text-dim mb-5">
+          Built for Excel, Google Sheets, and similar spreadsheet tools.
+        </p>
+
+        {props.entry?.data?.featuredVideo?.src && (
+          <div class="mb-5">
+            <ProductFeaturedVideo
+              src={props.entry.data.featuredVideo.src}
+              title={props.entry.data.featuredVideo.title ?? ""}
+            />
+          </div>
+        )}
+
+        {props.entry?.data?.link ? (
+          <Button
+            href={props.entry.data.link}
+            variant="primary"
+            size="lg"
+            className="w-full"
+            target={props.entry.data.link.startsWith("http") ? "_blank" : undefined}
+            rel={props.entry.data.link.startsWith("http") ? "noopener noreferrer" : undefined}
+          >
+            Download Free Tool
+          </Button>
+        ) : (
+          <Button variant="secondary" size="lg" className="w-full" disabled>
+            Add Download Link
+          </Button>
+        )}
+
+        <div class="mt-6 rounded-xl border border-white/10 bg-bg/50 p-4">
+          <p class="text-xs uppercase tracking-[2px] text-text-dim mb-2">
+            Compatibility
+          </p>
+          <ul class="space-y-2">
+            {supportedPlatforms.map((platform) => (
+              <li class="text-sm text-text-secondary flex items-start gap-2">
+                <span class="text-primary mt-0.5">+</span>
+                {platform}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>

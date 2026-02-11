@@ -3,12 +3,13 @@
 
 import type { IconType } from 'react-icons';
 import { LuArrowRight, LuBookOpen, LuChevronRight, LuContact, LuGlobe, LuImage, LuMail, LuPhone, LuSettings } from 'react-icons/lu';
-import { FaArrowsUpDownLeftRight, FaBook, FaBullseye, FaChartSimple, FaClockRotateLeft, FaCompass, FaDiscord, FaEye, FaFeather, FaFileLines, FaGraduationCap, FaHeadset, FaLayerGroup, FaLifeRing, FaLink, FaPalette, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaUniversalAccess, FaWandMagicSparkles, FaXmark } from 'react-icons/fa6';
+import { FaArrowsUpDownLeftRight, FaBook, FaBookOpen, FaBullseye, FaChartSimple, FaClockRotateLeft, FaCompass, FaDiscord, FaEye, FaFeather, FaFileLines, FaGraduationCap, FaHeadphones, FaHeadset, FaLayerGroup, FaLifeRing, FaLink, FaPalette, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaTabletScreenButton, FaUniversalAccess, FaWandMagicSparkles, FaXmark } from 'react-icons/fa6';
 import { SiDiscord, SiInstagram, SiTiktok, SiX, SiYoutube } from 'react-icons/si';
 
 export const iconMap = {
   'fa6:arrows-up-down-left-right': FaArrowsUpDownLeftRight,
   'fa6:book': FaBook,
+  'fa6:book-open': FaBookOpen,
   'fa6:bullseye': FaBullseye,
   'fa6:chart-simple': FaChartSimple,
   'fa6:clock-rotate-left': FaClockRotateLeft,
@@ -18,6 +19,7 @@ export const iconMap = {
   'fa6:feather': FaFeather,
   'fa6:file-lines': FaFileLines,
   'fa6:graduation-cap': FaGraduationCap,
+  'fa6:headphones': FaHeadphones,
   'fa6:headset': FaHeadset,
   'fa6:layer-group': FaLayerGroup,
   'fa6:life-ring': FaLifeRing,
@@ -27,6 +29,7 @@ export const iconMap = {
   'fa6:rotate-left': FaRotateLeft,
   'fa6:scale-balanced': FaScaleBalanced,
   'fa6:shield-halved': FaShieldHalved,
+  'fa6:tablet-screen-button': FaTabletScreenButton,
   'fa6:universal-access': FaUniversalAccess,
   'fa6:wand-magic-sparkles': FaWandMagicSparkles,
   'fa6:xmark': FaXmark,
