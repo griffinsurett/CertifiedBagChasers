@@ -34,6 +34,7 @@ order: 4
 ---
 import Button from "@/components/Button/Button";
 import BackgroundMedia from "@/components/BackgroundMedia.astro";
+import BudgetDownloadForm from "@/components/Form/forms/BudgetDownloadForm.astro";
 import ProductFeaturedVideo from "@/components/ProductFeaturedVideo.astro";
 import BudgetHeroImage from "@/assets/excel-arold.png";
 
@@ -51,7 +52,7 @@ export const supportedPlatforms = [
 ];
 
 export const quickStartSteps = [
-  "Download the template and make your own copy.",
+  "Enter your email and consent to marketing to unlock the template.",
   "Enter your income, fixed expenses, variable expenses, and debt details.",
   "Set your savings and financial goals, then review monthly variance to stay on track.",
 ];
@@ -87,28 +88,21 @@ export const quickStartSteps = [
         expenses, savings, and debts, you can track your financial health at a glance.
       </p>
 
-      <div class="flex flex-wrap items-center gap-3 mb-4">
-        {props.entry?.data?.link ? (
-          <Button
-            href={props.entry.data.link}
-            variant="primary"
-            size="lg"
-            target={props.entry.data.link.startsWith("http") ? "_blank" : undefined}
-            rel={props.entry.data.link.startsWith("http") ? "noopener noreferrer" : undefined}
-          >
-            Download Free Tool
-          </Button>
-        ) : (
-          <Button variant="secondary" size="lg" disabled>Add Download Link</Button>
-        )}
-        <Button href="#budget-tool-details" variant="secondary" size="lg">
-          See What's Included
-        </Button>
+      <div class="mb-4 max-w-[760px]">
+        <BudgetDownloadForm
+          id="budget-download-gate"
+          downloadUrl={props.entry?.data?.link}
+          storageKey="budgeting-tool-download-gate"
+          submitText="Unlock Free Tool"
+          downloadText="Download Free Tool"
+          title="Get Instant Access"
+          helperText="Enter your email and agree to marketing to unlock your free download."
+        />
       </div>
 
       <p class="text-sm text-text-secondary mb-5">
         {props.entry?.data?.link
-          ? "No paywall. Get instant access and start tracking today."
+          ? "Free download. Email + marketing consent required."
           : "Set `link:` in frontmatter to enable download."}
       </p>
 
@@ -194,22 +188,9 @@ export const quickStartSteps = [
           </div>
         )}
 
-        {props.entry?.data?.link ? (
-          <Button
-            href={props.entry.data.link}
-            variant="primary"
-            size="lg"
-            className="w-full"
-            target={props.entry.data.link.startsWith("http") ? "_blank" : undefined}
-            rel={props.entry.data.link.startsWith("http") ? "noopener noreferrer" : undefined}
-          >
-            Download Free Tool
-          </Button>
-        ) : (
-          <Button variant="secondary" size="lg" className="w-full" disabled>
-            Add Download Link
-          </Button>
-        )}
+        <Button href="#budget-download-gate" variant="primary" size="lg" className="w-full">
+          Unlock Download
+        </Button>
 
         <div class="mt-6 rounded-xl border border-white/10 bg-bg/50 p-4">
           <p class="text-xs uppercase tracking-[2px] text-text-dim mb-2">

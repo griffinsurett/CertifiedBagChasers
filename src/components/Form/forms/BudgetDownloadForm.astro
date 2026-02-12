@@ -1,0 +1,167 @@
+---
+import Button from "@/components/Button/Button";
+import FormWrapper from "@/components/Form/FormWrapper";
+import Input from "@/components/Form/inputs/Input";
+import Checkbox from "@/components/Form/inputs/Checkbox";
+import { submitToFormspree } from "@/utils/formspree";
+
+interface Props {
+  downloadUrl?: string;
+  id?: string;
+  className?: string;
+  storageKey?: string;
+  submitText?: string;
+  downloadText?: string;
+  title?: string;
+  description?: string;
+}
+
+const {
+  downloadUrl,
+  id,
+  className = "",
+  storageKey = "budgeting-tool-download-gate",
+  submitText = "Unlock Free Tool",
+  downloadText = "Download Free Tool",
+  title = "Get Instant Access",
+  description = "Enter your email and agree to marketing to unlock your free download.",
+} = Astro.props as Props;
+
+const formspreeId =
+  import.meta.env.PUBLIC_FORMSPREE_BUDGET_TOOL_ID ||
+  import.meta.env.PUBLIC_FORMSPREE_ID ||
+  "";
+
+const formspreeEndpoint = formspreeId
+  ? `https://formspree.io/f/${formspreeId}`
+  : "";
+
+const hasDownload = Boolean(downloadUrl);
+const isExternal = typeof downloadUrl === "string" && downloadUrl.startsWith("http");
+
+const handleSubmit = async (values: Record<string, unknown>) => {
+  await submitToFormspree({
+    endpoint: formspreeEndpoint,
+    values: {
+      ...values,
+      source: "budgeting-tool-download",
+      marketingConsentText:
+        "I agree to receive updates and marketing communications and acknowledge the privacy policy.",
+    },
+    formName: "Budgeting Tool Download",
+  });
+
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(
+      new CustomEvent("budget-download-unlocked", { detail: { key: storageKey } })
+    );
+  }
+};
+---
+
+<div
+  id={id}
+  class={`space-y-4 ${className}`}
+  data-budget-download-gate
+  data-gate-key={storageKey}
+>
+  {hasDownload ? (
+    <>
+      <div data-budget-form-wrapper>
+        <FormWrapper
+          client:idle
+          onSubmit={handleSubmit}
+          successMessage="Thanks. Your download is now unlocked."
+          errorMessage="We could not submit your form. Please try again."
+          className="w-full"
+        >
+          {title && <p class="text-base font-semibold text-white mb-2">{title}</p>}
+          {description && <p class="text-sm text-text-secondary mb-3">{description}</p>}
+
+          <Input
+            name="email"
+            type="email"
+            required={true}
+            placeholder="you@email.com"
+            aria-label="Email address"
+            showLabel={false}
+            containerClassName="mb-4"
+            inputClassName="w-full px-4 py-3 bg-bg border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder:text-text-dim"
+          />
+
+          <Checkbox
+            name="marketingConsent"
+            required
+            containerClassName="mb-5"
+            labelClassName="flex items-start gap-2.5"
+            checkboxClassName="mt-0.5 w-4 h-4 rounded border-white/20 bg-bg text-primary focus:ring-primary"
+          >
+            <span class="text-sm text-text-secondary">
+              I agree to receive updates and marketing communications and consent to email marketing.
+              See our{" "}
+              <Button href="/privacy-policy" variant="link">
+                Privacy Policy
+              </Button>
+              .
+            </span>
+          </Checkbox>
+
+          <Button type="submit" variant="primary" className="w-full">
+            {submitText}
+          </Button>
+        </FormWrapper>
+      </div>
+
+      <div data-budget-download-action class="hidden">
+        <Button
+          href={downloadUrl!}
+          variant="primary"
+          size="lg"
+          className="w-full"
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+        >
+          {downloadText}
+        </Button>
+      </div>
+    </>
+  ) : (
+    <p class="text-sm text-text-muted">Set a `link` in frontmatter to enable download access.</p>
+  )}
+</div>
+
+<script is:inline>
+  (() => {
+    const roots = Array.from(document.querySelectorAll("[data-budget-download-gate]"));
+
+    roots.forEach((root) => {
+      if (!(root instanceof HTMLElement)) return;
+      if (root.getAttribute("data-gate-ready") === "true") return;
+
+      const key = root.getAttribute("data-gate-key") || "budgeting-tool-download-gate";
+      const formWrapper = root.querySelector("[data-budget-form-wrapper]");
+      const downloadAction = root.querySelector("[data-budget-download-action]");
+
+      if (!(formWrapper instanceof HTMLElement) || !(downloadAction instanceof HTMLElement)) {
+        return;
+      }
+
+      const setUnlocked = (unlocked) => {
+        if (unlocked) {
+          formWrapper.classList.add("hidden");
+          downloadAction.classList.remove("hidden");
+        } else {
+          formWrapper.classList.remove("hidden");
+          downloadAction.classList.add("hidden");
+        }
+      };
+
+      window.addEventListener("budget-download-unlocked", (event) => {
+        const evt = event;
+        if (evt?.detail?.key === key) setUnlocked(true);
+      });
+
+      root.setAttribute("data-gate-ready", "true");
+    });
+  })();
+</script>
