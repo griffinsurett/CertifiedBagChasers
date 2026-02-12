@@ -1,0 +1,121 @@
+---
+import type { BaseVariantProps } from "../ContentRenderer.types";
+
+interface Props extends BaseVariantProps {
+  returnTo?: string;
+}
+
+const {
+  items = [],
+  title = "Reviews",
+  id = "book-written-testimonials",
+  className = "",
+  returnTo = "#book-format",
+} = Astro.props as Props;
+
+const getQuote = (item: any): string =>
+  item?.content?.trim?.() || item?.description || "Great book.";
+
+const getName = (item: any): string => item?.title || "Verified Reader";
+
+const getMeta = (item: any): string => {
+  const role = item?.role || "";
+  const company = item?.company || "";
+  const parts = [role, company].filter(Boolean);
+  return parts.join(", ");
+};
+
+const clampRating = (value: unknown): number => {
+  const rating = Number(value);
+  if (!Number.isFinite(rating)) return 5;
+  return Math.max(1, Math.min(5, Math.round(rating)));
+};
+
+if (!items.length) return null;
+---
+
+<div id={id} class={`book-written-testimonials ${className}`} data-book-written-testimonials={id}>
+  <h3 class="text-4xl font-extrabold text-white mb-5">{title}</h3>
+
+  <div class="space-y-5">
+    {items.map((item: any, index: number) => (
+      <article
+        data-book-written-item
+        data-index={index}
+        hidden={index !== 0}
+        class="min-h-[240px]"
+      >
+        <div class="mb-5 text-primary text-3xl leading-none tracking-[2px]">
+          {"★".repeat(clampRating(item.rating))}
+        </div>
+        <blockquote class="text-2xl leading-relaxed text-text-secondary mb-7">
+          “{getQuote(item)}”
+        </blockquote>
+        <p class="text-white uppercase tracking-[3px] font-semibold">
+          {getName(item)}
+          {getMeta(item) && <span class="text-text-muted">, {getMeta(item)}</span>}
+        </p>
+      </article>
+    ))}
+  </div>
+
+  {items.length > 1 && (
+    <div class="flex items-center gap-3 mt-7 mb-8">
+      {items.map((_, index) => (
+        <button
+          type="button"
+          aria-label={`Show testimonial ${index + 1}`}
+          data-book-written-dot={index}
+          class="book-written-dot w-3.5 h-3.5 rounded-full border border-primary/50 bg-primary/30 transition-colors"
+        />
+      ))}
+    </div>
+  )}
+
+  <a
+    href={returnTo}
+    class="inline-flex items-center text-primary text-xl font-semibold hover:text-primary-100 transition-colors"
+  >
+    ↑ Return to Top of Page ↑
+  </a>
+</div>
+
+<script is:inline define:vars={{ rootId: id }}>
+  (() => {
+    const root = document.querySelector(
+      `[data-book-written-testimonials="${rootId}"]`
+    );
+    if (!root || root.getAttribute("data-ready") === "true") return;
+
+    const items = Array.from(root.querySelectorAll("[data-book-written-item]"));
+    const dots = Array.from(root.querySelectorAll("[data-book-written-dot]"));
+    if (!items.length) return;
+
+    const show = (index) => {
+      items.forEach((item, i) => {
+        item.hidden = i !== index;
+      });
+
+      dots.forEach((dot, i) => {
+        dot.setAttribute("data-active", i === index ? "true" : "false");
+      });
+    };
+
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const idx = Number(dot.getAttribute("data-book-written-dot") || "0");
+        show(idx);
+      });
+    });
+
+    show(0);
+    root.setAttribute("data-ready", "true");
+  })();
+</script>
+
+<style>
+  .book-written-dot[data-active="true"] {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+  }
+</style>

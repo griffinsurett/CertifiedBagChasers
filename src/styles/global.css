@@ -82,6 +82,10 @@ h1, h2, h3, h4, h5, h6 {
     @apply cursor-pointer;
   }
 
+  .inner-section {
+    @apply max-w-[1200px] mx-auto;
+  }
+
   /* Base button styles */
   .btn-base {
     @apply inline-flex items-center justify-center gap-2;

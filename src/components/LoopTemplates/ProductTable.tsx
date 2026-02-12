@@ -151,12 +151,14 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
                 </Button>
 
                 {showLearnMore && (
-                  <a
+                  <Button
+                    variant="underline"
                     href={product.url}
-                    className="inline-flex justify-center w-full mt-3 text-sm text-text-secondary hover:text-primary underline underline-offset-4 transition-colors"
+                    size="sm"
+                    className="mt-3"
                   >
                     Learn More
-                  </a>
+                  </Button>
                 )}
               </div>
             )}

@@ -18,7 +18,14 @@
  */
 import { file } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
-import { baseSchema, MenuSchema, MenuItemFields, refSchema, imageInputSchema } from "./schema";
+import {
+  baseSchema,
+  MenuSchema,
+  MenuItemFields,
+  refSchema,
+  imageInputSchema,
+  iconSchema,
+} from "./schema";
 import { MenuItemsLoader } from "@/utils/loaders/MenuItemsLoader";
 
 export const collections = {
@@ -191,6 +198,26 @@ export const collections = {
         features: z.array(z.string()).default([]),
         // CTA button text
         ctaText: z.string().optional(),
+        // Storefront links used for products with multiple external retailers
+        purchaseLinks: z
+          .array(
+            z.object({
+              text: z.string(),
+              url: z.string().url(),
+              icon: iconSchema({ image }).optional(),
+            })
+          )
+          .default([]),
+        // Optional format metadata used for hierarchical product variants (e.g., book formats)
+        format: z
+          .object({
+            consumeType: z.string().optional(),
+            delivery: z.string().optional(),
+            availability: z.string().optional(),
+            ctaText: z.string().optional(),
+            highlights: z.array(z.string()).optional(),
+          })
+          .optional(),
       }),
   }),
 };

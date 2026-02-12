@@ -1,0 +1,172 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import Button from "@/components/Button/Button";
+import type { IconType } from "@/content/schema";
+import { children, byItemKeys } from "@/utils/query/snippets";
+import { getItemKey } from "@/utils/collections";
+
+interface PurchaseLink {
+  text: string;
+  url: string;
+  icon?: IconType;
+}
+
+interface RelatedVariant {
+  id: string;
+  label: string;
+  href: string;
+  active: boolean;
+}
+
+interface Props {
+  parentId: string;
+  currentId: string;
+  variantName: string;
+  title?: string;
+  description?: string;
+  price?: string;
+  purchaseLinks?: PurchaseLink[];
+  coverImage: ImageMetadata;
+  badgeImage?: ImageMetadata;
+  badgeAlt?: string;
+  className?: string;
+}
+
+const {
+  parentId,
+  currentId,
+  variantName,
+  title = "Managing The Motion Of Money",
+  description,
+  price,
+  purchaseLinks = [],
+  coverImage,
+  badgeImage,
+  badgeAlt = "Best Selling Author Badge",
+  className = "",
+} = Astro.props as Props;
+
+const cleanId = (value: string): string => value.replace(/\.mdx$/i, "");
+const parseChildFormatName = (value: string): string => {
+  const match = value.match(/\(([^)]+)\)/);
+  return match?.[1]?.trim() || value;
+};
+
+const [parentEntry] = await byItemKeys("products", parentId).all();
+const childEntries = await children("products", parentId).all();
+const relatedEntries = [parentEntry, ...childEntries]
+  .filter(Boolean)
+  .filter((entry) => entry.data.status !== "coming-soon");
+
+const currentKey = cleanId(currentId);
+
+const relatedVariants: RelatedVariant[] = relatedEntries
+  .map((entry) => {
+    const entryId = cleanId(getItemKey(entry));
+    if (!entryId) return null;
+
+    const label =
+      entryId === cleanId(parentId)
+        ? "Hardcover"
+        : parseChildFormatName(entry.data.title ?? entryId);
+
+    return {
+      id: entryId,
+      label,
+      href: `/products/${entryId}`,
+      active: entryId === currentKey,
+    };
+  })
+  .filter((entry): entry is RelatedVariant => Boolean(entry));
+---
+
+<section id="book-format" class={`py-16 md:py-24 bg-bg ${className}`}>
+  <div class="w-full">
+      <div class="rounded-3xl bg-gradient-to-br from-bg-secondary via-bg to-bg-dark p-2 md:p-3">
+        <div class="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+          <div class="relative rounded-2xl p-0 flex-1 w-full min-w-0 lg:sticky lg:top-40 self-start">
+            <div class="relative overflow-hidden rounded-xl bg-bg/70">
+              <Image
+                src={coverImage}
+                alt={`${title} book cover`}
+                class="w-full h-auto object-cover"
+              />
+              {badgeImage && (
+                <div class="absolute left-[34%] bottom-2 md:bottom-4 lg:left-[30%] lg:bottom-6 -translate-x-1/2">
+                  <Image
+                    src={badgeImage}
+                    alt={badgeAlt}
+                    class="w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 xl:w-36 xl:h-36 drop-shadow-2xl"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div class="flex-1 w-full min-w-0 px-3 sm:px-4 md:px-6 lg:px-8">
+            <div class="inner-section">
+            <p class="h6 uppercase tracking-[2px] text-text-dim mb-3">#1 Best Selling Book</p>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2">{title}</h1>
+            <p class="text-xl md:text-2xl font-semibold text-primary mb-2">{variantName}</p>
+            {price && <p class="text-2xl font-bold text-white mb-2">{price}</p>}
+            {description && (
+              <p class="text-text-secondary text-lg leading-relaxed mb-5">{description}</p>
+            )}
+
+            <div class="space-y-3">
+              {purchaseLinks.map((purchaseLink) => (
+                <Button
+                  variant="secondary"
+                  href={purchaseLink.url}
+                  className="w-full"
+                  size="lg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  leftIcon={purchaseLink.icon}
+                >
+                  {purchaseLink.text}
+                </Button>
+              ))}
+            </div>
+
+            {relatedVariants.length > 1 && (
+              <div class="mt-7 pt-6">
+                <p class="text-text-muted text-sm uppercase tracking-[2px] mb-3">Also available in:</p>
+                <div class="flex flex-wrap gap-2.5">
+                  {relatedVariants.map((variant) =>
+                    variant.active ? (
+                      <span class="book-variant-chip-active rounded-none border px-3.5 py-2 text-sm font-semibold">
+                        {variant.label}
+                      </span>
+                    ) : (
+                      <a
+                        href={variant.href}
+                        class="book-variant-chip rounded-none border border-primary/40 bg-transparent px-3.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/10"
+                      >
+                        {variant.label}
+                      </a>
+                    )
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+        </div>
+      </div>
+  </div>
+</section>
+
+<style>
+  .book-variant-chip-active {
+    background: linear-gradient(
+      90deg,
+      var(--color-primary-900),
+      var(--color-primary-600),
+      var(--color-primary-100)
+    );
+    color: var(--color-bg);
+    border-color: color-mix(in oklab, var(--color-primary) 60%, transparent);
+  }
+</style>

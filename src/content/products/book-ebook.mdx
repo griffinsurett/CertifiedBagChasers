@@ -1,0 +1,81 @@
+---
+title: The Book (E-Book)
+description: Digital edition of Managing the Motion of Money for Kindle and compatible reading apps.
+parent: book
+hasPage: true
+itemLayout: "@/layouts/collections/BarebonesCustomLayout.astro"
+icon: "fa6:tablet-screen-button"
+price: "$19.99"
+link: "https://www.amazon.com/s?k=Managing+the+Motion+of+Money+kindle"
+purchaseLinks:
+  - text: Kindle
+    url: "https://www.amazon.com/s?k=Managing+the+Motion+of+Money+kindle"
+    icon: "fa6-brands:amazon"
+  - text: Apple Books
+    url: "https://books.apple.com/us/search?term=Managing%20the%20Motion%20of%20Money"
+    icon: "fa6-brands:apple"
+  - text: Google Play Books
+    url: "https://play.google.com/store/search?q=Managing%20the%20Motion%20of%20Money&c=books"
+    icon: "fa6-brands:google-play"
+status: available
+order: 11
+format:
+  consumeType: Digital eBook
+  delivery: Instant Kindle delivery
+  availability: Available instantly after purchase.
+  ctaText: Buy E-Book
+  highlights:
+    - Instant access after checkout
+    - Read on multiple devices
+    - Best for flexible on-the-go reading
+---
+import BookProductDetail from "@/components/BookProductDetail.astro";
+import BookIntroTextSection from "@/components/BookIntroTextSection.astro";
+import BookFeaturedVideoFallback from "@/components/BookFeaturedVideoFallback.astro";
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import { query, sortByOrder } from "@/utils/query";
+import BookHeroImage from "@/assets/book-cover.png";
+import BestSellingAuthorBadge from "@/assets/best-selling-author.png";
+
+<BookProductDetail
+  parentId="book"
+  currentId="book-ebook"
+  variantName="E-Book"
+  title="Managing The Motion Of Money"
+  price={frontmatter.price}
+  description={frontmatter.description}
+  purchaseLinks={frontmatter.purchaseLinks ?? []}
+  coverImage={BookHeroImage}
+  badgeImage={BestSellingAuthorBadge}
+  className="scroll-mt-36 pt-20 md:pt-24"
+/>
+
+<div class="inner-section">
+<BookIntroTextSection
+  title="Instant access. Same framework. Maximum flexibility."
+  paragraphs={[
+    "The e-book format gives you immediate access to the full system so you can start applying the principles today on any device.",
+    "If speed and portability matter most, this is the most flexible way to learn and implement the framework consistently.",
+  ]}
+/>
+
+<section class="py-14 md:py-20 bg-bg">
+  <div class="w-95/100 mx-auto flex flex-col xl:flex-row gap-10 xl:gap-14 items-start">
+    <div class="flex-1 w-full min-w-0">
+      <h3 class="text-3xl md:text-4xl font-extrabold text-white uppercase tracking-[2px] mb-6">
+        Watch The Book Breakdown
+      </h3>
+      <BookFeaturedVideoFallback parentId="book" currentId="book-ebook" />
+    </div>
+
+    <div class="flex-1 w-full min-w-0">
+      <ContentRenderer
+        query={query("testimonials").where((entry) => !entry.data.socialMediaPost && !entry.data.isVideo).orderBy(sortByOrder())}
+        variant="BookWrittenTestimonialsVariant"
+        title="Reviews"
+        id="book-written-reviews-ebook"
+      />
+    </div>
+  </div>
+</section>
+</div>

@@ -1,0 +1,27 @@
+---
+import { byItemKeys } from "@/utils/query/snippets";
+import ProductFeaturedVideo from "@/components/ProductFeaturedVideo.astro";
+
+interface Props {
+  parentId: string;
+  currentId: string;
+  className?: string;
+}
+
+const { parentId, currentId, className = "" } = Astro.props as Props;
+
+const [currentEntry] = await byItemKeys("products", currentId).all();
+const [parentEntry] = await byItemKeys("products", parentId).all();
+
+const currentVideo = currentEntry?.data?.featuredVideo;
+const parentVideo = parentEntry?.data?.featuredVideo;
+const resolvedVideo = currentVideo ?? parentVideo;
+
+if (!resolvedVideo?.src) return null;
+---
+
+<ProductFeaturedVideo
+  src={resolvedVideo.src}
+  title={resolvedVideo.title}
+  className={className}
+/>

@@ -2,11 +2,13 @@
 // Do not edit manually. Run "npm run generate:icons" (or node src/integrations/icons/utils/generate-icon-map.mjs) to regenerate.
 
 import type { IconType } from 'react-icons';
+import { FaAmazon, FaApple, FaArrowsUpDownLeftRight, FaBook, FaBookOpen, FaBullseye, FaChartSimple, FaClockRotateLeft, FaCompass, FaDiscord, FaEye, FaFeather, FaFileLines, FaGooglePlay, FaGraduationCap, FaHeadphones, FaHeadset, FaLayerGroup, FaLifeRing, FaLink, FaPalette, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaSpotify, FaTabletScreenButton, FaUniversalAccess, FaWandMagicSparkles, FaXmark } from 'react-icons/fa6';
 import { LuArrowRight, LuBookOpen, LuChevronRight, LuContact, LuGlobe, LuImage, LuMail, LuPhone, LuSettings } from 'react-icons/lu';
-import { FaArrowsUpDownLeftRight, FaBook, FaBookOpen, FaBullseye, FaChartSimple, FaClockRotateLeft, FaCompass, FaDiscord, FaEye, FaFeather, FaFileLines, FaGraduationCap, FaHeadphones, FaHeadset, FaLayerGroup, FaLifeRing, FaLink, FaPalette, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaTabletScreenButton, FaUniversalAccess, FaWandMagicSparkles, FaXmark } from 'react-icons/fa6';
 import { SiDiscord, SiInstagram, SiTiktok, SiX, SiYoutube } from 'react-icons/si';
 
 export const iconMap = {
+  'fa6:amazon': FaAmazon,
+  'fa6:apple': FaApple,
   'fa6:arrows-up-down-left-right': FaArrowsUpDownLeftRight,
   'fa6:book': FaBook,
   'fa6:book-open': FaBookOpen,
@@ -18,6 +20,7 @@ export const iconMap = {
   'fa6:eye': FaEye,
   'fa6:feather': FaFeather,
   'fa6:file-lines': FaFileLines,
+  'fa6:google-play': FaGooglePlay,
   'fa6:graduation-cap': FaGraduationCap,
   'fa6:headphones': FaHeadphones,
   'fa6:headset': FaHeadset,
@@ -29,6 +32,7 @@ export const iconMap = {
   'fa6:rotate-left': FaRotateLeft,
   'fa6:scale-balanced': FaScaleBalanced,
   'fa6:shield-halved': FaShieldHalved,
+  'fa6:spotify': FaSpotify,
   'fa6:tablet-screen-button': FaTabletScreenButton,
   'fa6:universal-access': FaUniversalAccess,
   'fa6:wand-magic-sparkles': FaWandMagicSparkles,

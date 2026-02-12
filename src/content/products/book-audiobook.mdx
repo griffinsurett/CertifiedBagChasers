@@ -1,0 +1,81 @@
+---
+title: The Book (Audiobook)
+description: Streaming audio edition of Managing the Motion of Money for hands-free learning.
+parent: book
+hasPage: true
+itemLayout: "@/layouts/collections/BarebonesCustomLayout.astro"
+icon: "fa6:headphones"
+price: "$24.99"
+link: "https://www.audible.com/search?keywords=Managing+the+Motion+of+Money"
+purchaseLinks:
+  - text: Audible
+    url: "https://www.audible.com/search?keywords=Managing+the+Motion+of+Money"
+    icon: "fa6:headphones"
+  - text: Spotify
+    url: "https://open.spotify.com/search/Managing%20the%20Motion%20of%20Money"
+    icon: "fa6-brands:spotify"
+  - text: Apple Books Audio
+    url: "https://books.apple.com/us/search?term=Managing%20the%20Motion%20of%20Money"
+    icon: "fa6-brands:apple"
+status: available
+order: 12
+format:
+  consumeType: Audio streaming
+  delivery: Stream immediately
+  availability: Streaming availability depends on your region/platform.
+  ctaText: Get Audiobook
+  highlights:
+    - Hands-free learning format
+    - Consume while commuting or working
+    - Ideal for people who learn by listening
+---
+import BookProductDetail from "@/components/BookProductDetail.astro";
+import BookIntroTextSection from "@/components/BookIntroTextSection.astro";
+import BookFeaturedVideoFallback from "@/components/BookFeaturedVideoFallback.astro";
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import { query, sortByOrder } from "@/utils/query";
+import BookHeroImage from "@/assets/book-cover.png";
+import BestSellingAuthorBadge from "@/assets/best-selling-author.png";
+
+<BookProductDetail
+  parentId="book"
+  currentId="book-audiobook"
+  variantName="Audiobook"
+  title="Managing The Motion Of Money"
+  price={frontmatter.price}
+  description={frontmatter.description}
+  purchaseLinks={frontmatter.purchaseLinks ?? []}
+  coverImage={BookHeroImage}
+  badgeImage={BestSellingAuthorBadge}
+  className="scroll-mt-36 pt-20 md:pt-24"
+/>
+
+<div class="inner-section">
+<BookIntroTextSection
+  title="Hands-free learning for consistent execution."
+  paragraphs={[
+    "The audiobook edition helps you absorb the same wealth framework while driving, training, traveling, or working.",
+    "If you learn best by listening, this format makes it easier to stay consistent and apply the system in real life.",
+  ]}
+/>
+
+<section class="py-14 md:py-20 bg-bg">
+  <div class="w-95/100 mx-auto flex flex-col xl:flex-row gap-10 xl:gap-14 items-start">
+    <div class="flex-1 w-full min-w-0">
+      <h3 class="text-3xl md:text-4xl font-extrabold text-white uppercase tracking-[2px] mb-6">
+        Watch The Book Breakdown
+      </h3>
+      <BookFeaturedVideoFallback parentId="book" currentId="book-audiobook" />
+    </div>
+
+    <div class="flex-1 w-full min-w-0">
+      <ContentRenderer
+        query={query("testimonials").where((entry) => !entry.data.socialMediaPost && !entry.data.isVideo).orderBy(sortByOrder())}
+        variant="BookWrittenTestimonialsVariant"
+        title="Reviews"
+        id="book-written-reviews-audiobook"
+      />
+    </div>
+  </div>
+</section>
+</div>

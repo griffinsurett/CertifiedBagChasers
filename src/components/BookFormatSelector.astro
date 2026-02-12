@@ -1,5 +1,6 @@
 ---
 import Icon from "@/components/Icon";
+import { children } from "@/utils/query/snippets";
 
 export interface BookFormatVariant {
   id: string;
@@ -19,6 +20,7 @@ export interface Props {
   id?: string;
   variants: BookFormatVariant[];
   defaultVariantId?: string;
+  parentId?: string;
   className?: string;
 }
 
@@ -26,10 +28,45 @@ const {
   id = "book-format-selector",
   variants = [],
   defaultVariantId,
+  parentId,
   className = "",
 } = Astro.props as Props;
 
-const safeVariants = variants.filter((variant) => Boolean(variant?.id));
+const childEntries = parentId ? await children("products", parentId).all() : [];
+const childVariants: BookFormatVariant[] = childEntries
+  .filter((entry) => entry.data.status !== "coming-soon")
+  .map((entry) => {
+    const format = entry.data.format;
+    const icon =
+      typeof entry.data.icon === "string" ? entry.data.icon : "fa6:book";
+
+    return {
+      id: entry.id,
+      name: entry.data.title.replace(/^The Book\s*\((.*)\)$/i, "$1"),
+      icon,
+      price: entry.data.price ?? "",
+      consumeType: format?.consumeType ?? "Digital format",
+      delivery: format?.delivery ?? "Instant access",
+      description:
+        entry.data.description ??
+        entry.data.longDescription ??
+        "Digital access to Managing the Motion of Money.",
+      ctaText: format?.ctaText ?? entry.data.ctaText ?? "Get Access",
+      ctaHref: entry.data.link ?? "#",
+      availability: format?.availability,
+      highlights: format?.highlights ?? entry.data.features ?? [],
+    };
+  });
+
+const mergedVariants = [...variants, ...childVariants];
+const dedupedVariants = Array.from(
+  new Map(
+    mergedVariants
+      .filter((variant) => Boolean(variant?.id))
+      .map((variant) => [variant.id, variant])
+  ).values()
+);
+const safeVariants = dedupedVariants;
 const fallbackVariant = safeVariants[0];
 const defaultVariant =
   safeVariants.find((variant) => variant.id === defaultVariantId) ?? fallbackVariant;

@@ -1,0 +1,91 @@
+---
+title: The Book
+description: "#1 Best Selling Book \"Managing The Motion Of Money\" in hardcover, e-book, and audiobook formats."
+longDescription: "Simple steps to secure a future of financial freedom through practical personal finance systems."
+icon: "fa6:book"
+heading:
+  before: "Managing The Motion of Money"
+  text: "The Book"
+bannerImage: "../../assets/book-cover.png"
+featuredImage: "../../assets/book-cover.png"
+itemLayout: "@/layouts/collections/BarebonesCustomLayout.astro"
+price: "$29.99"
+link: "https://www.amazon.com/s?k=Managing+the+Motion+of+Money+hardcover"
+featuredVideo:
+  src: "/sample-video-testimonial.mp4"
+  title: "Watch The Book Breakdown"
+purchaseLinks:
+  - text: Amazon
+    url: "https://www.amazon.com/s?k=Managing+the+Motion+of+Money+hardcover"
+    icon: "fa6-brands:amazon"
+  - text: Apple Books
+    url: "https://books.apple.com/us/search?term=Managing%20the%20Motion%20of%20Money"
+    icon: "fa6-brands:apple"
+  - text: Barnes & Noble
+    url: "https://www.barnesandnoble.com/s/Managing%20the%20Motion%20of%20Money"
+    icon: "fa6-solid:book-open"
+status: available
+tags:
+  - featured
+features:
+  - Wealth mindset and decision framework
+  - Personal finance systems for cash flow control
+  - Beginner-friendly investing principles
+  - Practical income growth strategy
+  - Asset protection and risk awareness
+  - Long-term execution blueprint
+ctaText: Choose Your Format
+order: 2
+---
+import BookProductDetail from "@/components/BookProductDetail.astro";
+import BookIntroTextSection from "@/components/BookIntroTextSection.astro";
+import BookFeaturedVideoFallback from "@/components/BookFeaturedVideoFallback.astro";
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import { query, sortByOrder } from "@/utils/query";
+import BookHeroImage from "@/assets/book-cover.png";
+import BestSellingAuthorBadge from "@/assets/best-selling-author.png";
+
+<BookProductDetail
+  parentId="book"
+  currentId="book"
+  variantName="Hardcover"
+  title="Managing The Motion Of Money"
+  price={frontmatter.price}
+  description={frontmatter.description}
+  purchaseLinks={frontmatter.purchaseLinks ?? []}
+  coverImage={BookHeroImage}
+  badgeImage={BestSellingAuthorBadge}
+  className="scroll-mt-36 pt-20 md:pt-24"
+/>
+
+<div class="inner-section">
+<BookIntroTextSection
+  title="A practical wealth framework for real life."
+  paragraphs={[
+    "Managing the Motion of Money gives you a clear model for earning, managing, and compounding capital without relying on hype or guesswork.",
+    "You will learn how to structure your money decisions with discipline so you can move from financial confusion into long-term clarity and execution.",
+  ]}
+/>
+
+<section class="py-14 md:py-20 bg-bg">
+  <div class="flex flex-col xl:flex-row gap-10 xl:gap-14 items-start">
+    <div class="flex-1 w-full min-w-0">
+      <h3 class="text-3xl md:text-4xl font-extrabold text-white uppercase tracking-[2px] mb-6">
+        Watch The Book Breakdown
+      </h3>
+      <BookFeaturedVideoFallback parentId="book" currentId="book" />
+    </div>
+
+    <div class="flex-1 w-full min-w-0">
+      <ContentRenderer
+        query={query("testimonials").where((entry) => !entry.data.socialMediaPost && !entry.data.isVideo).orderBy(sortByOrder())}
+        variant="BookWrittenTestimonialsVariant"
+        title="Reviews"
+        id="book-written-reviews-hardcover"
+      />
+    </div>
+  </div>
+  
+</section>
+</div>
+
