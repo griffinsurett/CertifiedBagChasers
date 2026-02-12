@@ -20,8 +20,7 @@ export default function PrimaryButton({
 }: ButtonProps) {
   // Gold gradient button styling matching React project
   const variantClasses = `
-    bg-gradient-to-r from-primary-900 via-primary-600 to-primary-100
-    hover:from-primary-800 hover:via-primary hover:to-primary-50
+    [background:var(--gradient-gold-metallic)]
     text-bg font-bold uppercase tracking-widest
     rounded
     hover:-translate-y-0.5 hover:shadow-[0_10px_40px_rgba(201,162,39,0.4)]

@@ -4,8 +4,8 @@
  * Social Icon Component
  *
  * Individual social media icon with:
- * - Gold gradient border and hover effects
- * - Dark gradient background
+ * - Dark circular background
+ * - Gold metallic gradient icon color
  * - Size variants (sm, md, lg)
  * - Hover lift and glow effect
  *
@@ -34,10 +34,34 @@ const sizeStyles = {
 };
 
 const s = sizeStyles[size] || sizeStyles.md;
+const gradientIdBase = `${title || 'icon'}-${size}`
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '');
+const gradientId = `social-icon-gold-gradient-${gradientIdBase || 'default'}`;
+const iconStyle = {
+  '--social-icon-gradient': `url(#${gradientId})`,
+  color: 'var(--color-primary)',
+} as any;
 
 // Base classes matching React styling
 const baseClasses = `${s.container} bg-gradient-to-br from-[#1a1a1a] to-bg-secondary border border-primary/30 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 no-underline hover:-translate-y-[3px] hover:shadow-[0_8px_25px_rgba(201,162,39,0.3)] hover:border-primary/60`;
 ---
+
+<svg aria-hidden="true" width="0" height="0" focusable="false" class="pointer-events-none w-0 h-0 overflow-hidden">
+  <defs>
+    <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffde8" />
+      <stop offset="8%" stop-color="#f7e588" />
+      <stop offset="20%" stop-color="#dfc040" />
+      <stop offset="35%" stop-color="#c9a227" />
+      <stop offset="50%" stop-color="#b8922a" />
+      <stop offset="70%" stop-color="#8a6a18" />
+      <stop offset="90%" stop-color="#5c4510" />
+      <stop offset="100%" stop-color="#3d2e0a" />
+    </linearGradient>
+  </defs>
+</svg>
 
 {/* Render as link if URL provided */}
 {link ? (
@@ -49,7 +73,12 @@ const baseClasses = `${s.container} bg-gradient-to-br from-[#1a1a1a] to-bg-secon
     aria-label={`Visit our ${title} page`}
     title={title}
   >
-    <Icon icon={displayIcon} size={s.iconSize} className="text-primary" />
+    <Icon
+      icon={displayIcon}
+      size={s.iconSize}
+      className="social-icon-gradient-icon"
+      style={iconStyle}
+    />
   </a>
 ) : (
   /* Otherwise just display icon */
@@ -57,6 +86,29 @@ const baseClasses = `${s.container} bg-gradient-to-br from-[#1a1a1a] to-bg-secon
     class={baseClasses}
     title={title}
   >
-    <Icon icon={displayIcon} size={s.iconSize} className="text-primary" />
+    <Icon
+      icon={displayIcon}
+      size={s.iconSize}
+      className="social-icon-gradient-icon"
+      style={iconStyle}
+    />
   </div>
 )}
+
+<style>
+  :global(.social-icon-gradient-icon[fill="currentColor"]) {
+    fill: var(--social-icon-gradient) !important;
+  }
+
+  :global(.social-icon-gradient-icon[stroke="currentColor"]) {
+    stroke: var(--social-icon-gradient) !important;
+  }
+
+  :global(.social-icon-gradient-icon [fill="currentColor"]) {
+    fill: var(--social-icon-gradient) !important;
+  }
+
+  :global(.social-icon-gradient-icon [stroke="currentColor"]) {
+    stroke: var(--social-icon-gradient) !important;
+  }
+</style>

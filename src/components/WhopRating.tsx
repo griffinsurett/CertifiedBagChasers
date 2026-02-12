@@ -9,12 +9,22 @@ interface WhopRatingProps {
   className?: string;
 }
 
+const starGradientStyle = {
+  background: "var(--gradient-gold-metallic)",
+  WebkitBackgroundClip: "text",
+  backgroundClip: "text",
+  WebkitTextFillColor: "transparent",
+  color: "transparent",
+} as const;
+
 const WhopRating = ({ className = "" }: WhopRatingProps) => {
   return (
     <div className={`flex items-center justify-center gap-2 ${className}`}>
       <div className="flex gap-1">
         {[1, 2, 3, 4, 5].map((star) => (
-          <span key={star} className="text-primary text-lg">★</span>
+          <span key={star} className="inline-block text-lg" style={starGradientStyle}>
+            ★
+          </span>
         ))}
       </div>
       <span className="text-white text-base font-medium">4.9/5 on</span>
