@@ -16,6 +16,7 @@ import VideoPlaceholder from "@/components/VideoPlaceholder.astro";
 
 // Assets
 import BackgroundImg from "@/assets/inside-the-nyse.jpg";
+import BackgroundImg2 from "@/assets/bent-speaking.jpg";
 ---
 
 <BaseLayout title="Home" description={siteData.description}>
@@ -36,18 +37,18 @@ import BackgroundImg from "@/assets/inside-the-nyse.jpg";
     />
 
     <!-- VSL Video Section (placeholder) -->
-    <!-- <section class="py-20 px-5 flex flex-col items-center">
+    <section class="py-20 px-5 flex flex-col items-center">
       <VideoPlaceholder />
-    </section> -->
+    </section>
 
     <!-- About Us + Social Proof Section with Background -->
     <section class="relative overflow-hidden" id="home-about">
-      <!-- <BackgroundMedia
+      <BackgroundMedia
         backgroundMedia={{
-          image: { src: BackgroundImg, imageClass: "bg-fixed" },
+          image: { src: BackgroundImg2, imageClass: "bg-fixed bg-top" },
           overlayClass: "bg-black/70",
         }}
-      /> -->
+      />
       <AboutSection
         eyebrow="About Us"
         title="Welcome to"

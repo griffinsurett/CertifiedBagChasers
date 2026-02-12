@@ -110,7 +110,7 @@ const transformedItems = await Promise.all(items.map(async (item) => {
       type: 'video' as const,
       video: item.video,
       poster: posterUrl || undefined,
-      centered: false,
+      centered: true,
     };
   }
 
