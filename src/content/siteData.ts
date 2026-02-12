@@ -10,6 +10,7 @@ export const siteData = {
   location: "United States",
   founder: "Arold Norelus",
   tagline: "Stop Chasing Quick Fixes",
+  whopLoginLink: "https://whop.com/login",
 };
 
 export const ctaData = {

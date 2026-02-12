@@ -17,7 +17,7 @@ function AccessibilityButton() {
     <>
       <Button
         variant="link"
-        size="sm"
+        size="md"
         onClick={() => setShowModal(true)}
         aria-label="Manage reading preferences"
         aria-expanded={showModal}

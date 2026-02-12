@@ -10,6 +10,7 @@ import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro"
 import { query, sortBy } from "@/utils/query";
 import Logo from "@/components/Logo.astro";
 import Button from "@/components/Button/Button";
+import { siteData } from "@/content/siteData";
 ---
 
 <header
@@ -60,7 +61,7 @@ import Button from "@/components/Button/Button";
 
   {/* Login Button - Right (Desktop) */}
   <div class="hidden md:flex items-center gap-4 absolute right-10">
-    <Button variant="secondary" href="/login" size="sm">
+    <Button variant="secondary" href={siteData.whopLoginLink} size="sm">
       → Login
     </Button>
   </div>

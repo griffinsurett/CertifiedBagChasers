@@ -29,7 +29,7 @@
   /* ───── Neutrals (Dark Theme) ───── */
   --color-text:         #ffffff;              /* white text */
   --color-text-secondary: #b0b0b0;            /* muted gray */
-  --color-text-muted:   #888888;              /* more muted */
+  --color-text-muted:   var(--color-gray-300);              /* more muted */
   --color-text-dim:     #666666;              /* dimmest */
   --color-heading:      #ffffff;              /* white headings */
   --color-bg:           #0a0a0a;              /* main background */
@@ -118,11 +118,6 @@ h1, h2, h3, h4, h5, h6 {
     @apply transition-colors duration-200;
     @apply focus:outline-none focus:ring-0 focus:ring-offset-0;
     @apply disabled:opacity-50 disabled:cursor-not-allowed;
-    color: inherit;
-  }
-
-  .link-base:hover {
-    color: inherit;
   }
 
   /* Footer link styles - muted with gold hover */

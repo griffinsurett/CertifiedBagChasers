@@ -83,14 +83,14 @@ const legalQuery = query("menu-items")
 
       {/* Column 3: Legal & Preferences */}
       <div>
-        <h4 class="text-text mb-4 font-bold">Legal</h4>
+        <h4 class="text-text-muted mb-4 font-bold">Legal</h4>
         <ContentRenderer
           query={legalQuery}
           variant="ListVariant"
           layout="vertical"
           className="footer-links"
         />
-        <h4 class="text-text mb-4 mt-6 font-bold">Preferences</h4>
+        <h4 class="text-text-muted mb-4 mt-6 font-bold">Preferences</h4>
         <PreferencesLayout layout="vertical" className="footer-links" />
       </div>
 
@@ -121,21 +121,3 @@ const legalQuery = query("menu-items")
     </div>
   </div>
 </footer>
-
-<style>
-  .footer-links :global(a),
-  .footer-links :global(span),
-  .footer-links :global(button) {
-    color: var(--color-text-secondary);
-    display: block;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    cursor: pointer;
-    transition: color 0.3s;
-  }
-  .footer-links :global(a):hover,
-  .footer-links :global(span):hover,
-  .footer-links :global(button):hover {
-    color: var(--color-primary);
-  }
-</style>

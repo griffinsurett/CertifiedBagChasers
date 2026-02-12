@@ -18,7 +18,7 @@ function CookiePreferencesButton() {
     <>
       <Button
         variant="link"
-        size="sm"
+        size="md"
         onClick={() => setShowModal(true)}
         aria-label="Manage cookie preferences"
         rightIcon="lucide:settings"

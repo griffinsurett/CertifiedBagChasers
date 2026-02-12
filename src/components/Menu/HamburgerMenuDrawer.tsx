@@ -10,6 +10,7 @@ import Modal from "@/components/Modal";
 import MobileMenuItem from "@/components/LoopComponents/Menu/MobileMenuItem";
 import HamburgerButton from "./HamburgerButton";
 import Button from "@/components/Button/Button";
+import { ctaData, siteData } from "@/content/siteData";
 
 interface MobileMenuDrawerProps {
   items: any[];
@@ -22,7 +23,7 @@ export default function MobileMenuDrawer({
   items,
   className = "",
   hamburgerTransform = true,
-  closeButton = false,
+  closeButton = true,
 }: MobileMenuDrawerProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -53,7 +54,7 @@ export default function MobileMenuDrawer({
         ssr={false}
       >
         <nav
-          className={`${className} h-full overflow-y-auto p-6`}
+          className={`${className} h-full overflow-y-auto p-6 pt-12`}
           aria-label="Mobile navigation"
         >
           <ul className="space-y-1">
@@ -69,13 +70,22 @@ export default function MobileMenuDrawer({
           {/* Login Button */}
           <div className="mt-8">
             <Button
-              href="/login"
+              href={siteData.whopLoginLink}
               variant="secondary"
               size="lg"
               className="w-full"
               onClick={handleNavigate}
             >
               Login
+            </Button>
+            <Button
+              href={ctaData.link}
+              variant="primary"
+              size="lg"
+              className="w-full mt-3"
+              onClick={handleNavigate}
+            >
+              {ctaData.text}
             </Button>
           </div>
         </nav>

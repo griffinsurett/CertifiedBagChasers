@@ -20,7 +20,7 @@ export default function LinkButton({
 }: ButtonProps) {
   // Map size to link-specific classes (no padding like buttons)
   const sizeClass = size === 'sm' ? 'link-sm' : size === 'lg' ? 'link-lg' : 'link-md';
-  const baseClasses = `link-base ${sizeClass} p-0 ${className}`.trim();
+  const baseClasses = `link-base ${sizeClass} p-0 text-text-muted hover:text-primary ${className}`.trim();
 
   return (
     <ButtonBase
