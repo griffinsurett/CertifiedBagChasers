@@ -31,7 +31,7 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
   const sortedProducts = reorderWithMostPopularInMiddle(availableProducts);
 
   return (
-    <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch ${className}`}>
+    <div className={`w-full max-w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch ${className}`}>
       {sortedProducts.map((product) => {
         // Only "most-popular" tag gets the featured card styling (gold border, badge, etc.)
         const isMostPopular = product.tags?.includes("most-popular");
@@ -57,7 +57,7 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
           <div
             key={product.slug || product.title}
             className={`
-              relative flex flex-col text-center rounded-[20px] p-8 md:p-6
+              relative min-w-0 flex flex-col text-center rounded-[20px] p-8 md:p-6
               border transition-all duration-300
               ${isMostPopular
                 ? "bg-gradient-to-br from-[#1a1708] to-[#0f0d05] border-2 border-primary/40 scale-100 lg:scale-105 z-10 shadow-[0_25px_50px_rgba(201,162,39,0.15)]"
@@ -72,7 +72,7 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
 
             {/* Most Popular Badge */}
             {isMostPopular && (
-              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-2 px-5 rounded-full text-xs font-extrabold uppercase tracking-[1px] whitespace-nowrap z-10">
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 max-w-[calc(100%-1rem)] bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-2 px-4 rounded-full text-xs font-extrabold uppercase tracking-[1px] text-center z-10">
                 🔥 Most Popular
               </div>
             )}

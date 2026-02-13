@@ -60,7 +60,7 @@ const buttonVariantClasses = isMostPopular
   : "bg-transparent border-2 border-primary text-primary hover:bg-primary/10";
 ---
 
-<div class:list={[cardBaseClasses, cardVariantClasses, className]}>
+<div class:list={[cardBaseClasses, cardVariantClasses, "min-w-0", className]}>
   {/* Gold glow effect for featured card */}
   {isMostPopular && (
     <div class="absolute inset-[-2px] rounded-[22px] bg-gradient-to-br from-primary-800 via-primary to-primary-100 opacity-30 -z-10" />
@@ -68,7 +68,7 @@ const buttonVariantClasses = isMostPopular
 
   {/* Most Popular Badge */}
   {isMostPopular && (
-    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-2 px-5 rounded-full text-xs font-extrabold uppercase tracking-[1px] whitespace-nowrap z-10">
+    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 max-w-[calc(100%-1rem)] bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-2 px-4 rounded-full text-xs font-extrabold uppercase tracking-[1px] text-center z-10">
       🔥 Most Popular
     </div>
   )}

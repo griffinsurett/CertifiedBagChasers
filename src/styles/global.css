@@ -94,7 +94,7 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .inner-section {
-    @apply max-w-[1200px] mx-auto;
+    @apply w-95/100 max-w-[1200px] mx-auto;
   }
 
   /* Base button styles */

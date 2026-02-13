@@ -45,13 +45,13 @@ const alignmentClass = {
 }[align];
 ---
 
-<div class={`mb-4 ${alignmentClass} ${className}`}>
+<div class={`mb-4 w-full max-w-full ${alignmentClass} ${className}`}>
   {eyebrow && (
     <span class={`text-text text-sm uppercase tracking-[3px] font-semibold ${eyebrowClass}`}>{eyebrow}</span>
   )}
 
   {(title || highlightedTitle || afterTitle) && (
-    <h2 class={`text-5xl font-extrabold uppercase font-display ${eyebrow ? "mt-4" : ""}`}>
+    <h2 class={`w-full max-w-full break-words text-5xl font-extrabold uppercase font-display ${eyebrow ? "mt-4" : ""}`}>
       {title && <Fragment set:html={title} />}
       {title && highlightedTitle && " "}
       {highlightedTitle && (
