@@ -5,7 +5,7 @@
  * Auto-advances and supports manual navigation.
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import SocialProofCard from '../LoopComponents/SocialProofCard';
 
 type ReviewSize = 'short' | 'medium' | 'tall';
@@ -33,17 +33,30 @@ interface SocialProofCarouselProps {
     };
   }>;
   className?: string;
+  styleVariant?: 'primary' | 'parts';
 }
 
 // Define carousel slide layouts
-const createSlides = (items: SocialProofCarouselProps['items']): ReviewSlide[] => {
+const getLayoutForWidth = (width: number) => {
+  if (width < 640) {
+    return { columns: 1, itemsPerSlide: 3 };
+  }
+  if (width < 1024) {
+    return { columns: 2, itemsPerSlide: 6 };
+  }
+  return { columns: 3, itemsPerSlide: 7 };
+};
+
+const createSlides = (
+  items: SocialProofCarouselProps['items'],
+  columnsCount: number,
+  itemsPerSlide: number
+): ReviewSlide[] => {
   // Filter to only social media posts
   const socialItems = items.filter(item => item.data.socialMediaPost);
 
   if (socialItems.length === 0) return [];
 
-  // Calculate slides based on items
-  const itemsPerSlide = 7; // 3 columns with varying cards
   const slideCount = Math.ceil(socialItems.length / itemsPerSlide);
 
   const slides: ReviewSlide[] = [];
@@ -52,15 +65,10 @@ const createSlides = (items: SocialProofCarouselProps['items']): ReviewSlide[] =
   for (let s = 0; s < slideCount; s++) {
     const slideItems = socialItems.slice(s * itemsPerSlide, (s + 1) * itemsPerSlide);
 
-    // Distribute items across 3 columns
-    const columns: ReviewColumn[] = [
-      { cards: [] },
-      { cards: [] },
-      { cards: [] },
-    ];
+    const columns: ReviewColumn[] = Array.from({ length: columnsCount }, () => ({ cards: [] }));
 
     slideItems.forEach((item, i) => {
-      const colIndex = i % 3;
+      const colIndex = i % columnsCount;
       columns[colIndex].cards.push({
         image: item.data.socialMediaPost!,
         alt: `${item.data.title} testimonial`,
@@ -77,9 +85,56 @@ const createSlides = (items: SocialProofCarouselProps['items']): ReviewSlide[] =
   return slides;
 };
 
-const SocialProofCarousel = ({ items, className = '' }: SocialProofCarouselProps) => {
+interface ArrowButtonProps {
+  direction: 'prev' | 'next';
+  onClick: () => void;
+  isParts: boolean;
+}
+
+const ArrowButton = ({ direction, onClick, isParts }: ArrowButtonProps) => {
+  const isNext = direction === 'next';
+  const positionClass = isNext ? '-right-4 sm:-right-8' : '-left-4 sm:-left-8';
+
+  return (
+    <button
+      aria-label={isNext ? 'Next slide' : 'Previous slide'}
+      onClick={onClick}
+      className={`flex absolute ${positionClass} top-1/2 -translate-y-1/2 w-9 h-9 sm:w-12 sm:h-12 rounded-full border-2 text-xl items-center justify-center transition-colors z-10 ${
+        isParts
+          ? "bg-white/15 border-white/30 text-white backdrop-blur-md hover:bg-white/25"
+          : "bg-white/10 border-white/25 text-white backdrop-blur-md hover:bg-white/20"
+      }`}
+    >
+      <span className={`leading-none ${isNext ? '' : 'rotate-180'}`}>➜</span>
+    </button>
+  );
+};
+
+const SocialProofCarousel = ({
+  items,
+  className = '',
+  styleVariant = 'primary',
+}: SocialProofCarouselProps) => {
+  const [layout, setLayout] = useState(() => ({ columns: 3, itemsPerSlide: 7 }));
   const [currentSlide, setCurrentSlide] = useState(0);
-  const slides = createSlides(items);
+  const slides = useMemo(
+    () => createSlides(items, layout.columns, layout.itemsPerSlide),
+    [items, layout]
+  );
+
+  useEffect(() => {
+    const updateLayout = () => {
+      setLayout(getLayoutForWidth(window.innerWidth));
+    };
+
+    updateLayout();
+    window.addEventListener('resize', updateLayout);
+    return () => window.removeEventListener('resize', updateLayout);
+  }, []);
+
+  useEffect(() => {
+    setCurrentSlide(0);
+  }, [layout.columns, layout.itemsPerSlide]);
 
   const goToSlide = (index: number) => {
     setCurrentSlide((index + slides.length) % slides.length);
@@ -98,53 +153,49 @@ const SocialProofCarousel = ({ items, className = '' }: SocialProofCarouselProps
   }, [slides.length]);
 
   if (slides.length === 0) return null;
+  const isParts = styleVariant === 'parts';
 
   return (
     <div className={`relative ${className}`}>
-      {/* Navigation buttons */}
       {slides.length > 1 && (
         <>
-          <button
-            aria-label="Previous slide"
-            onClick={goPrev}
-            className="hidden md:flex absolute -left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary/20 border border-primary/40 text-primary text-xl items-center justify-center hover:bg-primary/30 transition-colors z-10"
-          >
-            ←
-          </button>
-          <button
-            aria-label="Next slide"
-            onClick={goNext}
-            className="hidden md:flex absolute -right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-primary/20 border border-primary/40 text-primary text-xl items-center justify-center hover:bg-primary/30 transition-colors z-10"
-          >
-            →
-          </button>
+          <ArrowButton direction="prev" onClick={goPrev} isParts={isParts} />
+          <ArrowButton direction="next" onClick={goNext} isParts={isParts} />
         </>
       )}
 
-      {/* Carousel container */}
-      <div className="overflow-hidden rounded-[32px] border border-primary/20 bg-gradient-to-br from-[#090909] via-[#0f0f0f] to-[#0a0a0a] shadow-[0_25px_60px_rgba(0,0,0,0.4)]">
-        <div
-          className="flex transition-transform duration-700 ease-in-out"
-          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-        >
-          {slides.map((slide, slideIndex) => (
-            <div key={slideIndex} className="min-w-full px-6 py-10">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {slide.columns.map((column, columnIndex) => (
-                  <div key={`col-${columnIndex}`} className="flex flex-col gap-6">
-                    {column.cards.map((card, cardIndex) => (
-                      <SocialProofCard
-                        key={`card-${cardIndex}`}
-                        image={card.image}
-                        alt={card.alt}
-                        size={card.size}
-                      />
-                    ))}
-                  </div>
-                ))}
+      <div
+        className={`relative p-4 ${
+          isParts
+            ? "rounded-2xl bg-white/10 ring-1 ring-white/20 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
+            : "overflow-hidden rounded-[32px] border border-primary/20 bg-gradient-to-br from-[#090909] via-[#0f0f0f] to-[#0a0a0a] shadow-[0_25px_60px_rgba(0,0,0,0.4)]"
+        }`}
+      >
+        <div className="overflow-hidden">
+          <div
+            className="flex transition-transform duration-700 ease-in-out"
+            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+          >
+            {slides.map((slide, slideIndex) => (
+              <div key={slideIndex} className="min-w-full px-4 py-6 sm:px-6 sm:py-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+                  {slide.columns.map((column, columnIndex) => (
+                    <div key={`col-${columnIndex}`} className="flex flex-col gap-4 sm:gap-6">
+                      {column.cards.map((card, cardIndex) => (
+                        <SocialProofCard
+                          key={`card-${cardIndex}`}
+                          image={card.image}
+                          alt={card.alt}
+                          size={card.size}
+                          styleVariant={styleVariant}
+                        />
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 

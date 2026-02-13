@@ -14,6 +14,7 @@ import { getImageUrl } from "@/utils/images";
 
 interface Props extends BaseVariantProps {
   eyebrow?: string;
+  styleVariant?: "primary" | "parts";
 }
 
 const {
@@ -24,6 +25,7 @@ const {
   className = "",
   id,
   eyebrow = "Social Proof",
+  styleVariant = "primary",
 } = Astro.props as Props;
 
 // Process heading content
@@ -71,6 +73,7 @@ const carouselItems = items.map(item => ({
     {carouselItems.length > 0 && (
       <SocialProofCarousel
         items={carouselItems}
+        styleVariant={styleVariant}
         client:load
       />
     )}
