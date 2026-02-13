@@ -93,7 +93,7 @@ interface ArrowButtonProps {
 
 const ArrowButton = ({ direction, onClick, isParts }: ArrowButtonProps) => {
   const isNext = direction === 'next';
-  const positionClass = isNext ? '-right-4 sm:-right-8' : '-left-4 sm:-left-8';
+  const positionClass = isNext ? 'right-2 lg:-right-8' : 'left-2 lg:-left-8';
 
   return (
     <button

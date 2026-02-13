@@ -40,9 +40,9 @@ const showDesktop = mode === 'responsive' || mode === 'flat-only';
 const showMobile = mode === 'responsive' || mode === 'hamburger-only';
 
 // Responsive visibility classes
-const desktopClasses = mode === 'responsive' ? 'hidden md:block' : '';
+const desktopClasses = mode === 'responsive' ? 'hidden lg:block' : '';
 const mobileClasses =
-  showMobile && mode === 'responsive' ? 'md:hidden' : '';
+  showMobile && mode === 'responsive' ? 'lg:hidden' : '';
 
 const inferredTopLevel = isTopLevelPlacement({
   id,
@@ -89,7 +89,7 @@ const mobileHydrationStrategy =
           items={menuTree}
           closeButton={closeButton}
           hamburgerTransform={hamburgerTransform}
-          client:media="(max-width: 768px)"
+          client:media="(max-width: 1023px)"
         />
       )}
     </div>

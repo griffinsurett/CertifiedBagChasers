@@ -52,9 +52,9 @@ if (author.render) {
 ---
 
 <section id={id} class={`section-base bg-gradient-to-b from-bg to-bg-dark ${className}`}>
-  <div class="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+  <div class="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
     {/* Image Column */}
-    <div class={`relative ${isImageLeft ? "order-1" : "order-1 lg:order-2"}`}>
+    <div class={`relative ${isImageLeft ? "order-1" : "order-1 md:order-2"}`}>
       {authorImage && (
         <ImageContainer
           image={authorImage}
@@ -62,7 +62,7 @@ if (author.render) {
         />
       )}
       {/* Best Selling Author Badge - positioned on edge of image */}
-      <div class="absolute -bottom-4 -right-4 lg:-right-8 z-10">
+      <div class="absolute -bottom-4 right-2 lg:-right-8 z-10">
         <Image
           src={BestSellingAuthorBadge}
           alt="Amazon Best Selling Author"
@@ -72,7 +72,7 @@ if (author.render) {
     </div>
 
     {/* Content Column */}
-    <div class={`${isImageLeft ? "order-2" : "order-2 lg:order-1"}`}>
+    <div class={`${isImageLeft ? "order-2" : "order-2 md:order-1"}`}>
       <SectionHeading
         eyebrow={title}
         title={headingBefore}
