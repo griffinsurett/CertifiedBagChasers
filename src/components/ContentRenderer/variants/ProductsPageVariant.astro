@@ -1,0 +1,51 @@
+---
+import type { BaseVariantProps } from "../ContentRenderer.types";
+import SectionHeading from "@/components/SectionHeading.astro";
+import ProductsShowcase from "@/components/LoopTemplates/ProductsShowcase";
+
+interface Props extends BaseVariantProps {
+  eyebrow?: string;
+  titlePrefix?: string;
+}
+
+const {
+  items = [],
+  title,
+  heading,
+  description,
+  className = "",
+  id,
+  eyebrow,
+  titlePrefix = "Our",
+} = Astro.props as Props;
+
+let sectionEyebrow = eyebrow;
+let highlightedTitle = title || "Products";
+let afterTitle = "";
+
+if (heading && typeof heading === "object" && "before" in heading) {
+  sectionEyebrow = eyebrow || heading.before || sectionEyebrow;
+  highlightedTitle = heading.text || highlightedTitle;
+  afterTitle = heading.after || "";
+} else if (typeof heading === "string" && heading.trim()) {
+  highlightedTitle = heading;
+}
+
+const sectionDescription =
+  description || "Choose the path that fits your journey to financial freedom";
+---
+
+<section id={id} class={`py-16 md:py-20 ${className}`}>
+  <div class="w-full max-w-[1200px] mx-auto">
+    <SectionHeading
+      eyebrow={sectionEyebrow}
+      title={titlePrefix}
+      highlightedTitle={highlightedTitle}
+      afterTitle={afterTitle}
+      description={sectionDescription}
+      className="mb-10 md:mb-12"
+    />
+
+    <ProductsShowcase items={items as any[]} />
+  </div>
+</section>

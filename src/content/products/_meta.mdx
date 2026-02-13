@@ -14,3 +14,12 @@ heading:
   before: "What We Offer"
   text: "Products"
 ---
+import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
+import { query, sortByOrder } from "@/utils/query";
+
+<ContentRenderer
+  query={query("products").orderBy(sortByOrder())}
+  variant="ProductsPageVariant"
+  heading={{ before: "What We Offer", text: "Products" }}
+  description="Choose the path that fits your journey to financial freedom"
+/>
