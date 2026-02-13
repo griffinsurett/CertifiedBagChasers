@@ -1,0 +1,171 @@
+---
+import Button from "@/components/Button/Button";
+
+interface Props {
+  downloadUrl?: string;
+  id?: string;
+  className?: string;
+  storageKey?: string;
+  submitText?: string;
+  downloadText?: string;
+  title?: string;
+  helperText?: string;
+  privacyHref?: string;
+  privacyLabel?: string;
+}
+
+const {
+  downloadUrl,
+  id,
+  className = "",
+  storageKey = "budgeting-tool-download-gate",
+  submitText = "Unlock Download",
+  downloadText = "Download Free Tool",
+  title = "Get Instant Access",
+  helperText = "Enter your email and agree to receive marketing updates to unlock the download.",
+  privacyHref = "/privacy-policy",
+  privacyLabel = "Privacy Policy",
+} = Astro.props as Props;
+
+const hasDownload = Boolean(downloadUrl);
+const isExternal = typeof downloadUrl === "string" && downloadUrl.startsWith("http");
+---
+
+<div
+  id={id}
+  class={`space-y-4 ${className}`}
+  data-email-download-gate
+  data-gate-key={storageKey}
+>
+  {hasDownload ? (
+    <>
+      <form data-gate-form class="space-y-4">
+        <div>
+          {title && <p class="text-base font-semibold text-white mb-2">{title}</p>}
+          {helperText && <p class="text-sm text-text-secondary mb-3">{helperText}</p>}
+          <label class="sr-only" for={`${storageKey}-email`}>Email address</label>
+          <input
+            id={`${storageKey}-email`}
+            name="email"
+            type="email"
+            required
+            placeholder="you@email.com"
+            class="w-full px-4 py-3 bg-bg border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder:text-text-dim"
+          />
+        </div>
+
+        <label class="flex items-start gap-2 text-sm text-text-secondary">
+          <input
+            type="checkbox"
+            name="marketingConsent"
+            required
+            class="mt-0.5 w-4 h-4 rounded border-white/20 bg-bg text-primary focus:ring-primary"
+          />
+          <span>
+            I agree to receive updates and marketing communications and consent to email marketing.
+            See our{" "}
+            <a href={privacyHref} class="text-primary underline underline-offset-2 hover:text-primary-100">
+              {privacyLabel}
+            </a>
+            .
+          </span>
+        </label>
+
+        <button
+          type="submit"
+          class="btn-base btn-md w-full bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg font-bold hover:opacity-95"
+        >
+          {submitText}
+        </button>
+      </form>
+
+      <div data-gate-success class="hidden space-y-3">
+        <p class="text-sm text-accent">Download unlocked. You can access the file below.</p>
+        <Button
+          href={downloadUrl!}
+          variant="primary"
+          size="lg"
+          className="w-full"
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+        >
+          {downloadText}
+        </Button>
+      </div>
+    </>
+  ) : (
+    <p class="text-sm text-text-muted">Set a `link` in frontmatter to enable the download gate.</p>
+  )}
+</div>
+
+<script is:inline>
+  (() => {
+    const roots = Array.from(
+      document.querySelectorAll("[data-email-download-gate]")
+    );
+
+    roots.forEach((root) => {
+      if (!(root instanceof HTMLElement)) return;
+      if (root.getAttribute("data-gate-ready") === "true") return;
+
+      const form = root.querySelector("[data-gate-form]");
+      const success = root.querySelector("[data-gate-success]");
+      const key = root.getAttribute("data-gate-key") || "budgeting-tool-download-gate";
+
+      if (!(form instanceof HTMLFormElement) || !(success instanceof HTMLElement)) {
+        return;
+      }
+
+      const setUnlocked = (unlocked) => {
+        if (unlocked) {
+          form.classList.add("hidden");
+          success.classList.remove("hidden");
+        } else {
+          form.classList.remove("hidden");
+          success.classList.add("hidden");
+        }
+      };
+
+      try {
+        if (window.localStorage.getItem(key) === "true") {
+          setUnlocked(true);
+        }
+      } catch {
+        // Ignore storage access errors and continue with in-session behavior.
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const data = new FormData(form);
+        const email = String(data.get("email") || "").trim();
+        const consent = data.get("marketingConsent") === "on";
+
+        if (!email || !consent) return;
+
+        try {
+          window.localStorage.setItem(key, "true");
+          window.localStorage.setItem(`${key}:email`, email);
+        } catch {
+          // Ignore storage access errors.
+        }
+
+        setUnlocked(true);
+        window.dispatchEvent(new CustomEvent("email-download-unlocked", { detail: { key } }));
+      });
+
+      window.addEventListener("email-download-unlocked", (event) => {
+        const evt = event;
+        const eventKey = evt?.detail?.key;
+        if (eventKey === key) setUnlocked(true);
+      });
+
+      root.setAttribute("data-gate-ready", "true");
+    });
+  })();
+</script>

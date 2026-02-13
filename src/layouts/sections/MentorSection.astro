@@ -15,6 +15,8 @@
  * - credentials: Array of credential badges { icon, text }
  */
 
+import SectionHeading from "@/components/SectionHeading.astro";
+
 export interface Props {
   eyebrow?: string;
   title?: string;
@@ -59,19 +61,13 @@ const isImageLeft = imagePosition === "left";
 
     {/* Content Column */}
     <div class={`${isImageLeft ? "order-2" : "order-2 lg:order-1"}`}>
-      {eyebrow && (
-        <span class="eyebrow">{eyebrow}</span>
-      )}
-
-      {(title || highlightedTitle) && (
-        <h2 class="section-heading mt-4 mb-6">
-          {title && <Fragment set:html={title} />}
-          {title && highlightedTitle && " "}
-          {highlightedTitle && (
-            <span class="highlight">{highlightedTitle}</span>
-          )}
-        </h2>
-      )}
+      <SectionHeading
+        eyebrow={eyebrow}
+        title={title}
+        highlightedTitle={highlightedTitle}
+        align="left"
+        className="mb-6"
+      />
 
       <div class="body-text mb-8">
         <slot />

@@ -8,6 +8,7 @@
  */
 
 import type { BaseVariantProps } from "../ContentRenderer.types";
+import SectionHeading from "@/components/SectionHeading.astro";
 
 interface Props extends BaseVariantProps {
   align?: "left" | "center" | "right";
@@ -28,23 +29,17 @@ const visibleItems =
   typeof maxVisible === "number" && maxVisible > 0
     ? items.slice(0, maxVisible)
     : items;
-
-const alignmentClass = {
-  left: "text-left",
-  center: "text-center",
-  right: "text-right",
-}[align];
 ---
 
 <section id={id} class={`relative z-10 ${className}`}>
   <div class="max-w-[1200px]">
-    <div class={alignmentClass}>
-      {title && (
-        <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-6">
-          {title}
-        </h2>
-      )}
-    </div>
+    <SectionHeading
+      title={title}
+      description={description}
+      align={align}
+      className="mb-6"
+      descriptionClass={`max-w-2xl text-text ${align === "center" ? "mx-auto" : ""}`.trim()}
+    />
 
     {visibleItems.length > 0 && (
       <div class="flex flex-wrap gap-3 md:gap-4">

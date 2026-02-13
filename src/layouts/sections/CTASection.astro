@@ -18,6 +18,7 @@
 import Button from "@/components/Button/Button";
 import WhopRating from "@/components/WhopRating";
 import BackgroundMedia from "@/components/BackgroundMedia.astro";
+import SectionHeading from "@/components/SectionHeading.astro";
 import BackgroundImg from "@/assets/inside-the-nyse.jpg";
 import { ctaData } from "@/content/siteData";
 
@@ -52,21 +53,13 @@ const {
     }}
   />
   <div class="mx-auto relative z-10" style={`max-width: ${maxWidth}`}>
-    {(title || highlightedTitle) && (
-      <h2 class="text-5xl font-extrabold mb-6 font-display uppercase">
-        {title && <Fragment set:html={title} />}
-        {title && highlightedTitle && " "}
-        {highlightedTitle && (
-          <span class="gold-metallic-heading">{highlightedTitle}</span>
-        )}
-      </h2>
-    )}
-
-    {description && (
-      <p class="text-xl text-text-muted mb-12 leading-relaxed">
-        {description}
-      </p>
-    )}
+    <SectionHeading
+      title={title}
+      highlightedTitle={highlightedTitle}
+      description={description}
+      className="mb-12"
+      descriptionClass="max-w-[800px] mx-auto text-xl leading-relaxed"
+    />
 
     {ctaText && ctaLink && (
       <Button

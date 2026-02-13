@@ -51,7 +51,7 @@ const alignmentClass = {
   )}
 
   {(title || highlightedTitle || afterTitle) && (
-    <h2 class="text-5xl font-extrabold uppercase font-display mt-4">
+    <h2 class={`text-5xl font-extrabold uppercase font-display ${eyebrow ? "mt-4" : ""}`}>
       {title && <Fragment set:html={title} />}
       {title && highlightedTitle && " "}
       {highlightedTitle && (

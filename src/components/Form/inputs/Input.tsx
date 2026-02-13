@@ -25,7 +25,7 @@ export default function Input({
   required = false,
   containerClassName = "mb-4",
   labelClassName = "block text-sm font-medium text-text mb-1",
-  inputClassName = "w-full px-4 py-2 border border-surface rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-colors",
+  inputClassName = "w-full px-4 py-2 border border-white/10 rounded-lg focus:outline-none focus:border-primary transition-colors",
   showLabel = true,
   ...inputProps
 }: InputProps) {

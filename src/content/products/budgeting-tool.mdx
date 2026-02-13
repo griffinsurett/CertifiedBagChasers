@@ -68,8 +68,9 @@ export const quickStartSteps = [
     <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.12),transparent_40%),radial-gradient(circle_at_85%_10%,rgba(201,162,39,0.2),transparent_35%)]"></div>
   </div>
 
-  <div class="w-90/100 mx-auto relative -mt-12 md:-mt-18 px-4 md:px-8 pb-6 md:pb-10">
+  <div class="w-95/100 lg:w-90/100 mx-auto relative -mt-12 md:-mt-18 pb-6 md:pb-10">
     <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary/95 via-bg/95 to-bg-dark/95 p-6 md:p-10 shadow-[0_24px_50px_rgba(0,0,0,0.45)]">
+    
       <p class="text-sm uppercase tracking-[2px] text-primary mb-2 font-semibold">
         {typeof props.entry?.data?.heading === "object"
           ? (props.entry.data.heading.before ?? "")
@@ -82,13 +83,13 @@ export const quickStartSteps = [
           : (props.entry?.data?.title ?? "Free Budgeting Tool")}
       </h1>
 
-      <p class="text-text-secondary text-lg md:text-xl leading-relaxed mb-5 max-w-[1000px]">
+      <p class="text-text-secondary text-lg md:text-xl leading-relaxed max-w-[1000px]">
         Introducing our intuitive, free budgeting tool designed to help you manage your finances
         with ease and clarity. With a comprehensive layout that categorizes your income,
         expenses, savings, and debts, you can track your financial health at a glance.
       </p>
 
-      <div class="mb-4 max-w-[760px]">
+      <div class="mt-6 max-w-[760px]">
         <BudgetDownloadForm
           id="budget-download-gate"
           downloadUrl={props.entry?.data?.link}
@@ -96,11 +97,11 @@ export const quickStartSteps = [
           submitText="Unlock Free Tool"
           downloadText="Download Free Tool"
           title="Get Instant Access"
-          helperText="Enter your email and agree to marketing to unlock your free download."
+          description="Enter your email and agree to marketing to unlock your free download."
         />
       </div>
 
-      <p class="text-sm text-text-secondary mb-5">
+      <p class="mt-4 text-sm text-text-secondary mb-5">
         {props.entry?.data?.link
           ? "Free download. Email + marketing consent required."
           : "Set `link:` in frontmatter to enable download."}

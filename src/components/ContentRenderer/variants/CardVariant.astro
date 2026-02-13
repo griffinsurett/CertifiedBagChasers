@@ -8,6 +8,7 @@
 import type { BaseVariantProps } from "../ContentRenderer.types";
 import FeatureCard from "@/components/LoopComponents/FeatureCard.astro";
 import Button from "@/components/Button/Button";
+import SectionHeading from "@/components/SectionHeading.astro";
 import { shouldShowCollectionCTA } from "../utils/helpers";
 
 interface Props extends BaseVariantProps {
@@ -38,12 +39,12 @@ const columnClasses = {
 <section id={id} class={`py-16 ${className}`}>
   {
     (title || description) && (
-      <div class="text-center mb-12">
-        {title && <h2 class="text-4xl text-heading font-bold mb-4">{title}</h2>}
-        {description && (
-          <p class="text-lg text-text max-w-2xl mx-auto">{description}</p>
-        )}
-      </div>
+      <SectionHeading
+        title={title}
+        description={description}
+        className="mb-12"
+        descriptionClass="max-w-2xl mx-auto text-text"
+      />
     )
   }
 
