@@ -60,14 +60,14 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
               relative min-w-0 flex flex-col text-center rounded-[20px] p-8 md:p-6
               border transition-all duration-300
               ${isMostPopular
-                ? "bg-gradient-to-br from-[#1a1708] to-[#0f0d05] border-2 border-primary/40 scale-100 lg:scale-105 z-10 shadow-[0_25px_50px_rgba(201,162,39,0.15)]"
+                ? "bg-gradient-to-br from-[#141108] via-[#0d0b05] to-[#090804] border-2 border-primary/35 scale-100 lg:scale-105 z-10 shadow-[0_25px_50px_rgba(201,162,39,0.12)]"
                 : "bg-gradient-to-br from-[#0f0f0f] to-[#0a0a0a] border-white/5 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
               }
             `}
           >
             {/* Gold glow effect for featured card */}
             {isMostPopular && (
-              <div className="absolute inset-[-2px] rounded-[22px] bg-gradient-to-br from-primary-800 via-primary to-primary-100 opacity-30 -z-10" />
+              <div className="absolute inset-[-2px] rounded-[22px] bg-gradient-to-br from-primary-900 via-primary-700 to-primary-300 opacity-18 -z-10" />
             )}
 
             {/* Most Popular Badge */}
