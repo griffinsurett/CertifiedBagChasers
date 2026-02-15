@@ -179,6 +179,23 @@ h1, h2, h3, h4, h5, h6 {
   filter: drop-shadow(2px 3px 0px #2a1d05) drop-shadow(3px 6px 8px rgba(0, 0, 0, 0.7));
 }
 
+/* Shared SVG gradient treatment for product icons */
+.product-icon-gradient[fill="currentColor"] {
+  fill: var(--product-icon-gradient) !important;
+}
+
+.product-icon-gradient[stroke="currentColor"] {
+  stroke: var(--product-icon-gradient) !important;
+}
+
+.product-icon-gradient [fill="currentColor"] {
+  fill: var(--product-icon-gradient) !important;
+}
+
+.product-icon-gradient [stroke="currentColor"] {
+  stroke: var(--product-icon-gradient) !important;
+}
+
 /* ============================================================================
    Chart Component Styles - Growth Charts Section
    ============================================================================ */

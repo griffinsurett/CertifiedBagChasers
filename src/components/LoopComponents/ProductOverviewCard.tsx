@@ -1,5 +1,6 @@
 import Button from "@/components/Button/Button";
 import Icon from "@/components/Icon";
+import type { CSSProperties } from "react";
 
 export interface ProductOverviewItem {
   slug?: string;
@@ -32,6 +33,15 @@ export default function ProductOverviewCard({
   const isComingSoon = item.status === "coming-soon";
   const isFree = item.status === "free" || item.price?.toUpperCase() === "FREE";
   const ctaText = item.ctaText || (isComingSoon ? "Join Waitlist" : "Learn More");
+  const gradientIdBase = String(item.slug || item.title || "product-overview-icon")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  const gradientId = `product-overview-icon-gold-gradient-${gradientIdBase || "default"}`;
+  const iconStyle = {
+    "--product-icon-gradient": `url(#${gradientId})`,
+    color: "var(--color-primary)",
+  } as CSSProperties;
 
   return (
     <div
@@ -45,7 +55,32 @@ export default function ProductOverviewCard({
 
       {item.icon && (
         <div className="mb-5 flex items-center justify-center">
-          <Icon icon={item.icon} size="xl" className="h-14 w-14 text-primary" />
+          <svg
+            aria-hidden="true"
+            width="0"
+            height="0"
+            focusable="false"
+            className="pointer-events-none h-0 w-0 overflow-hidden"
+          >
+            <defs>
+              <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#fffde8" />
+                <stop offset="8%" stopColor="#f7e588" />
+                <stop offset="20%" stopColor="#dfc040" />
+                <stop offset="35%" stopColor="#c9a227" />
+                <stop offset="50%" stopColor="#b8922a" />
+                <stop offset="70%" stopColor="#8a6a18" />
+                <stop offset="90%" stopColor="#5c4510" />
+                <stop offset="100%" stopColor="#3d2e0a" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <Icon
+            icon={item.icon}
+            size="xl"
+            className="h-14 w-14 product-icon-gradient"
+            style={iconStyle}
+          />
         </div>
       )}
 

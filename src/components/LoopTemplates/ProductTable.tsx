@@ -11,6 +11,7 @@
 
 import Button from "@/components/Button/Button";
 import Icon from "@/components/Icon";
+import type { CSSProperties } from "react";
 
 export interface ProductTableProps {
   items: any[];
@@ -32,7 +33,7 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
 
   return (
     <div className={`w-full max-w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch ${className}`}>
-      {sortedProducts.map((product) => {
+      {sortedProducts.map((product, idx) => {
         // Only "most-popular" tag gets the featured card styling (gold border, badge, etc.)
         const isMostPopular = product.tags?.includes("most-popular");
         const isPremiumOffering = product.tags?.includes("premium-offering");
@@ -52,6 +53,16 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
         } else if (product.title?.toLowerCase().includes("book")) {
           eyebrow = "Amazon Bestseller";
         }
+
+        const gradientIdBase = String(product.slug || product.title || `product-${idx}`)
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-+|-+$/g, "");
+        const gradientId = `product-icon-gold-gradient-${gradientIdBase || idx}`;
+        const iconStyle = {
+          "--product-icon-gradient": `url(#${gradientId})`,
+          color: "var(--color-primary)",
+        } as CSSProperties;
 
         return (
           <div
@@ -89,7 +100,32 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
             {/* Icon - uses Icon component from collection data */}
             {product.icon && (
               <div className="mb-4 drop-shadow-lg flex items-center justify-center">
-                <Icon icon={product.icon} size="xl" className="text-primary w-16 h-16" />
+                <svg
+                  aria-hidden="true"
+                  width="0"
+                  height="0"
+                  focusable="false"
+                  className="pointer-events-none h-0 w-0 overflow-hidden"
+                >
+                  <defs>
+                    <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#fffde8" />
+                      <stop offset="8%" stopColor="#f7e588" />
+                      <stop offset="20%" stopColor="#dfc040" />
+                      <stop offset="35%" stopColor="#c9a227" />
+                      <stop offset="50%" stopColor="#b8922a" />
+                      <stop offset="70%" stopColor="#8a6a18" />
+                      <stop offset="90%" stopColor="#5c4510" />
+                      <stop offset="100%" stopColor="#3d2e0a" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <Icon
+                  icon={product.icon}
+                  size="xl"
+                  className="product-icon-gradient w-16 h-16"
+                  style={iconStyle}
+                />
               </div>
             )}
 
