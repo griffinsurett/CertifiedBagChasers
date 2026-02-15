@@ -96,19 +96,19 @@ const backgroundMedia = hasBackgroundImage
         <div class="text-left">
           {/* Status Badge */}
           {isComingSoon && (
-            <div class="inline-block bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-1.5 px-4 rounded-full text-xs font-bold uppercase tracking-[1px] mb-4">
+            <div class="inline-block bg-gradient-to-r from-accent-800 via-accent to-accent-100 text-bg py-1.5 px-4 rounded-full text-xs font-bold uppercase tracking-[1px] mb-4">
               🚀 Coming Soon
             </div>
           )}
 
           {isMostPopular && !isComingSoon && (
-            <div class="inline-block bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-1.5 px-4 rounded-full text-xs font-bold uppercase tracking-[1px] mb-4">
+            <div class="inline-block bg-gradient-to-r from-accent-800 via-accent to-accent-100 text-bg py-1.5 px-4 rounded-full text-xs font-bold uppercase tracking-[1px] mb-4">
               🔥 Most Popular
             </div>
           )}
 
           {isPremiumOffering && !isComingSoon && !isMostPopular && (
-            <div class="inline-block bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-1.5 px-4 rounded-full text-xs font-bold uppercase tracking-[1px] mb-4">
+            <div class="inline-block bg-gradient-to-r from-accent-800 via-accent to-accent-100 text-bg py-1.5 px-4 rounded-full text-xs font-bold uppercase tracking-[1px] mb-4">
               ⭐ Premium Offering
             </div>
           )}
@@ -186,7 +186,7 @@ const backgroundMedia = hasBackgroundImage
   .hero-gradient {
     background:
       linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 100%),
-      radial-gradient(ellipse at bottom left, rgba(201,162,39,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom left, color-mix(in srgb, var(--color-accent) 15%, transparent) 0%, transparent 50%),
       radial-gradient(ellipse at top right, rgba(34,87,67,0.2) 0%, transparent 50%),
       #0a0a0a;
   }
@@ -194,7 +194,7 @@ const backgroundMedia = hasBackgroundImage
   /* Decorative lines */
   .hero-lines {
     background:
-      linear-gradient(45deg, transparent 40%, rgba(201, 162, 39, 0.3) 45%, transparent 50%),
+      linear-gradient(45deg, transparent 40%, color-mix(in srgb, var(--color-accent) 30%, transparent) 45%, transparent 50%),
       linear-gradient(-45deg, transparent 40%, rgba(34, 87, 67, 0.3) 45%, transparent 50%);
   }
 
@@ -208,17 +208,7 @@ const backgroundMedia = hasBackgroundImage
 
   /* Gold metallic heading gradient */
   .gold-metallic-heading {
-    background: linear-gradient(
-      170deg,
-      #fffde8 0%,
-      #f7e588 8%,
-      #dfc040 20%,
-      #c9a227 35%,
-      #b8922a 50%,
-      #8a6a18 70%,
-      #5c4510 90%,
-      #3d2e0a 100%
-    );
+    background: var(--gradient-gold-metallic);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

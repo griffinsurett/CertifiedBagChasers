@@ -61,7 +61,7 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
         const gradientId = `product-icon-gold-gradient-${gradientIdBase || idx}`;
         const iconStyle = {
           "--product-icon-gradient": `url(#${gradientId})`,
-          color: "var(--color-primary)",
+          color: "var(--color-accent)",
         } as CSSProperties;
 
         return (
@@ -71,19 +71,19 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
               relative min-w-0 flex flex-col text-center rounded-[20px] p-8 md:p-6
               border transition-all duration-300
               ${isMostPopular
-                ? "bg-gradient-to-br from-[#141108] via-[#0d0b05] to-[#090804] border-2 border-primary/35 scale-100 lg:scale-105 z-10 shadow-[0_25px_50px_rgba(201,162,39,0.12)]"
+                ? "bg-gradient-to-br from-[#08140d] via-[#050d08] to-[#040906] border-2 border-primary/35 scale-100 lg:scale-105 z-10 shadow-[0_25px_50px_rgba(74,222,128,0.12)]"
                 : "bg-gradient-to-br from-[#0f0f0f] to-[#0a0a0a] border-white/5 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
               }
             `}
           >
-            {/* Gold glow effect for featured card */}
+            {/* Green glow effect for featured card */}
             {isMostPopular && (
               <div className="absolute inset-[-2px] rounded-[22px] bg-gradient-to-br from-primary-900 via-primary-700 to-primary-300 opacity-18 -z-10" />
             )}
 
             {/* Most Popular Badge */}
             {isMostPopular && (
-              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 max-w-[calc(100%-1rem)] bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-2 px-4 rounded-full text-xs font-extrabold uppercase tracking-[1px] text-center z-10">
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 max-w-[calc(100%-1rem)] bg-gradient-to-r from-accent-800 via-accent to-accent-100 text-bg py-2 px-4 rounded-full text-xs font-extrabold uppercase tracking-[1px] text-center z-10">
                 🔥 Most Popular
               </div>
             )}
@@ -109,14 +109,14 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
                 >
                   <defs>
                     <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#fffde8" />
-                      <stop offset="8%" stopColor="#f7e588" />
-                      <stop offset="20%" stopColor="#dfc040" />
-                      <stop offset="35%" stopColor="#c9a227" />
-                      <stop offset="50%" stopColor="#b8922a" />
-                      <stop offset="70%" stopColor="#8a6a18" />
-                      <stop offset="90%" stopColor="#5c4510" />
-                      <stop offset="100%" stopColor="#3d2e0a" />
+                      <stop offset="0%" stopColor="var(--color-accent-50)" />
+                      <stop offset="8%" stopColor="var(--color-accent-100)" />
+                      <stop offset="20%" stopColor="var(--color-accent-300)" />
+                      <stop offset="35%" stopColor="var(--color-accent-500)" />
+                      <stop offset="50%" stopColor="var(--color-accent-400)" />
+                      <stop offset="70%" stopColor="var(--color-accent-700)" />
+                      <stop offset="90%" stopColor="var(--color-accent-800)" />
+                      <stop offset="100%" stopColor="var(--color-accent-900)" />
                     </linearGradient>
                   </defs>
                 </svg>
@@ -167,7 +167,7 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
                     key={idx}
                     className="flex items-center gap-2.5 mb-3 text-text-secondary text-sm"
                   >
-                    <span className="text-accent">✓</span> {feature}
+                    <span className="gold-metallic-heading inline-block leading-none">✓</span> {feature}
                   </li>
                 ))}
               </ul>

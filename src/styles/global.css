@@ -20,11 +20,11 @@
   --font-sans: 'Inter', sans-serif;
   --font-display: 'Oswald', sans-serif;
 
-  /* ───── PRIMARY – Gold brand color ───── */
-  --color-primary: #c9a227;
+  /* ───── PRIMARY – Green brand color ───── */
+  --color-primary: #4ade80;
 
-  /* ───── ACCENT – Green for success/highlights ───── */
-  --color-accent: #4ade80;
+  /* ───── ACCENT – Gold brand color ───── */
+  --color-accent: #c9a227;
 
   /* ───── Neutrals (Dark Theme) ───── */
   --color-text:         #ffffff;              /* white text */
@@ -38,42 +38,42 @@
   --color-bg-dark:      #050505;              /* darkest bg */
   --color-surface:      #0f0f0f;              /* cards, nav, modals */
 
-  /* ───── Primary color scale (gold) ───── */
-  --color-primary-50:   #fffde8;              /* lightest gold */
-  --color-primary-100:  #f7e588;              /* gold-light */
-  --color-primary-200:  #f5e6a3;              /* gold-pale */
-  --color-primary-300:  #dfc040;              /* gold-medium */
-  --color-primary-400:  #d4b254;              /* gold-bright */
-  --color-primary-500:  #c9a227;              /* gold (primary) */
-  --color-primary-600:  #a67c00;              /* gold-dark */
-  --color-primary-700:  #8a6a18;              /* gold-darker */
-  --color-primary-800:  #5c4510;              /* gold-darkest */
-  --color-primary-900:  #3d2e0a;              /* gold-deep */
-  --color-primary-950:  #2a1f07;              /* gold-deepest */
+  /* ───── Primary color scale (green) ───── */
+  --color-primary-50:   oklch(from var(--color-primary) calc(l + 0.40) c h);
+  --color-primary-100:  oklch(from var(--color-primary) calc(l + 0.35) c h);
+  --color-primary-200:  oklch(from var(--color-primary) calc(l + 0.25) c h);
+  --color-primary-300:  oklch(from var(--color-primary) calc(l + 0.15) c h);
+  --color-primary-400:  oklch(from var(--color-primary) calc(l + 0.08) c h);
+  --color-primary-500:  var(--color-primary);
+  --color-primary-600:  oklch(from var(--color-primary) calc(l - 0.08) c h);
+  --color-primary-700:  oklch(from var(--color-primary) calc(l - 0.15) c h);
+  --color-primary-800:  oklch(from var(--color-primary) calc(l - 0.25) c h);
+  --color-primary-900:  oklch(from var(--color-primary) calc(l - 0.35) c h);
+  --color-primary-950:  oklch(from var(--color-primary) calc(l - 0.45) c h);
   --gradient-gold-metallic: linear-gradient(
     170deg,
-    #fffde8 0%,
-    #f7e588 8%,
-    #dfc040 20%,
-    #c9a227 35%,
-    #b8922a 50%,
-    #8a6a18 70%,
-    #5c4510 90%,
-    #3d2e0a 100%
+    var(--color-accent-50) 0%,
+    var(--color-accent-100) 8%,
+    var(--color-accent-300) 20%,
+    var(--color-accent-500) 35%,
+    var(--color-accent-400) 50%,
+    var(--color-accent-700) 70%,
+    var(--color-accent-800) 90%,
+    var(--color-accent-900) 100%
   );
 
-  /* ───── Accent color scale (green) ───── */
-  --color-accent-50:   oklch(from var(--color-accent) calc(l + 0.40) c h);
-  --color-accent-100:  oklch(from var(--color-accent) calc(l + 0.35) c h);
-  --color-accent-200:  oklch(from var(--color-accent) calc(l + 0.25) c h);
-  --color-accent-300:  oklch(from var(--color-accent) calc(l + 0.15) c h);
-  --color-accent-400:  oklch(from var(--color-accent) calc(l + 0.08) c h);
+  /* ───── Accent color scale (gold) ───── */
+  --color-accent-50:   #fffde8;              /* lightest gold */
+  --color-accent-100:  #f7e588;              /* gold-light */
+  --color-accent-200:  #f5e6a3;              /* gold-pale */
+  --color-accent-300:  #dfc040;              /* gold-medium */
+  --color-accent-400:  #d4b254;              /* gold-bright */
   --color-accent-500:  var(--color-accent);
-  --color-accent-600:  oklch(from var(--color-accent) calc(l - 0.08) c h);
-  --color-accent-700:  oklch(from var(--color-accent) calc(l - 0.15) c h);
-  --color-accent-800:  oklch(from var(--color-accent) calc(l - 0.25) c h);
-  --color-accent-900:  oklch(from var(--color-accent) calc(l - 0.35) c h);
-  --color-accent-950:  oklch(from var(--color-accent) calc(l - 0.45) c h);
+  --color-accent-600:  #a67c00;              /* gold-dark */
+  --color-accent-700:  #8a6a18;              /* gold-darker */
+  --color-accent-800:  #5c4510;              /* gold-darkest */
+  --color-accent-900:  #3d2e0a;              /* gold-deep */
+  --color-accent-950:  #2a1f07;              /* gold-deepest */
 }
 
 body {

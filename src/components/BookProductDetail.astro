@@ -142,7 +142,7 @@ const relatedVariants: RelatedVariant[] = relatedEntries
                     ) : (
                       <a
                         href={variant.href}
-                        class="book-variant-chip rounded-none border border-primary/40 bg-transparent px-3.5 py-2 text-sm font-semibold text-primary transition-colors hover:bg-primary/10"
+                        class="book-variant-chip rounded-none border border-white/70 bg-transparent px-3.5 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10"
                       >
                         {variant.label}
                       </a>
@@ -162,11 +162,11 @@ const relatedVariants: RelatedVariant[] = relatedEntries
   .book-variant-chip-active {
     background: linear-gradient(
       90deg,
-      var(--color-primary-900),
-      var(--color-primary-600),
-      var(--color-primary-100)
+      var(--color-accent-900),
+      var(--color-accent-600),
+      var(--color-accent-100)
     );
     color: var(--color-bg);
-    border-color: color-mix(in oklab, var(--color-primary) 60%, transparent);
+    border-color: color-mix(in oklab, var(--color-accent) 60%, transparent);
   }
 </style>

@@ -64,7 +64,7 @@ const TestimonialVideoCard = ({
     >
       {/* Results badge */}
       {resultsAmount && (
-        <div className="absolute top-0 right-0 bg-gradient-to-r from-primary-900 via-primary to-primary-100 py-2 px-5 rounded-bl-xl z-[3]">
+        <div className="absolute top-0 right-0 bg-gradient-to-r from-accent-900 via-accent to-accent-100 py-2 px-5 rounded-bl-xl z-[3]">
           <span className="text-bg font-extrabold text-sm">
             {resultsAmount}
           </span>

@@ -68,7 +68,7 @@ if (!items.length) return null;
           type="button"
           aria-label={`Show testimonial ${index + 1}`}
           data-book-written-dot={index}
-          class="book-written-dot w-3.5 h-3.5 rounded-full border border-primary/40 bg-bg-tertiary/80 transition-all duration-300"
+          class="book-written-dot w-3.5 h-3.5 rounded-full bg-bg-tertiary/80 transition-all duration-300"
         />
       ))}
     </div>
@@ -114,32 +114,15 @@ if (!items.length) return null;
 
 <style>
   .book-written-dot {
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
-  }
-
-  .book-written-dot::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: var(--gradient-gold-metallic);
-    opacity: 0.28;
-    transition: opacity 250ms ease;
-    z-index: -1;
+    background: color-mix(in oklab, var(--color-primary) 20%, transparent);
   }
 
   .book-written-dot[data-active="true"] {
-    border-color: var(--color-primary-200);
-    box-shadow: 0 0 0 1px rgba(247, 229, 136, 0.25), 0 6px 14px rgba(201, 162, 39, 0.35);
+    background: var(--color-primary);
+    box-shadow: 0 0 0 1px color-mix(in oklab, var(--color-primary) 50%, transparent);
   }
 
-  .book-written-dot[data-active="true"]::before {
-    opacity: 1;
-  }
-
-  .book-written-dot:not([data-active="true"]):hover::before {
-    opacity: 0.5;
+  .book-written-dot:not([data-active="true"]):hover {
+    background: color-mix(in oklab, var(--color-primary) 45%, transparent);
   }
 </style>

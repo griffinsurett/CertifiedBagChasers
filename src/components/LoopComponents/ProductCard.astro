@@ -50,25 +50,25 @@ const {
 // Card classes using Tailwind
 const cardBaseClasses = "relative flex flex-col text-center rounded-[20px] p-8 md:p-10 border transition-all duration-300";
 const cardVariantClasses = isMostPopular
-  ? "bg-gradient-to-br from-[#141108] via-[#0d0b05] to-[#090804] border-2 border-primary/35 scale-100 lg:scale-105 z-10 shadow-[0_25px_50px_rgba(201,162,39,0.12)]"
+  ? "bg-gradient-to-br from-[#08140d] via-[#050d08] to-[#040906] border-2 border-primary/35 scale-100 lg:scale-105 z-10 shadow-[0_25px_50px_rgba(74,222,128,0.12)]"
   : "bg-gradient-to-br from-[#0f0f0f] to-[#0a0a0a] border-white/5 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)]";
 
 // Button classes using Tailwind
 const buttonBaseClasses = "block text-center py-4 px-8 rounded-lg font-bold text-sm uppercase tracking-[1px] no-underline mt-auto transition-all duration-300";
 const buttonVariantClasses = isMostPopular
-  ? "bg-gradient-to-r from-primary-900 via-primary-600 to-primary-300 text-bg hover:-translate-y-0.5 hover:shadow-[0_10px_40px_rgba(201,162,39,0.4)]"
+  ? "bg-gradient-to-r from-accent-900 via-accent-600 to-accent-300 text-bg hover:-translate-y-0.5 hover:shadow-[0_10px_40px_rgba(201,162,39,0.4)]"
   : "bg-transparent border-2 border-primary text-primary hover:bg-primary/10";
 ---
 
 <div class:list={[cardBaseClasses, cardVariantClasses, "min-w-0", className]}>
-  {/* Gold glow effect for featured card */}
+  {/* Green glow effect for featured card */}
   {isMostPopular && (
     <div class="absolute inset-[-2px] rounded-[22px] bg-gradient-to-br from-primary-900 via-primary-700 to-primary-300 opacity-18 -z-10" />
   )}
 
   {/* Most Popular Badge */}
   {isMostPopular && (
-    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 max-w-[calc(100%-1rem)] bg-gradient-to-r from-primary-800 via-primary to-primary-100 text-bg py-2 px-4 rounded-full text-xs font-extrabold uppercase tracking-[1px] text-center z-10">
+    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 max-w-[calc(100%-1rem)] bg-gradient-to-r from-accent-800 via-accent to-accent-100 text-bg py-2 px-4 rounded-full text-xs font-extrabold uppercase tracking-[1px] text-center z-10">
       🔥 Most Popular
     </div>
   )}
@@ -122,7 +122,7 @@ const buttonVariantClasses = isMostPopular
     <ul class="list-none p-0 mb-8 text-left">
       {features.map((feature) => (
         <li class="flex items-center gap-2.5 mb-3 text-text-secondary text-sm">
-          <span class="text-accent">✓</span> {feature}
+          <span class="gold-metallic-heading inline-block leading-none">✓</span> {feature}
         </li>
       ))}
     </ul>

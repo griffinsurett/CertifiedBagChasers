@@ -40,7 +40,7 @@ export default function ProductOverviewCard({
   const gradientId = `product-overview-icon-gold-gradient-${gradientIdBase || "default"}`;
   const iconStyle = {
     "--product-icon-gradient": `url(#${gradientId})`,
-    color: "var(--color-primary)",
+    color: "var(--color-accent)",
   } as CSSProperties;
 
   return (
@@ -64,14 +64,14 @@ export default function ProductOverviewCard({
           >
             <defs>
               <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#fffde8" />
-                <stop offset="8%" stopColor="#f7e588" />
-                <stop offset="20%" stopColor="#dfc040" />
-                <stop offset="35%" stopColor="#c9a227" />
-                <stop offset="50%" stopColor="#b8922a" />
-                <stop offset="70%" stopColor="#8a6a18" />
-                <stop offset="90%" stopColor="#5c4510" />
-                <stop offset="100%" stopColor="#3d2e0a" />
+                <stop offset="0%" stopColor="var(--color-accent-50)" />
+                <stop offset="8%" stopColor="var(--color-accent-100)" />
+                <stop offset="20%" stopColor="var(--color-accent-300)" />
+                <stop offset="35%" stopColor="var(--color-accent-500)" />
+                <stop offset="50%" stopColor="var(--color-accent-400)" />
+                <stop offset="70%" stopColor="var(--color-accent-700)" />
+                <stop offset="90%" stopColor="var(--color-accent-800)" />
+                <stop offset="100%" stopColor="var(--color-accent-900)" />
               </linearGradient>
             </defs>
           </svg>

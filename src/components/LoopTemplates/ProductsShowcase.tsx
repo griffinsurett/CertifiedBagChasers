@@ -74,7 +74,7 @@ export default function ProductsShowcase({ items }: ProductsShowcaseProps) {
     <>
       {featured && (
         <div className="relative mb-12 overflow-hidden rounded-[20px] border-2 border-primary/50 bg-gradient-to-br from-bg-tertiary to-bg-secondary p-6 md:p-8 lg:p-12">
-          <div className="absolute right-4 top-4 rounded-full bg-gradient-to-r from-primary-900 via-primary-600 to-primary-200 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[1px] text-bg md:right-5 md:top-5 md:px-5 md:py-2">
+          <div className="absolute right-4 top-4 rounded-full bg-gradient-to-r from-accent-900 via-accent-600 to-accent-200 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[1px] text-bg md:right-5 md:top-5 md:px-5 md:py-2">
             Most Popular
           </div>
 
@@ -96,7 +96,7 @@ export default function ProductsShowcase({ items }: ProductsShowcaseProps) {
                     key={`${feature}-${index}`}
                     className="mb-3 flex items-center gap-3 text-[#ccc]"
                   >
-                    <span className="text-primary">✓</span>
+                    <span className="gold-metallic-heading inline-block leading-none">✓</span>
                     <span>{feature}</span>
                   </li>
                 ))}

@@ -41,7 +41,7 @@ const gradientIdBase = `${title || 'icon'}-${size}`
 const gradientId = `social-icon-gold-gradient-${gradientIdBase || 'default'}`;
 const iconStyle = {
   '--social-icon-gradient': `url(#${gradientId})`,
-  color: 'var(--color-primary)',
+  color: 'var(--color-accent)',
 } as any;
 
 // Base classes matching React styling
@@ -51,14 +51,14 @@ const baseClasses = `${s.container} bg-gradient-to-br from-[#1a1a1a] to-bg-secon
 <svg aria-hidden="true" width="0" height="0" focusable="false" class="pointer-events-none w-0 h-0 overflow-hidden">
   <defs>
     <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fffde8" />
-      <stop offset="8%" stop-color="#f7e588" />
-      <stop offset="20%" stop-color="#dfc040" />
-      <stop offset="35%" stop-color="#c9a227" />
-      <stop offset="50%" stop-color="#b8922a" />
-      <stop offset="70%" stop-color="#8a6a18" />
-      <stop offset="90%" stop-color="#5c4510" />
-      <stop offset="100%" stop-color="#3d2e0a" />
+      <stop offset="0%" stop-color="var(--color-accent-50)" />
+      <stop offset="8%" stop-color="var(--color-accent-100)" />
+      <stop offset="20%" stop-color="var(--color-accent-300)" />
+      <stop offset="35%" stop-color="var(--color-accent-500)" />
+      <stop offset="50%" stop-color="var(--color-accent-400)" />
+      <stop offset="70%" stop-color="var(--color-accent-700)" />
+      <stop offset="90%" stop-color="var(--color-accent-800)" />
+      <stop offset="100%" stop-color="var(--color-accent-900)" />
     </linearGradient>
   </defs>
 </svg>

@@ -191,7 +191,7 @@ const secondaryIsExternal = secondaryCTA?.link?.startsWith("http");
   .hero-gradient {
     background:
       linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.9) 100%),
-      radial-gradient(ellipse at bottom left, rgba(201,162,39,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom left, color-mix(in srgb, var(--color-accent) 15%, transparent) 0%, transparent 50%),
       radial-gradient(ellipse at top right, rgba(34,87,67,0.2) 0%, transparent 50%),
       #0a0a0a;
   }
@@ -199,7 +199,7 @@ const secondaryIsExternal = secondaryCTA?.link?.startsWith("http");
   /* Decorative lines */
   .hero-lines {
     background:
-      linear-gradient(45deg, transparent 40%, rgba(201, 162, 39, 0.3) 45%, transparent 50%),
+      linear-gradient(45deg, transparent 40%, color-mix(in srgb, var(--color-accent) 30%, transparent) 45%, transparent 50%),
       linear-gradient(-45deg, transparent 40%, rgba(34, 87, 67, 0.3) 45%, transparent 50%);
   }
 
@@ -213,17 +213,7 @@ const secondaryIsExternal = secondaryCTA?.link?.startsWith("http");
 
   /* Gold metallic heading gradient */
   .gold-metallic-heading {
-    background: linear-gradient(
-      170deg,
-      #fffde8 0%,
-      #f7e588 8%,
-      #dfc040 20%,
-      #c9a227 35%,
-      #b8922a 50%,
-      #8a6a18 70%,
-      #5c4510 90%,
-      #3d2e0a 100%
-    );
+    background: var(--gradient-gold-metallic);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
