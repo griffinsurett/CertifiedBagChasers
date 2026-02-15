@@ -52,6 +52,7 @@ if (heading && typeof heading === 'object' && 'before' in heading) {
       title={displayTitle}
       highlightedTitle={highlightedTitle}
       afterTitle={afterTitle}
+      className="promise-section-heading"
     />
 
     {items.length > 0 && (
@@ -88,3 +89,14 @@ if (heading && typeof heading === 'object' && 'before' in heading) {
     )}
   </div>
 </section>
+
+<style>
+  @media (max-width: 640px) {
+    :global(.promise-section-heading h2) {
+      font-size: clamp(2.1rem, 9.2vw, 3rem);
+      line-height: 1.05;
+      overflow-wrap: normal;
+      word-break: keep-all;
+    }
+  }
+</style>
