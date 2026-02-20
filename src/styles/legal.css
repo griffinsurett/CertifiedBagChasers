@@ -76,7 +76,7 @@
    ========================================================================== */
 
 .legal-document blockquote {
-  @apply border-l-4 border-primary pl-4 py-2 my-4 italic;
+  @apply border-l-4 border-white/10 pl-4 py-2 my-4 italic;
 }
 
 .legal-document code {

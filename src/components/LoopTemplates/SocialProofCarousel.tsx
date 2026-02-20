@@ -168,7 +168,7 @@ const SocialProofCarousel = ({
         className={`relative p-4 ${
           isParts
             ? "rounded-2xl bg-white/10 ring-1 ring-white/20 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
-            : "overflow-hidden rounded-[32px] border border-primary/20 bg-gradient-to-br from-[#090909] via-[#0f0f0f] to-[#0a0a0a] shadow-[0_25px_60px_rgba(0,0,0,0.4)]"
+            : "overflow-hidden rounded-[32px] cbc-border bg-gradient-to-br from-[#090909] via-[#0f0f0f] to-[#0a0a0a] shadow-[0_25px_60px_rgba(0,0,0,0.4)]"
         }`}
       >
         <div className="overflow-hidden">

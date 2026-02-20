@@ -15,9 +15,9 @@ interface FormMessageProps {
 }
 
 const messageStyles: Record<MessageType, string> = {
-  success: "bg-green-50 text-green-800 border border-green-200",
+  success: "bg-green-50 text-green-800 border border-white/20",
   error: "bg-red-50 text-red-800 border border-red-200",
-  loading: "bg-primary/10 text-primary border border-primary-200",
+  loading: "bg-primary/10 text-primary border border-white/20",
 };
 
 const messageIcons: Record<MessageType, string> = {

@@ -268,7 +268,7 @@ h1, h2, h3, h4, h5, h6 {
   @apply text-center;
   @apply py-12 px-8;
   @apply rounded-2xl;
-  @apply border border-primary/20;
+  @apply cbc-border;
   @apply transition-all duration-300 ease-out;
   @apply cursor-pointer;
   background: linear-gradient(145deg, #151515 0%, #0d0d0d 100%);
@@ -287,6 +287,18 @@ h1, h2, h3, h4, h5, h6 {
 
 @utility sticky-section {
   @apply lg:sticky lg:top-40;
+}
+
+@utility cbc-border {
+  @apply border border-white/10;
+}
+
+@utility cbc-border-2 {
+  @apply border-2 border-white/10;
+}
+
+@utility cbc-border-hover-green {
+  @apply transition-colors hover:border-primary/40;
 }
 
 /* ============================================================================
@@ -313,7 +325,7 @@ h1, h2, h3, h4, h5, h6 {
   /* Testimonial text card base */
   .testimonial-text-card {
     @apply relative overflow-hidden rounded-xl p-8;
-    @apply border border-primary/20;
+    @apply cbc-border;
     @apply shadow-[0_10px_40px_rgba(0,0,0,0.4)];
     background: linear-gradient(145deg, #151515 0%, #0d0d0d 100%);
   }
@@ -321,7 +333,7 @@ h1, h2, h3, h4, h5, h6 {
   /* Testimonial video card base - uses fixed height for masonry layout */
   .testimonial-video-card {
     @apply relative overflow-hidden rounded-xl;
-    @apply border border-primary/20;
+    @apply cbc-border;
     @apply shadow-[0_10px_40px_rgba(0,0,0,0.4)];
     @apply cursor-pointer transition-transform duration-300;
     @apply min-h-[300px];

@@ -69,7 +69,7 @@ export const quickStartSteps = [
   </div>
 
   <div class="w-95/100 lg:w-90/100 mx-auto relative -mt-12 md:-mt-18 pb-6 md:pb-10">
-    <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary/95 via-bg/95 to-bg-dark/95 p-6 md:p-10 shadow-[0_24px_50px_rgba(0,0,0,0.45)]">
+    <div class="rounded-2xl cbc-border bg-gradient-to-br from-bg-secondary/95 via-bg/95 to-bg-dark/95 p-6 md:p-10 shadow-[0_24px_50px_rgba(0,0,0,0.45)]">
     
       <p class="text-sm uppercase tracking-[2px] text-primary mb-2 font-semibold">
         {typeof props.entry?.data?.heading === "object"
@@ -109,7 +109,7 @@ export const quickStartSteps = [
 
       <div class="flex flex-wrap gap-2">
         {supportedPlatforms.map((platform) => (
-          <span class="inline-flex items-center rounded-full border border-primary/40 bg-primary/10 px-3 py-1.5 text-xs text-primary">
+          <span class="inline-flex items-center rounded-full cbc-border bg-primary/10 px-3 py-1.5 text-xs text-primary">
             {platform}
           </span>
         ))}
@@ -121,11 +121,11 @@ export const quickStartSteps = [
 <section id="budget-tool-details" class="pb-20 md:pb-24 bg-bg">
   <div class="w-90/100 mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_360px] gap-10 lg:gap-12 items-start">
     <div>
-      <div class="mb-8 rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary via-bg to-bg-dark p-4 md:p-5 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+      <div class="mb-8 rounded-2xl cbc-border bg-gradient-to-br from-bg-secondary via-bg to-bg-dark p-4 md:p-5 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
         <img
           src={BudgetHeroImage.src}
           alt="Free Budgeting Tool featured preview"
-          class="w-full h-auto rounded-xl border border-white/10"
+          class="w-full h-auto rounded-xl cbc-border"
           loading="lazy"
         />
       </div>
@@ -171,7 +171,7 @@ export const quickStartSteps = [
     </div>
 
     <aside class="sticky-section self-start">
-      <div class="rounded-2xl border border-white/10 bg-gradient-to-br from-bg-secondary via-bg to-bg-dark p-6 md:p-7 shadow-[0_24px_50px_rgba(0,0,0,0.45)]">
+      <div class="rounded-2xl cbc-border bg-gradient-to-br from-bg-secondary via-bg to-bg-dark p-6 md:p-7 shadow-[0_24px_50px_rgba(0,0,0,0.45)]">
         <p class="h6 uppercase tracking-[2px] text-text-dim mb-3">
           Free Download
         </p>
@@ -193,7 +193,7 @@ export const quickStartSteps = [
           Unlock Download
         </Button>
 
-        <div class="mt-6 rounded-xl border border-white/10 bg-bg/50 p-4">
+        <div class="mt-6 rounded-xl cbc-border bg-bg/50 p-4">
           <p class="text-xs uppercase tracking-[2px] text-text-dim mb-2">
             Compatibility
           </p>

@@ -54,7 +54,7 @@ const isExternalLink = (item: any): boolean => {
             return (
               <a
                 href={item.url || "#"}
-                class="flex items-center justify-between text-center gap-4 p-5 sm:p-6 min-h-[72px] bg-bg rounded-xl text-heading no-underline transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:border-primary focus-visible:-translate-y-0.5 focus-visible:shadow-lg focus-visible:border-primary focus-visible:outline-none active:translate-y-0"
+                class="flex items-center justify-between text-center gap-4 p-5 sm:p-6 min-h-[72px] bg-bg rounded-xl cbc-border cbc-border-hover-green text-heading no-underline transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg focus-visible:-translate-y-0.5 focus-visible:shadow-lg focus-visible:border-white/10 focus-visible:outline-none active:translate-y-0"
                 target={isExternal ? "_blank" : undefined}
                 rel={isExternal ? "noopener noreferrer" : undefined}
               >

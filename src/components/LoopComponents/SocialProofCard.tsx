@@ -33,7 +33,7 @@ const SocialProofCard = ({
     ? 'rounded-none text-primary shadow-none ring-0 border-0 bg-transparent p-0'
     : styleVariant === 'parts'
       ? 'rounded-[26px] border border-white/25 bg-white/8 shadow-[0_15px_40px_rgba(0,0,0,0.3)] backdrop-blur-sm p-3'
-      : 'rounded-[26px] border border-primary/20 bg-gradient-to-br from-[#121212] to-[#1c1b18] shadow-[0_15px_40px_rgba(0,0,0,0.3)] p-3';
+      : 'rounded-[26px] cbc-border bg-gradient-to-br from-[#121212] to-[#1c1b18] shadow-[0_15px_40px_rgba(0,0,0,0.3)] p-3';
   const innerClasses = isBare ? 'rounded-none bg-transparent' : 'rounded-[20px] bg-black/60';
 
   return (

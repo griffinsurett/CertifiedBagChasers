@@ -576,7 +576,7 @@ function SegmentedTile({
               onClick={() => onChange(option.value)}
               className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
                 isActive
-                  ? "border-primary/60 bg-primary/10 text-primary"
+                  ? "border-white/25 bg-primary/10 text-primary"
                   : "border border-text/10 bg-surface text-text hover:border-primary/40"
               }`}
             >
@@ -614,7 +614,7 @@ function IconBadge({ icon, active = false, size = "sm" }: IconBadgeProps) {
     "inline-flex items-center justify-center rounded-2xl transition-all",
     sizeClasses[size],
     active
-      ? "border border-primary/20 bg-primary/10 text-primary"
+      ? "cbc-border bg-primary/10 text-primary"
       : "border border-text/10 bg-surface text-primary",
   ]
     .filter(Boolean)

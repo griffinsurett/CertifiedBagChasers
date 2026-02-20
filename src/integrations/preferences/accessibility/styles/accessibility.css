@@ -466,7 +466,7 @@ html[data-a11y-font="readable"] body * {
   }
 
   .a11y-toggle--active {
-    @apply border-primary/60 bg-primary/10;
+    @apply border-white/25 bg-primary/10;
   }
 
   .a11y-toggle--idle {
@@ -479,7 +479,7 @@ html[data-a11y-font="readable"] body * {
   }
 
   .a11y-slider {
-    @apply mt-3 w-full h-2 rounded-full border border-primary/20 appearance-none cursor-pointer transition;
+    @apply mt-3 w-full h-2 rounded-full border border-white/10 appearance-none cursor-pointer transition;
     background-color: var(--color-bg);
   }
 

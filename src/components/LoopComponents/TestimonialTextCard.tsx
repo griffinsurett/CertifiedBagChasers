@@ -42,7 +42,7 @@ const TestimonialTextCard = ({
 
       {/* Author info */}
       <div className="flex items-center gap-4 mb-5">
-        <div className="w-[50px] h-[50px] bg-gradient-to-br from-[#1a1a1a] to-bg-secondary rounded-full border-2 border-primary/30 flex items-center justify-center font-bold text-primary">
+        <div className="w-[50px] h-[50px] bg-gradient-to-br from-[#1a1a1a] to-bg-secondary rounded-full cbc-border-2 flex items-center justify-center font-bold text-primary">
           {initial}
         </div>
         <div>

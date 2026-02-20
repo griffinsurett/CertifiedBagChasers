@@ -17,7 +17,7 @@ export default function TertiaryButton({
 }: ButtonProps) {
   // Gold outline button styling for premium offerings
   const variantClasses = `
-    bg-transparent border-2 border-primary text-primary
+    bg-transparent cbc-border-2 text-primary
     font-bold uppercase tracking-wider
     rounded-lg
     hover:bg-primary/10

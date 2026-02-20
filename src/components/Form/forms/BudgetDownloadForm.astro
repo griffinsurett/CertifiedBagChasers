@@ -66,7 +66,7 @@ const handleSubmit = async (values: Record<string, unknown>) => {
   data-gate-key={storageKey}
 >
   {hasDownload ? (
-    <div class="rounded-2xl border border-white/10 bg-bg/70 p-4 md:p-5">
+    <div class="rounded-2xl cbc-border bg-bg/70 p-4 md:p-5">
       <div data-budget-form-wrapper>
         <FormWrapper
           client:idle
@@ -87,7 +87,7 @@ const handleSubmit = async (values: Record<string, unknown>) => {
               aria-label="Email address"
               showLabel={false}
               containerClassName="mb-0 flex-1"
-              inputClassName="h-full w-full px-4 py-3 bg-bg border border-white/10 rounded-lg focus:outline-none focus:border-primary text-white placeholder:text-text-dim"
+              inputClassName="h-full w-full px-4 py-3 bg-bg cbc-border rounded-lg focus:outline-none focus:border-white/30 text-white placeholder:text-text-dim"
             />
 
             <Button
@@ -104,7 +104,7 @@ const handleSubmit = async (values: Record<string, unknown>) => {
             required
             containerClassName="mb-0"
             labelClassName="flex items-start gap-2"
-            checkboxClassName="mt-0.5 w-4 h-4 rounded border-white/20 bg-bg text-primary focus:border-primary"
+            checkboxClassName="mt-0.5 w-4 h-4 rounded border-white/20 bg-bg text-primary focus:border-white/30"
           >
             <span class="text-sm text-text-secondary">
               I agree to receive updates and marketing communications and consent to email marketing.
@@ -132,7 +132,7 @@ const handleSubmit = async (values: Record<string, unknown>) => {
       </div>
     </div>
   ) : (
-    <div class="rounded-2xl border border-white/10 bg-bg/70 p-4 md:p-5">
+    <div class="rounded-2xl cbc-border bg-bg/70 p-4 md:p-5">
       <p class="text-sm text-text-muted">Set a `link` in frontmatter to enable download access.</p>
     </div>
   )}

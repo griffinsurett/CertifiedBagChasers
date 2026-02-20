@@ -53,7 +53,7 @@ export default function SliderControl({
       <div
         className={`rounded-xl border px-4 py-3 bg-transparent transition ${
           engaged
-            ? "border-primary/60 shadow-[0_0_0_3px_rgba(59,130,246,0.15)]"
+            ? "border-white/25 shadow-[0_0_0_3px_rgba(59,130,246,0.15)]"
             : "border-accent/30"
         }`}
       >

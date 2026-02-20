@@ -45,7 +45,7 @@ export default function ProductOverviewCard({
 
   return (
     <div
-      className={`relative rounded-2xl border border-white/10 bg-gradient-to-br from-[#111111] to-[#0a0a0a] p-7 md:p-8 ${className}`}
+      className={`relative rounded-2xl cbc-border bg-gradient-to-br from-[#111111] to-[#0a0a0a] p-7 md:p-8 ${className}`}
     >
       {isComingSoon && (
         <div className="absolute top-4 right-4 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-bold uppercase tracking-[1px] text-text-secondary">
@@ -119,7 +119,7 @@ export default function ProductOverviewCard({
       ) : (
         <button
           type="button"
-          className="w-full rounded-lg border-2 border-primary/35 px-6 py-3 text-sm font-bold uppercase tracking-[1px] text-primary opacity-60"
+          className="w-full rounded-lg cbc-border-2 px-6 py-3 text-sm font-bold uppercase tracking-[1px] text-primary opacity-60"
           disabled
         >
           {ctaText}
