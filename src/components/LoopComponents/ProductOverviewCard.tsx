@@ -85,7 +85,7 @@ export default function ProductOverviewCard({
       )}
 
       <h3 className="mb-4 text-center text-[28px] font-bold uppercase leading-tight">
-        <span className="gold-metallic-heading">{item.title}</span>
+        <span className="text-white">{item.title}</span>
       </h3>
 
       {item.description && (

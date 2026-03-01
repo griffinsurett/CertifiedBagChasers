@@ -4,7 +4,7 @@
 import type { IconType } from 'react-icons';
 import { FaAmazon, FaApple, FaArrowsUpDownLeftRight, FaBook, FaBookOpen, FaBullseye, FaChartSimple, FaClockRotateLeft, FaCompass, FaDiscord, FaEye, FaFeather, FaFileLines, FaGooglePlay, FaGraduationCap, FaHeadphones, FaHeadset, FaLayerGroup, FaLifeRing, FaLink, FaPalette, FaRobot, FaRotateLeft, FaScaleBalanced, FaShieldHalved, FaSpotify, FaTabletScreenButton, FaUniversalAccess, FaWandMagicSparkles, FaXmark } from 'react-icons/fa6';
 import { LuArrowRight, LuBookOpen, LuChevronRight, LuContact, LuGlobe, LuImage, LuMail, LuPhone, LuSettings } from 'react-icons/lu';
-import { SiInstagram, SiLinkedin, SiTiktok, SiX } from 'react-icons/si';
+import { SiInstagram, SiLinkedin, SiX } from 'react-icons/si';
 
 export const iconMap = {
   'fa6:amazon': FaAmazon,
@@ -48,7 +48,6 @@ export const iconMap = {
   'lu:settings': LuSettings,
   'si:instagram': SiInstagram,
   'si:linkedin': SiLinkedin,
-  'si:tiktok': SiTiktok,
   'si:x': SiX,
 } satisfies Record<string, IconType>;
 

@@ -81,7 +81,7 @@ export default function ProductsShowcase({ items }: ProductsShowcaseProps) {
           <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-2 lg:gap-12">
             <div>
               <h2 className="mb-4 text-4xl font-extrabold uppercase leading-tight">
-                <span className="gold-metallic-heading">{featured.title}</span>
+                <span className="text-white">{featured.title}</span>
               </h2>
 
               {featured.description && (
