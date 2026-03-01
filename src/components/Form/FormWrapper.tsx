@@ -7,6 +7,7 @@
 import {
   Children,
   isValidElement,
+  useEffect,
   useMemo,
   useState,
   type FormEvent,
@@ -26,6 +27,7 @@ export interface FormWrapperProps {
   formspreeEndpoint?: string;
   formMethod?: FormHTMLAttributes<HTMLFormElement>["method"];
   useNativeFormSubmission?: boolean;
+  reloadOnSuccess?: boolean;
   formspreeFormName?: string;
   formspreeExcludeKeys?: string[];
   successMessage?: string;
@@ -44,6 +46,7 @@ export default function FormWrapper({
   formspreeEndpoint,
   formMethod = "post",
   useNativeFormSubmission = false,
+  reloadOnSuccess,
   formspreeFormName,
   formspreeExcludeKeys = [],
   successMessage = "Form submitted successfully!",
@@ -60,6 +63,7 @@ export default function FormWrapper({
   >("idle");
   const [message, setMessage] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState(0);
+  const [currentUrl, setCurrentUrl] = useState("");
 
   const childrenArray = Children.toArray(children);
   const formSteps = childrenArray.filter(
@@ -95,6 +99,13 @@ export default function FormWrapper({
 
   const shouldUseNativeSubmission =
     useNativeFormSubmission && Boolean(resolvedFormspreeEndpoint);
+  const shouldReloadAfterSuccess = reloadOnSuccess ?? shouldUseNativeSubmission;
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && shouldUseNativeSubmission) {
+      setCurrentUrl(window.location.href);
+    }
+  }, [shouldUseNativeSubmission]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -193,6 +204,10 @@ export default function FormWrapper({
         className={className}
         noValidate={false}
       >
+        {shouldUseNativeSubmission &&
+          shouldReloadAfterSuccess &&
+          currentUrl && <input type="hidden" name="_next" value={currentUrl} />}
+
         {status === "submitting" && (
           <LoadingMessage>{loadingMessage}</LoadingMessage>
         )}
