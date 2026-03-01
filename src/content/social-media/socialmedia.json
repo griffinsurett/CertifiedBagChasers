@@ -21,13 +21,6 @@
     "order": 4
   },
   {
-    "id": "discord",
-    "title": "Discord",
-    "link": "https://discord.gg/certifiedbagchasers",
-    "icon": "simple-icons:discord",
-    "order": 5
-  },
-  {
     "id": "linkedin",
     "title": "LinkedIn",
     "link": "https://www.linkedin.com/in/arold-norelus/",
