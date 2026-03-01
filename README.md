@@ -312,6 +312,9 @@ PUBLIC_FORMSPREE_BUDGET_TOOL_ID=
 
 # Optional generic fallback ID
 PUBLIC_FORMSPREE_ID=
+
+# Google Analytics 4 (optional)
+PUBLIC_GA_MEASUREMENT_ID=
 ```
 
 ## Advanced Features

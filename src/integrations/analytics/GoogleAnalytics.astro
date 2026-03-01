@@ -1,0 +1,73 @@
+---
+// src/integrations/analytics/GoogleAnalytics.astro
+/**
+ * Google Analytics 4 (gtag.js) with Consent Mode v2
+ *
+ * GDPR/CCPA Compliance:
+ * - Sets denied defaults before analytics loads
+ * - GA script blocked until user grants "performance" consent
+ * - Consent updates are synced when preferences change
+ */
+
+const GA_MEASUREMENT_ID = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+---
+
+{GA_MEASUREMENT_ID && (
+  <>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function gtag(){window.dataLayer.push(arguments);};
+
+      // Default to denied until user gives consent.
+      window.gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'functionality_storage': 'denied',
+        'personalization_storage': 'denied',
+        'security_storage': 'granted',
+        'wait_for_update': 500
+      });
+
+      function updateGoogleConsent() {
+        try {
+          var cookieMatch = document.cookie.match(/cookie-consent=([^;]+)/);
+          if (!cookieMatch) return;
+
+          var consent = JSON.parse(decodeURIComponent(cookieMatch[1]));
+          window.gtag('consent', 'update', {
+            'analytics_storage': consent.performance ? 'granted' : 'denied',
+            'functionality_storage': consent.functional ? 'granted' : 'denied',
+            'personalization_storage': consent.functional ? 'granted' : 'denied',
+            'ad_storage': consent.targeting ? 'granted' : 'denied',
+            'ad_user_data': consent.targeting ? 'granted' : 'denied',
+            'ad_personalization': consent.targeting ? 'granted' : 'denied'
+          });
+        } catch {
+          // Invalid/missing cookie: keep defaults.
+        }
+      }
+
+      updateGoogleConsent();
+      window.addEventListener('consent-changed', updateGoogleConsent);
+    </script>
+
+    <script
+      type="text/plain"
+      data-consent="performance"
+      async
+      src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+    />
+
+    <script
+      type="text/plain"
+      data-consent="performance"
+      is:inline
+      set:html={`
+        window.gtag('js', new Date());
+        window.gtag('config', '${GA_MEASUREMENT_ID}');
+      `}
+    />
+  </>
+)}

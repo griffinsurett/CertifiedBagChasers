@@ -7,7 +7,7 @@
  * Import this single component in your BaseLayout head section.
  *
  * Includes:
- * - Google Tag Manager (with Consent Mode v2)
+ * - Google Analytics 4 (gtag.js + Consent Mode v2)
  * - Consent Script (marks consent existence)
  * - Accessibility Script (applies saved preferences before render)
  * - Language Detection Script (detects browser language)
@@ -18,14 +18,14 @@
  *   </head>
  */
 
-import GoogleTagManager from "@/integrations/analytics/GoogleTagManager.astro";
+import GoogleAnalytics from "@/integrations/analytics/GoogleAnalytics.astro";
 import ConsentScript from "@/integrations/preferences/consent/core/scripts/ConsentScript.astro";
 import AccessibilityScript from "@/integrations/preferences/accessibility/core/scripts/AccessibilityScript.astro";
 import LanguageDetectionScript from "@/integrations/preferences/language/core/scripts/LanguageDetectionScript.astro";
 ---
 
-<!-- Analytics: Google Tag Manager with Consent Mode v2 -->
-<GoogleTagManager />
+<!-- Analytics: Google Analytics 4 with Consent Mode v2 -->
+<GoogleAnalytics />
 
 <!-- Consent: Mark existing consent for components -->
 <ConsentScript />

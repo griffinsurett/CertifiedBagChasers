@@ -12,6 +12,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_FORMSPREE_MULTI_STEP_QUOTE_ID?: string;
   readonly PUBLIC_FORMSPREE_BUDGET_TOOL_ID?: string;
   readonly PUBLIC_GOOGLE_TRANSLATE_KEY?: string;
+  readonly PUBLIC_GA_MEASUREMENT_ID?: string;
 }
 
 interface ImportMeta {
