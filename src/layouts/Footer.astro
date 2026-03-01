@@ -13,7 +13,7 @@
  */
 import { siteData } from "@/content/siteData";
 import ContentRenderer from "@/components/ContentRenderer/ContentRenderer.astro";
-import { query, sortBy } from "@/utils/query";
+import { query, roots, sortBy } from "@/utils/query";
 import PreferencesLayout from "./PreferencesLayout.astro";
 import Logo from "@/components/Logo.astro";
 import NewsletterForm from "@/components/Form/forms/NewsletterForm.astro";
@@ -39,6 +39,11 @@ const legalQuery = query("menu-items")
     return menus?.id === "legal";
   })
   .orderBy(sortBy("order", "asc"));
+
+const footerProductsQuery = roots("products");
+const footerAffiliateProductsQuery = query("affiliates").orderBy(
+  sortBy("order", "asc")
+);
 ---
 
 <footer class="bg-bg-dark border-t border-white/10 px-5 w-full mt-auto">
@@ -73,8 +78,14 @@ const legalQuery = query("menu-items")
           layout="vertical"
           className="footer-links"
         />
-         <ContentRenderer
-          query={query("products")}
+        <ContentRenderer
+          query={footerProductsQuery}
+          variant="ListVariant"
+          layout="vertical"
+          className="footer-links"
+        />
+        <ContentRenderer
+          query={footerAffiliateProductsQuery}
           variant="ListVariant"
           layout="vertical"
           className="footer-links"

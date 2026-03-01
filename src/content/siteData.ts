@@ -9,6 +9,7 @@ export const siteData = {
   url: `https://${siteDomain}`,
   location: "United States",
   founder: "Arold Norelus",
+  cmtLevel: "Level II",
   tagline: "Stop Chasing Quick Fixes",
   whopLoginLink: "https://whop.com/login",
 };

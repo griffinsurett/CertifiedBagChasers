@@ -14,13 +14,6 @@
     "order": 2
   },
   {
-    "id": "youtube",
-    "title": "YouTube",
-    "link": "https://youtube.com/@certifiedbagchasers",
-    "icon": "simple-icons:youtube",
-    "order": 3
-  },
-  {
     "id": "tiktok",
     "title": "TikTok",
     "link": "https://tiktok.com/@certifiedbagchasers",
@@ -33,5 +26,12 @@
     "link": "https://discord.gg/certifiedbagchasers",
     "icon": "simple-icons:discord",
     "order": 5
+  },
+  {
+    "id": "linkedin",
+    "title": "LinkedIn",
+    "link": "https://www.linkedin.com/in/arold-norelus/",
+    "icon": "simple-icons:linkedin",
+    "order": 6
   }
 ]

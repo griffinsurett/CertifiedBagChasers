@@ -154,6 +154,17 @@ export const collections = {
       baseSchema({ image }),
   }),
 
+  // ── affiliates ──────────────────────────────────
+  "affiliates": defineCollection({
+    schema: ({ image }) =>
+      baseSchema({ image }).extend({
+        // External destination URL for affiliate offer
+        link: z.string().url(),
+        // Open affiliate links in a new tab when rendered in list variants
+        openInNewTab: z.boolean().default(true),
+      }),
+  }),
+
   // ── products ────────────────────────────────────────────
   "products": defineCollection({
     schema: ({ image }) =>
