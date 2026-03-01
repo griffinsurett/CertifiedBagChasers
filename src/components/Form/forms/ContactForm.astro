@@ -17,10 +17,9 @@ interface Props {
 }
 
 const { title, description, className = "" } = Astro.props;
-
-const handleSubmit = async (values: any) => {
-  console.log("Contact form submitted:", values);
-};
+const contactFormId =
+  import.meta.env.PUBLIC_FORMSPREE_CONTACT_ID ||
+  import.meta.env.PUBLIC_FORMSPREE_ID;
 ---
 
 <div class={className}>
@@ -29,7 +28,7 @@ const handleSubmit = async (values: any) => {
 
   <FormWrapper
     client:idle
-    onSubmit={handleSubmit}
+    formspreeId={contactFormId}
     successMessage="Thank you for contacting us! We'll get back to you soon."
     errorMessage="There was an error submitting your form. Please try again."
     resetOnSuccess={true}

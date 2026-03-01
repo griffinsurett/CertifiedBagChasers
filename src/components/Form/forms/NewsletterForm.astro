@@ -24,9 +24,9 @@ const {
   className = "",
 } = Astro.props;
 
-const handleSubmit = async (values: any) => {
-  console.log("Newsletter form submitted:", values);
-};
+const subscribeFormId =
+  import.meta.env.PUBLIC_FORMSPREE_SUBSCRIBE_ID ||
+  import.meta.env.PUBLIC_FORMSPREE_ID;
 ---
 
 <div
@@ -39,7 +39,7 @@ const handleSubmit = async (values: any) => {
 
   <FormWrapper
     client:idle
-    onSubmit={handleSubmit}
+    formspreeId={subscribeFormId}
     successMessage={successMessage}
     errorMessage="There was an error. Please try again."
     resetOnSuccess={true}

@@ -31,9 +31,9 @@ const {
   productName = "",
 } = Astro.props;
 
-const handleSubmit = async (values: any) => {
-  console.log("Waitlist form submitted:", { ...values, productName });
-};
+const waitlistFormId =
+  import.meta.env.PUBLIC_FORMSPREE_WAITLIST_ID ||
+  import.meta.env.PUBLIC_FORMSPREE_ID;
 ---
 
 <div class={`bg-gradient-to-br from-[#1a1708] to-[#0f0d05] rounded-2xl cbc-border p-8 md:p-10 w-full max-w-md ${className}`}>
@@ -50,12 +50,13 @@ const handleSubmit = async (values: any) => {
   {/* Form */}
   <FormWrapper
     client:idle
-    onSubmit={handleSubmit}
+    formspreeId={waitlistFormId}
     successMessage={successMessage}
     errorMessage="There was an error. Please try again."
     resetOnSuccess={true}
     className="w-full"
   >
+    {productName && <input type="hidden" name="productName" value={productName} />}
     <div class="flex flex-col sm:flex-row gap-4 mb-4">
       <Input
         name="firstName"

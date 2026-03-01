@@ -3,7 +3,6 @@ import Button from "@/components/Button/Button";
 import FormWrapper from "@/components/Form/FormWrapper";
 import Input from "@/components/Form/inputs/Input";
 import Checkbox from "@/components/Form/inputs/Checkbox";
-import { submitToFormspree } from "@/utils/formspree";
 
 interface Props {
   downloadUrl?: string;
@@ -27,36 +26,12 @@ const {
   description = "Enter your email and agree to marketing to unlock your free download.",
 } = Astro.props as Props;
 
-const formspreeId =
+const budgetFormId =
   import.meta.env.PUBLIC_FORMSPREE_BUDGET_TOOL_ID ||
-  import.meta.env.PUBLIC_FORMSPREE_ID ||
-  "";
-
-const formspreeEndpoint = formspreeId
-  ? `https://formspree.io/f/${formspreeId}`
-  : "";
+  import.meta.env.PUBLIC_FORMSPREE_ID;
 
 const hasDownload = Boolean(downloadUrl);
 const isExternal = typeof downloadUrl === "string" && downloadUrl.startsWith("http");
-
-const handleSubmit = async (values: Record<string, unknown>) => {
-  await submitToFormspree({
-    endpoint: formspreeEndpoint,
-    values: {
-      ...values,
-      source: "budgeting-tool-download",
-      marketingConsentText:
-        "I agree to receive updates and marketing communications and acknowledge the privacy policy.",
-    },
-    formName: "Budgeting Tool Download",
-  });
-
-  if (typeof window !== "undefined") {
-    window.dispatchEvent(
-      new CustomEvent("budget-download-unlocked", { detail: { key: storageKey } })
-    );
-  }
-};
 ---
 
 <div
@@ -70,11 +45,24 @@ const handleSubmit = async (values: Record<string, unknown>) => {
       <div data-budget-form-wrapper>
         <FormWrapper
           client:idle
-          onSubmit={handleSubmit}
+          formspreeId={budgetFormId}
           successMessage="Thanks. Your download is now unlocked."
           errorMessage="We could not submit your form. Please try again."
           className="w-full"
+          onSuccess={() => {
+            if (typeof window !== "undefined") {
+              window.dispatchEvent(
+                new CustomEvent("budget-download-unlocked", { detail: { key: storageKey } })
+              );
+            }
+          }}
         >
+          <input type="hidden" name="source" value="budgeting-tool-download" />
+          <input
+            type="hidden"
+            name="marketingConsentText"
+            value="I agree to receive updates and marketing communications and acknowledge the privacy policy."
+          />
           {title && <p class="text-base font-semibold text-white mb-2">{title}</p>}
           {description && <p class="text-sm text-text-secondary mb-4">{description}</p>}
 

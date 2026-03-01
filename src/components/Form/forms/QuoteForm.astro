@@ -16,10 +16,9 @@ interface Props {
 }
 
 const { title, description, className = "" } = Astro.props;
-
-const handleSubmit = async (values: any) => {
-  console.log("Quote form submitted:", values);
-};
+const quoteFormId =
+  import.meta.env.PUBLIC_FORMSPREE_QUOTE_ID ||
+  import.meta.env.PUBLIC_FORMSPREE_ID;
 ---
 
 <div class={className}>
@@ -28,7 +27,7 @@ const handleSubmit = async (values: any) => {
 
   <FormWrapper
     client:idle
-    onSubmit={handleSubmit}
+    formspreeId={quoteFormId}
     successMessage="Thank you for your quote request! We'll get back to you soon."
     resetOnSuccess={true}
     className="w-full gap-0"

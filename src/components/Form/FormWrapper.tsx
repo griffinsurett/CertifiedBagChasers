@@ -16,10 +16,15 @@ import SuccessMessage from "./messages/SuccessMessage";
 import ErrorMessage from "./messages/ErrorMessage";
 import LoadingMessage from "./messages/LoadingMessage";
 import { FormContext } from "./FormContext";
+import { submitToFormspree } from "@/utils/formspree";
 
 export interface FormWrapperProps {
   children: ReactNode;
-  onSubmit: (values: Record<string, any>) => Promise<void> | void;
+  onSubmit?: (values: Record<string, any>) => Promise<void> | void;
+  formspreeId?: string;
+  formspreeEndpoint?: string;
+  formspreeFormName?: string;
+  formspreeExcludeKeys?: string[];
   successMessage?: string;
   errorMessage?: string;
   loadingMessage?: string;
@@ -32,6 +37,10 @@ export interface FormWrapperProps {
 export default function FormWrapper({
   children,
   onSubmit,
+  formspreeId,
+  formspreeEndpoint,
+  formspreeFormName,
+  formspreeExcludeKeys = [],
   successMessage = "Form submitted successfully!",
   errorMessage = "An error occurred. Please try again.",
   loadingMessage = "Submitting your form...",
@@ -103,7 +112,22 @@ export default function FormWrapper({
         }
       });
 
-      await onSubmit(data);
+      const endpoint =
+        formspreeEndpoint ||
+        (formspreeId ? `https://formspree.io/f/${formspreeId}` : "");
+
+      if (onSubmit) {
+        await onSubmit(data);
+      } else if (endpoint) {
+        await submitToFormspree({
+          endpoint,
+          values: data,
+          excludeKeys: formspreeExcludeKeys,
+          formName: formspreeFormName,
+        });
+      } else {
+        throw new Error("Form submission handler is not configured.");
+      }
 
       setStatus("success");
       setMessage(successMessage);
