@@ -71,7 +71,7 @@ const trustBadges = [
 
     {/* Product Table - Available Products */}
     {availableProducts.length > 0 && (
-      <ProductTable items={availableProducts} client:load />
+      <ProductTable items={availableProducts} client:visible />
     )}
 
     {/* Trust Badges */}

@@ -16,7 +16,7 @@
  */
 
 import Button from "@/components/Button/Button";
-import WhopRating from "@/components/WhopRating";
+import WhopRating from "@/components/WhopRating.astro";
 import BackgroundMedia from "@/components/BackgroundMedia.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
 import BackgroundImg from "@/assets/inside-the-nyse.jpg";
@@ -73,7 +73,7 @@ const {
     )}
 
     {/* Whop Rating */}
-    <WhopRating client:visible className="mt-6" />
+    <WhopRating className="mt-6" />
 
     {footnote && (
       <p class="mt-4 text-text-dim text-sm">

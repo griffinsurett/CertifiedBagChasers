@@ -1,6 +1,7 @@
 ---
 // src/components/BackgroundMedia.astro
 import { getImage } from "astro:assets";
+import { resolveImageMetadata } from "@/utils/images";
 
 export interface Props {
   backgroundMedia: {
@@ -11,6 +12,11 @@ export interface Props {
       aboveTheFold?: boolean; // Auto-sets priority, quality, eager loading
       // Manual overrides (if needed)
       quality?: number;
+      widths?: {
+        mobile: number;
+        tablet: number;
+        desktop: number;
+      };
     };
     video?: {
       src: string;
@@ -35,8 +41,14 @@ const aboveTheFold = backgroundMedia?.image?.aboveTheFold ?? false;
 // Above-the-fold: Lower quality (50-60%) - LCP optimization critical
 // Below-the-fold: Higher quality (65-75%) - User is scrolling to see it
 const qualitySettings = aboveTheFold
-  ? { mobile: 50, tablet: 55, desktop: 60 }
-  : { mobile: 65, tablet: 70, desktop: 75 };
+  ? { mobile: 46, tablet: 50, desktop: 55 }
+  : { mobile: 58, tablet: 62, desktop: 66 };
+
+const widthSettings = backgroundMedia?.image?.widths ?? (
+  aboveTheFold
+    ? { mobile: 640, tablet: 1024, desktop: 1600 }
+    : { mobile: 480, tablet: 768, desktop: 1280 }
+);
 
 // Allow manual quality override
 const customQuality = backgroundMedia?.image?.quality;
@@ -46,31 +58,28 @@ let responsiveImages = null;
 
 if (backgroundMedia?.image?.src) {
   const rawSrc = backgroundMedia.image.src;
-  const isProcessedImage = 
-    typeof rawSrc === 'object' && 
-    rawSrc !== null &&
-    typeof rawSrc.src === 'string';
-  
-  if (!isProcessedImage && typeof rawSrc !== 'string') {
+  const imageMetadata = resolveImageMetadata(rawSrc);
+
+  if (imageMetadata) {
     try {
       const [mobile, tablet, desktop] = await Promise.all([
         getImage({
-          src: rawSrc,
+          src: imageMetadata,
           format: "webp",
           quality: customQuality ?? qualitySettings.mobile,
-          width: 640,
+          width: widthSettings.mobile,
         }),
         getImage({
-          src: rawSrc,
+          src: imageMetadata,
           format: "webp",
           quality: customQuality ?? qualitySettings.tablet,
-          width: 1024,
+          width: widthSettings.tablet,
         }),
         getImage({
-          src: rawSrc,
+          src: imageMetadata,
           format: "webp",
           quality: customQuality ?? qualitySettings.desktop,
-          width: 1920,
+          width: widthSettings.desktop,
         }),
       ]);
       
@@ -79,13 +88,22 @@ if (backgroundMedia?.image?.src) {
       console.error('Failed to optimize background image:', error);
     }
   } else {
+    const fallbackSrc =
+      typeof rawSrc === "string"
+        ? rawSrc
+        : typeof rawSrc?.src === "string"
+          ? rawSrc.src
+          : "";
+
     responsiveImages = {
-      mobile: { src: isProcessedImage ? rawSrc.src : rawSrc },
-      tablet: { src: isProcessedImage ? rawSrc.src : rawSrc },
-      desktop: { src: isProcessedImage ? rawSrc.src : rawSrc },
+      mobile: { src: fallbackSrc },
+      tablet: { src: fallbackSrc },
+      desktop: { src: fallbackSrc },
     };
   }
 }
+
+const backgroundClassName = `bg-media-${Math.random().toString(36).slice(2, 10)}`;
 ---
 
 {backgroundMedia?.video?.src ? (
@@ -105,12 +123,29 @@ if (backgroundMedia?.image?.src) {
   </video>
 ) : responsiveImages ? (
   <div
-    class={`absolute inset-0 z-0 bg-cover bg-center ${backgroundMedia?.image?.imageClass || ""}`}
-    style={`background-image: url('${responsiveImages.desktop.src}')`}
+    class={`absolute inset-0 z-0 bg-cover bg-center ${backgroundClassName} ${backgroundMedia?.image?.imageClass || ""}`}
     aria-hidden="true"
   />
 ) : null}
 
 {backgroundMedia?.overlayClass && (
   <div class={`absolute inset-0 z-0 ${backgroundMedia.overlayClass}`} aria-hidden="true"></div>
+)}
+
+{responsiveImages && (
+  <style>{`
+    .${backgroundClassName} {
+      background-image: url('${responsiveImages.mobile.src}');
+    }
+    @media (min-width: 641px) {
+      .${backgroundClassName} {
+        background-image: url('${responsiveImages.tablet.src}');
+      }
+    }
+    @media (min-width: 1025px) {
+      .${backgroundClassName} {
+        background-image: url('${responsiveImages.desktop.src}');
+      }
+    }
+  `}</style>
 )}

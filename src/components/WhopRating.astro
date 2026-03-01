@@ -1,0 +1,39 @@
+---
+/**
+ * WhopRating Component
+ *
+ * Static (non-hydrated) rating row used under CTA buttons.
+ */
+export interface Props {
+  className?: string;
+}
+
+const { className = "" } = Astro.props as Props;
+---
+
+<div class={`flex items-center justify-center gap-2 ${className}`}>
+  <div class="flex gap-1">
+    <span class="inline-block text-lg gold-star">★</span>
+    <span class="inline-block text-lg gold-star">★</span>
+    <span class="inline-block text-lg gold-star">★</span>
+    <span class="inline-block text-lg gold-star">★</span>
+    <span class="inline-block text-lg gold-star">★</span>
+  </div>
+  <span class="text-white text-base font-medium">4.9/5 on</span>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="ml-0.5">
+    <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="#fff"></path>
+    <path d="M2 17L12 22L22 17" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    <path d="M2 12L12 17L22 12" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+  </svg>
+  <span class="text-white text-base font-semibold">Whop</span>
+</div>
+
+<style>
+  .gold-star {
+    background: var(--gradient-gold-metallic);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+</style>

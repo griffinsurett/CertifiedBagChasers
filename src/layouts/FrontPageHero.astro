@@ -16,7 +16,7 @@
  */
 
 import Button from "@/components/Button/Button";
-import WhopRating from "@/components/WhopRating";
+import WhopRating from "@/components/WhopRating.astro";
 import BackgroundMedia from "@/components/BackgroundMedia.astro";
 import { ctaData } from "@/content/siteData";
 import BackgroundImg from "@/assets/inside-the-nyse.jpg";
@@ -178,7 +178,7 @@ const secondaryIsExternal = secondaryCTA?.link?.startsWith("http");
       </div>
 
       {/* Whop Rating */}
-      <WhopRating client:visible className="mt-2" />
+      <WhopRating className="mt-2" />
     </div>
   </div>
 
