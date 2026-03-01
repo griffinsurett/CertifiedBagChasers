@@ -37,16 +37,16 @@ import BackgroundImg2 from "@/assets/bent-speaking.jpg";
     />
 
     <!-- VSL Video Section (placeholder) -->
-    <section class="py-20 px-5 flex flex-col items-center">
+    <!-- <section class="py-20 px-5 flex flex-col items-center">
       <VideoPlaceholder />
-    </section>
+    </section> -->
 
     <!-- About Us + Social Proof Section with Background -->
     <section class="relative overflow-hidden" id="home-about">
       <BackgroundMedia
         backgroundMedia={{
-          image: { src: BackgroundImg2, imageClass: "bg-fixed bg-top" },
-          overlayClass: "bg-black/70",
+          // image: { src: BackgroundImg2, imageClass: "bg-fixed bg-top" },
+          // overlayClass: "bg-black/70",
         }}
       />
       <AboutSection
@@ -55,9 +55,9 @@ import BackgroundImg2 from "@/assets/bent-speaking.jpg";
         highlightedTitle="Certified Bag Chasers"
       >
         <p class="mb-6">
-          Certified Bag Chasers is a financial education provider built for
-          people who want to understand how markets actually work—not chase
-          shortcuts.
+          Certified Bag Chasers is a personal finance education company
+          dedicated to bringing you the best, most up-to-date information on
+          personal finance so you can make better money decisions with clarity.
         </p>
 
         <p class="mb-6">
@@ -80,7 +80,7 @@ import BackgroundImg2 from "@/assets/bent-speaking.jpg";
 
         <p>
           Our mission is simple:
-          <span class="text-highlight">help you understand markets, build income, and move money intelligently</span>
+          <span class="text-highlight">deliver the best, most up-to-date personal finance education so you can understand markets, build income, and move money intelligently</span>
           through education, discipline, and long-term thinking. At Certified
           Bag Chasers, we're building a community centered on learning,
           accountability, and making
@@ -125,11 +125,10 @@ import BackgroundImg2 from "@/assets/bent-speaking.jpg";
     />
 
     <!-- Success Stories (Text Testimonials) -->
-    <ContentRenderer
+    <!-- <ContentRenderer
       query={query("testimonials").where((entry) => !entry.data.socialMediaPost).orderBy(sortByOrder())}
       variant="TestimonialVariant"
-    />
-
+    /> -->
 
     <!-- Final CTA Section -->
     <CTASection ctaText={ctaData.text} ctaLink={ctaData.link} />

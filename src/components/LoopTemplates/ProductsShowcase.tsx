@@ -73,7 +73,7 @@ export default function ProductsShowcase({ items }: ProductsShowcaseProps) {
   return (
     <>
       {featured && (
-        <div className="relative mb-12 overflow-hidden rounded-[20px] border-2 border-white/20 bg-gradient-to-br from-bg-tertiary to-bg-secondary p-6 md:p-8 lg:p-12">
+        <div className="relative mb-12 overflow-hidden rounded-[20px] border-2 border-white/20 bg-gradient-to-br from-bg-tertiary to-bg-secondary p-6 md:p-8 lg:p-12 shadow-[0_25px_50px_rgba(74,222,128,0.12)]">
           <div className="absolute right-4 top-4 rounded-full bg-gradient-to-r from-accent-900 via-accent-600 to-accent-200 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[1px] text-bg md:right-5 md:top-5 md:px-5 md:py-2">
             Most Popular
           </div>

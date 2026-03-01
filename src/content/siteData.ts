@@ -4,7 +4,7 @@ const siteDomain = import.meta.env.PUBLIC_SITE_DOMAIN;
 export const siteData = {
   title: "Certified Bag Chasers",
   legalName: "Certified Bag Chasers LLC",
-  description: "A financial education provider built for people who want to understand how markets actually work—not chase shortcuts. No get-rich-quick schemes, just real strategies that create lasting wealth.",
+  description: "Certified Bag Chasers is a personal finance education company dedicated to bringing you the best, most up-to-date information on personal finance, investing, and wealth-building strategy. No get-rich-quick schemes, just practical education you can apply with confidence.",
   domain: siteDomain,
   url: `https://${siteDomain}`,
   location: "United States",

@@ -11,9 +11,6 @@ featuredImage: "../../assets/excel-arold.png"
 price: "FREE"
 priceNote: "Works with Excel, Google Sheets, and similar spreadsheet apps"
 link: "https://www.dropbox.com/scl/fi/3gqsgxp9z8va2vohslr7x/Budget-Template.xlsx?rlkey=mo5lrx3xsdfi4zx0dmc2f2tbt&st=abor1slx&dl=0"
-featuredVideo:
-  src: "/sample-video-testimonial.mp4"
-  title: "Budgeting Tool Walkthrough"
 status: free
 itemLayout: "@/layouts/collections/BarebonesCustomLayout.astro"
 features:
@@ -180,11 +177,15 @@ export const quickStartSteps = [
           Built for Excel, Google Sheets, and similar spreadsheet tools.
         </p>
 
-        {props.entry?.data?.featuredVideo?.src && (
+        {(props.entry?.data?.featuredVideo?.src ||
+          props.entry?.data?.featuredImage ||
+          props.entry?.data?.bannerImage) && (
           <div class="mb-5">
             <ProductFeaturedVideo
-              src={props.entry.data.featuredVideo.src}
-              title={props.entry.data.featuredVideo.title ?? ""}
+              src={props.entry?.data?.featuredVideo?.src}
+              title={props.entry?.data?.featuredVideo?.title ?? "Budgeting Tool Walkthrough"}
+              fallbackImage={props.entry?.data?.featuredImage ?? props.entry?.data?.bannerImage}
+              fallbackAlt={props.entry?.data?.title ?? "Free Budgeting Tool"}
             />
           </div>
         )}

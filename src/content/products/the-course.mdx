@@ -7,8 +7,6 @@ heading:
   before: "Managing the Motion of Money"
   text: "The Course"
 bannerImage: "../../assets/inside-the-nyse.jpg"
-featuredVideo:
-  src: "/sample-video-testimonial.mp4"
 status: coming-soon
 itemLayout: "@/layouts/collections/BarebonesCustomLayout.astro"
 tags:
@@ -153,11 +151,15 @@ export const successMessage = "You're on the list! We'll notify you when we laun
       ctaHref={`#${courseModalId}`}
       showNotice={false}
     >
-      {props.entry?.data?.featuredVideo?.src && (
+      {(props.entry?.data?.featuredVideo?.src ||
+        props.entry?.data?.featuredImage ||
+        props.entry?.data?.bannerImage) && (
         <div slot="video">
           <ProductFeaturedVideo
-            src={props.entry.data.featuredVideo.src}
-            title={props.entry.data.featuredVideo.title ?? ""}
+            src={props.entry?.data?.featuredVideo?.src}
+            title={props.entry?.data?.featuredVideo?.title ?? "Course Overview"}
+            fallbackImage={props.entry?.data?.featuredImage ?? props.entry?.data?.bannerImage}
+            fallbackAlt={props.entry?.data?.title ?? "The Course"}
           />
         </div>
       )}

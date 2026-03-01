@@ -16,12 +16,17 @@ const [parentEntry] = await byItemKeys("products", parentId).all();
 const currentVideo = currentEntry?.data?.featuredVideo;
 const parentVideo = parentEntry?.data?.featuredVideo;
 const resolvedVideo = currentVideo ?? parentVideo;
+const currentImage = currentEntry?.data?.featuredImage ?? currentEntry?.data?.bannerImage;
+const parentImage = parentEntry?.data?.featuredImage ?? parentEntry?.data?.bannerImage;
+const resolvedImage = currentImage ?? parentImage;
 
-if (!resolvedVideo?.src) return null;
+if (!resolvedVideo?.src && !resolvedImage) return null;
 ---
 
 <ProductFeaturedVideo
-  src={resolvedVideo.src}
-  title={resolvedVideo.title}
+  src={resolvedVideo?.src}
+  title={resolvedVideo?.title ?? "Featured Product"}
+  fallbackImage={resolvedImage}
+  fallbackAlt={currentEntry?.data?.title ?? parentEntry?.data?.title ?? "Featured Product"}
   className={className}
 />

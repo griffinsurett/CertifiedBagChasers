@@ -1,25 +1,56 @@
 ---
 interface Props {
-  src: string;
+  src?: string;
   title?: string;
   className?: string;
+  fallbackImage?: any;
+  fallbackAlt?: string;
 }
 
 const {
   src,
   title = "Featured Product Video",
   className = "",
+  fallbackImage,
+  fallbackAlt = title,
 } = Astro.props as Props;
+
+const videoSrc = typeof src === "string" ? src.trim() : "";
+const hasVideo = Boolean(videoSrc);
+
+const fallbackImageSrc = (() => {
+  if (!fallbackImage) return "";
+  if (typeof fallbackImage === "string") return fallbackImage;
+  if (typeof fallbackImage === "object" && "src" in fallbackImage) {
+    const nested = fallbackImage.src;
+    if (typeof nested === "string") return nested;
+    if (nested && typeof nested === "object" && "src" in nested && typeof nested.src === "string") {
+      return nested.src;
+    }
+  }
+  return "";
+})();
+
+if (!hasVideo && !fallbackImageSrc) return null;
 ---
 
 <div class={`w-full ${className}`}>
-  <video
-    class="w-full aspect-video rounded-xl border border-neutral-700 bg-neutral-900"
-    controls
-    preload="metadata"
-    playsinline
-  >
-    <source src={src} type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
+  {hasVideo ? (
+    <video
+      class="w-full aspect-video rounded-xl border border-neutral-700 bg-neutral-900"
+      controls
+      preload="metadata"
+      playsinline
+    >
+      <source src={videoSrc} type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  ) : (
+    <img
+      src={fallbackImageSrc}
+      alt={fallbackAlt}
+      class="w-full aspect-video rounded-xl border border-neutral-700 bg-neutral-900 object-cover"
+      loading="lazy"
+    />
+  )}
 </div>

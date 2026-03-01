@@ -45,6 +45,12 @@ if (heading && typeof heading === "object" && "before" in heading) {
   displayTitle = heading;
 }
 
+const arrowTitlePrefix = `<span class="homepage-arrow-title">➜➜➜</span>`;
+const arrowTitleSuffix = `<span class="homepage-arrow-title">➜➜➜</span>`;
+const displayTitleWithArrows = displayTitle
+  ? `${arrowTitlePrefix} ${displayTitle} ${arrowTitleSuffix}`
+  : displayTitle;
+
 // Split items into available and coming-soon (cast to any to access product-specific fields)
 const availableProducts = (items as any[]).filter((item) => item.status !== "coming-soon");
 const comingSoonProducts = (items as any[]).filter((item) => item.status === "coming-soon");
@@ -62,7 +68,7 @@ const trustBadges = [
   <div class="max-w-[1200px] mx-auto">
     <SectionHeading
       eyebrow={eyebrow}
-      title={displayTitle}
+      title={displayTitleWithArrows}
       highlightedTitle={highlightedTitle}
       afterTitle={afterTitle}
       description={description}
@@ -146,5 +152,13 @@ const trustBadges = [
   /* mt-15 utility (60px) - keeping as custom since Tailwind doesn't have mt-15 by default */
   .mt-15 {
     margin-top: 60px;
+  }
+
+  .homepage-arrow-title {
+    color: var(--color-primary);
+    font-size: 0.7em;
+    letter-spacing: 0.12em;
+    margin: 0 0.2em;
+    vertical-align: middle;
   }
 </style>

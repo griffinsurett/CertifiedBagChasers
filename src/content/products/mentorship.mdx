@@ -141,15 +141,19 @@ export const successMessage =
       className="mb-8 md:mb-10"
     />
 
-    {props.entry?.data?.featuredVideo?.src && (
+    {(props.entry?.data?.featuredVideo?.src ||
+      props.entry?.data?.featuredImage ||
+      props.entry?.data?.bannerImage) && (
       <section id="video-overview" class="scroll-mt-36 mb-10 md:mb-12">
         <h2 class="text-2xl md:text-3xl font-extrabold text-white mb-4">
           Mentorship Breakdown
         </h2>
         <div class="max-w-[900px]">
           <ProductFeaturedVideo
-            src={props.entry.data.featuredVideo.src}
-            title={props.entry.data.featuredVideo.title ?? ""}
+            src={props.entry?.data?.featuredVideo?.src}
+            title={props.entry?.data?.featuredVideo?.title ?? "Mentorship Breakdown"}
+            fallbackImage={props.entry?.data?.featuredImage ?? props.entry?.data?.bannerImage}
+            fallbackAlt={props.entry?.data?.title ?? "1-on-1 Mentorship"}
           />
         </div>
       </section>

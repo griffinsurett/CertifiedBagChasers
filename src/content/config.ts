@@ -117,7 +117,7 @@ export const collections = {
         rating: z.number().min(1).max(5).default(5),
         // Social media post screenshot (for social proof carousel)
         socialMediaPost: imageInputSchema({ image }),
-        // Video testimonial file path (e.g., "@/assets/sample-video-testimonial.mp4")
+        // Video testimonial file path (e.g., "/videos/testimonial.mp4")
         video: z.string().optional(),
         // Poster image for video (thumbnail before playing)
         videoPoster: imageInputSchema({ image }),
