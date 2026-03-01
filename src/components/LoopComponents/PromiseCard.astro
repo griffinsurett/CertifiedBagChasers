@@ -47,12 +47,22 @@ const accentGlow = isLarge ? "absolute top-0 right-0 w-[250px] h-[250px] bg-[rad
                    isWide ? "absolute bottom-0 right-0 w-[150px] h-[150px] bg-[radial-gradient(circle_at_bottom_right,rgba(74,222,128,0.08)_0%,transparent_60%)]" :
                    "absolute top-0 left-0 w-[120px] h-[120px] bg-[radial-gradient(circle_at_top_left,rgba(74,222,128,0.1)_0%,transparent_60%)]";
 
-// Normalize featuredImage to get the actual ImageMetadata
-const imageSrc = featuredImage
-  ? (typeof featuredImage === 'object' && 'src' in featuredImage && featuredImage.src !== undefined)
-    ? featuredImage.src
-    : featuredImage
-  : null;
+// Normalize featuredImage while preserving ImageMetadata when available.
+// If featuredImage is wrapped as { src: ImageMetadata }, unwrap once.
+const imageSrc = (() => {
+  if (!featuredImage) return null;
+
+  if (
+    typeof featuredImage === "object" &&
+    "src" in featuredImage &&
+    featuredImage.src &&
+    typeof featuredImage.src === "object"
+  ) {
+    return featuredImage.src;
+  }
+
+  return featuredImage;
+})();
 ---
 
 <div class={`${gridClass} ${className}`}>

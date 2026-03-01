@@ -11,7 +11,6 @@ import type { BaseVariantProps } from "../ContentRenderer.types";
 import MenuList from '@/components/LoopTemplates/Menu/MenuList.astro';
 import MobileMenuDrawer from '@/components/Menu/HamburgerMenuDrawer';
 import { buildMenuTree } from '@/utils/menuQueries';
-import { isTopLevelPlacement } from '@/utils/navigation/topLevelCheck';
 
 type MenuMode = 'responsive' | 'flat-only' | 'hamburger-only';
 
@@ -44,19 +43,9 @@ const desktopClasses = mode === 'responsive' ? 'hidden lg:block' : '';
 const mobileClasses =
   showMobile && mode === 'responsive' ? 'lg:hidden' : '';
 
-const inferredTopLevel = isTopLevelPlacement({
-  id,
-  className,
-});
-
-const useClientLoad =
-  mode === 'hamburger-only' ? inferredTopLevel : false;
-
 const mobileHydrationStrategy =
   mode === 'hamburger-only'
-    ? useClientLoad
-      ? 'load'
-      : 'visible'
+    ? 'visible'
     : 'media';
 ---
 <div id={id} class={`menu-variant ${className}`}>
@@ -68,14 +57,6 @@ const mobileHydrationStrategy =
   
   {showMobile && (
     <div class={`menu-mobile ${mobileClasses}`}>
-      {mobileHydrationStrategy === 'load' && (
-        <MobileMenuDrawer
-          items={menuTree}
-          closeButton={closeButton}
-          hamburgerTransform={hamburgerTransform}
-          client:load
-        />
-      )}
       {mobileHydrationStrategy === 'visible' && (
         <MobileMenuDrawer
           items={menuTree}
