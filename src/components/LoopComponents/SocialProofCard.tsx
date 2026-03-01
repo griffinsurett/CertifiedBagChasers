@@ -6,7 +6,13 @@
  */
 
 interface SocialProofCardProps {
-  image: string;
+  image: {
+    src: string;
+    srcSet?: string;
+    sizes?: string;
+    width?: number;
+    height?: number;
+  };
   alt?: string;
   size?: 'short' | 'medium' | 'tall';
   className?: string;
@@ -42,10 +48,15 @@ const SocialProofCard = ({
     >
       <div className={`w-full h-full overflow-hidden flex items-center justify-center ${innerClasses}`}>
         <img
-          src={image}
+          src={image.src}
+          srcSet={image.srcSet}
+          sizes={image.sizes}
           alt={alt}
+          width={image.width}
+          height={image.height}
           className="max-h-full max-w-full object-contain"
           loading="lazy"
+          decoding="async"
         />
       </div>
     </div>

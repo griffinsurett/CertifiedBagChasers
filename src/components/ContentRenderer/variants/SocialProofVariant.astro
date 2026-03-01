@@ -10,7 +10,8 @@
 import type { BaseVariantProps } from "../ContentRenderer.types";
 import SectionHeading from "@/components/SectionHeading.astro";
 import SocialProofCarousel from "@/components/LoopTemplates/SocialProofCarousel";
-import { getImageUrl } from "@/utils/images";
+import { getImage } from "astro:assets";
+import { getImageAlt, getImageUrl, resolveImageMetadata } from "@/utils/images";
 
 interface Props extends BaseVariantProps {
   eyebrow?: string;
@@ -39,26 +40,83 @@ if (heading && typeof heading === 'object' && 'before' in heading) {
   displayTitle = heading;
 }
 
-// Helper to extract image URL from Astro ImageMetadata
-const extractImageUrl = (img: any): string => {
-  if (!img) return "";
-  // Direct string (already a URL)
-  if (typeof img === "string") return img;
-  // ImageMetadata with src as string (common case)
-  if (typeof img === "object" && typeof img.src === "string") return img.src;
-  // Nested: { src: { src: string } }
-  if (typeof img === "object" && img.src && typeof img.src.src === "string") return img.src.src;
-  return "";
+interface ResponsiveImageSource {
+  src: string;
+  srcSet?: string;
+  sizes?: string;
+  width?: number;
+  height?: number;
+}
+
+const SOCIAL_PROOF_SIZES =
+  "(max-width: 640px) calc(100vw - 4rem), (max-width: 1024px) calc((100vw - 8rem) / 2), 340px";
+const SOCIAL_PROOF_WIDTHS = [180, 260, 340, 460, 560];
+
+const buildResponsiveImage = async (
+  img: any,
+): Promise<ResponsiveImageSource | undefined> => {
+  if (!img) return undefined;
+
+  if (typeof img === "string") {
+    return { src: img, sizes: SOCIAL_PROOF_SIZES };
+  }
+
+  const metadata = resolveImageMetadata(img);
+  if (!metadata) {
+    const fallbackUrl = getImageUrl(img, "");
+    return fallbackUrl ? { src: fallbackUrl, sizes: SOCIAL_PROOF_SIZES } : undefined;
+  }
+
+  const responsiveWidths = Array.from(
+    new Set([...SOCIAL_PROOF_WIDTHS.filter((width) => width <= metadata.width), metadata.width]),
+  ).sort((a, b) => a - b);
+
+  const variants = await Promise.all(
+    responsiveWidths.map((width) =>
+      getImage({
+        src: metadata,
+        width,
+        format: "webp",
+        quality: 72,
+      }),
+    ),
+  );
+
+  const largestVariant = variants[variants.length - 1];
+
+  return {
+    src: largestVariant.src,
+    srcSet: variants
+      .map((variant) => `${variant.src} ${variant.attributes.width}w`)
+      .join(", "),
+    sizes: SOCIAL_PROOF_SIZES,
+    width: largestVariant.attributes.width,
+    height: largestVariant.attributes.height,
+  };
 };
 
 // Transform items for the carousel component
-const carouselItems = items.map(item => ({
-  id: item.slug,
-  data: {
-    title: item.title || "",
-    socialMediaPost: extractImageUrl(item.socialMediaPost) || extractImageUrl(item.featuredImage),
-  },
-}));
+const carouselItems = (
+  await Promise.all(
+    items.map(async (item) => {
+      const baseImage = item.socialMediaPost || item.featuredImage;
+      const responsiveImage = await buildResponsiveImage(baseImage);
+      if (!responsiveImage) return null;
+
+      return {
+        id: item.slug,
+        data: {
+          title: item.title || "",
+          socialMediaPost: responsiveImage,
+          socialMediaPostAlt: getImageAlt(
+            baseImage,
+            `${item.title || "Certified Bag Chasers"} testimonial`,
+          ),
+        },
+      };
+    }),
+  )
+).filter(Boolean);
 ---
 
 <section id={id} class={`section-base relative z-10 ${className}`}>

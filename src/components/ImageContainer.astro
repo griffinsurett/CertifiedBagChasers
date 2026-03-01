@@ -8,6 +8,7 @@
  */
 
 import { Image } from "astro:assets";
+import { getImageAlt, resolveImageMetadata } from "@/utils/images";
 
 export interface Props {
   image: any;
@@ -23,12 +24,13 @@ const {
   className = "",
 } = Astro.props;
 
-// Handle different image formats
+const imageMetadata = resolveImageMetadata(image);
 const imageSrc = typeof image === "string"
   ? image
-  : image?.src
-    ? (typeof image.src === "string" ? image.src : image.src)
-    : image;
+  : typeof image?.src === "string"
+    ? image.src
+    : "";
+const resolvedAlt = alt || getImageAlt(image, "");
 ---
 
 <div
@@ -41,20 +43,26 @@ const imageSrc = typeof image === "string"
   <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom,rgba(201,162,39,0.15)_0%,transparent_55%)]" />
 
   {/* Image */}
-  {typeof imageSrc === "string" ? (
+  {imageMetadata ? (
+    <Image
+      src={imageMetadata}
+      alt={resolvedAlt}
+      class="relative w-full h-full object-cover mix-blend-lighten"
+      widths={[360, 520, 700, 860]}
+      sizes="(max-width: 768px) 90vw, (max-width: 1280px) 50vw, 700px"
+      quality={78}
+      format="webp"
+    />
+  ) : imageSrc ? (
     <img
       src={imageSrc}
-      alt={alt}
+      alt={resolvedAlt}
       class="relative w-full h-full object-cover mix-blend-lighten"
+      loading="lazy"
+      decoding="async"
     />
   ) : (
-    <Image
-      src={imageSrc}
-      alt={alt}
-      class="relative w-full h-full object-cover mix-blend-lighten"
-      widths={[400, 800]}
-      sizes="(max-width: 1024px) 100vw, 50vw"
-    />
+    <div class="relative w-full h-full" />
   )}
 
   {/* Bottom fade gradient */}

@@ -10,8 +10,16 @@ import SocialProofCard from '../LoopComponents/SocialProofCard';
 
 type ReviewSize = 'short' | 'medium' | 'tall';
 
+interface ResponsiveImageSource {
+  src: string;
+  srcSet?: string;
+  sizes?: string;
+  width?: number;
+  height?: number;
+}
+
 interface ReviewCard {
-  image: string;
+  image: ResponsiveImageSource;
   alt?: string;
   size: ReviewSize;
 }
@@ -29,7 +37,8 @@ interface SocialProofCarouselProps {
     id: string;
     data: {
       title: string;
-      socialMediaPost?: string;
+      socialMediaPost?: ResponsiveImageSource;
+      socialMediaPostAlt?: string;
     };
   }>;
   className?: string;
@@ -53,7 +62,7 @@ const createSlides = (
   itemsPerSlide: number
 ): ReviewSlide[] => {
   // Filter to only social media posts
-  const socialItems = items.filter(item => item.data.socialMediaPost);
+  const socialItems = items.filter((item) => item.data.socialMediaPost?.src);
 
   if (socialItems.length === 0) return [];
 
@@ -71,7 +80,7 @@ const createSlides = (
       const colIndex = i % columnsCount;
       columns[colIndex].cards.push({
         image: item.data.socialMediaPost!,
-        alt: `${item.data.title} testimonial`,
+        alt: item.data.socialMediaPostAlt || `${item.data.title} testimonial`,
         size: sizes[i % sizes.length],
       });
     });
