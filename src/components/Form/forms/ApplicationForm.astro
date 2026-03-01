@@ -52,11 +52,13 @@ const applicationFormId =
   <FormWrapper
     client:idle
     formspreeId={applicationFormId}
+    useNativeFormSubmission={true}
     successMessage={successMessage}
     errorMessage="There was an error submitting your application. Please try again."
     resetOnSuccess={true}
     className="w-full"
   >
+    <input type="hidden" name="formName" value="Certified Bag Chasers Application" />
     {productName && <input type="hidden" name="productName" value={productName} />}
     <div class="flex flex-col sm:flex-row gap-4 mb-4">
       <Input

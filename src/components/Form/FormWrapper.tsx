@@ -10,6 +10,7 @@ import {
   useMemo,
   useState,
   type FormEvent,
+  type FormHTMLAttributes,
   type ReactNode,
 } from "react";
 import SuccessMessage from "./messages/SuccessMessage";
@@ -23,6 +24,8 @@ export interface FormWrapperProps {
   onSubmit?: (values: Record<string, any>) => Promise<void> | void;
   formspreeId?: string;
   formspreeEndpoint?: string;
+  formMethod?: FormHTMLAttributes<HTMLFormElement>["method"];
+  useNativeFormSubmission?: boolean;
   formspreeFormName?: string;
   formspreeExcludeKeys?: string[];
   successMessage?: string;
@@ -39,6 +42,8 @@ export default function FormWrapper({
   onSubmit,
   formspreeId,
   formspreeEndpoint,
+  formMethod = "post",
+  useNativeFormSubmission = false,
   formspreeFormName,
   formspreeExcludeKeys = [],
   successMessage = "Form submitted successfully!",
@@ -84,6 +89,13 @@ export default function FormWrapper({
     }
   };
 
+  const resolvedFormspreeEndpoint =
+    formspreeEndpoint ||
+    (formspreeId ? `https://formspree.io/f/${formspreeId}` : "");
+
+  const shouldUseNativeSubmission =
+    useNativeFormSubmission && Boolean(resolvedFormspreeEndpoint);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -112,15 +124,11 @@ export default function FormWrapper({
         }
       });
 
-      const endpoint =
-        formspreeEndpoint ||
-        (formspreeId ? `https://formspree.io/f/${formspreeId}` : "");
-
       if (onSubmit) {
         await onSubmit(data);
-      } else if (endpoint) {
+      } else if (resolvedFormspreeEndpoint) {
         await submitToFormspree({
-          endpoint,
+          endpoint: resolvedFormspreeEndpoint,
           values: data,
           excludeKeys: formspreeExcludeKeys,
           formName: formspreeFormName,
@@ -177,7 +185,14 @@ export default function FormWrapper({
 
   return (
     <FormContext.Provider value={contextValue}>
-      <form onSubmit={handleSubmit} className={className} noValidate={false}>
+      <form
+        onSubmit={shouldUseNativeSubmission ? undefined : handleSubmit}
+        action={shouldUseNativeSubmission ? resolvedFormspreeEndpoint : undefined}
+        method={shouldUseNativeSubmission ? formMethod : undefined}
+        encType={shouldUseNativeSubmission ? "multipart/form-data" : undefined}
+        className={className}
+        noValidate={false}
+      >
         {status === "submitting" && (
           <LoadingMessage>{loadingMessage}</LoadingMessage>
         )}

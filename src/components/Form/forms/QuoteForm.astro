@@ -28,10 +28,13 @@ const quoteFormId =
   <FormWrapper
     client:idle
     formspreeId={quoteFormId}
+    useNativeFormSubmission={true}
     successMessage="Thank you for your quote request! We'll get back to you soon."
     resetOnSuccess={true}
     className="w-full gap-0"
   >
+    <input type="hidden" name="formName" value="Certified Bag Chasers Quote Request" />
+
     <div class="flex flex-col lg:flex-row justify-between gap-2 mb-4">
       <Input
         name="firstName"
