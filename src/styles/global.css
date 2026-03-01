@@ -1,8 +1,5 @@
 /* src/styles/global.css */
 
-/* Google Fonts - Inter (body) & Oswald (headings) - MUST be first */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Oswald:wght@700;800;900&display=swap');
-
 @import "tailwindcss";
 
 /* Tell Tailwind to scan integration components for class usage */

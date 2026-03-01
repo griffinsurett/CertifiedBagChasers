@@ -50,7 +50,7 @@ interface ResponsiveImageSource {
 
 const SOCIAL_PROOF_SIZES =
   "(max-width: 640px) calc(100vw - 4rem), (max-width: 1024px) calc((100vw - 8rem) / 2), 340px";
-const SOCIAL_PROOF_WIDTHS = [180, 260, 340, 460, 560];
+const SOCIAL_PROOF_WIDTHS = [120, 180, 260, 340, 460];
 
 const buildResponsiveImage = async (
   img: any,
@@ -67,9 +67,13 @@ const buildResponsiveImage = async (
     return fallbackUrl ? { src: fallbackUrl, sizes: SOCIAL_PROOF_SIZES } : undefined;
   }
 
-  const responsiveWidths = Array.from(
-    new Set([...SOCIAL_PROOF_WIDTHS.filter((width) => width <= metadata.width), metadata.width]),
-  ).sort((a, b) => a - b);
+  const responsiveWidths = SOCIAL_PROOF_WIDTHS.filter(
+    (width) => width <= metadata.width,
+  );
+
+  if (responsiveWidths.length === 0) {
+    responsiveWidths.push(metadata.width);
+  }
 
   const variants = await Promise.all(
     responsiveWidths.map((width) =>
