@@ -2,23 +2,16 @@
   {
     "id": "instagram",
     "title": "Instagram",
-    "link": "https://instagram.com/certifiedbagchasers",
+    "link": "https://www.instagram.com/aroldnorelus/",
     "icon": "simple-icons:instagram",
     "order": 1
   },
   {
     "id": "twitter",
     "title": "Twitter",
-    "link": "https://twitter.com/certifiedbagchasers",
+    "link": "https://x.com/boiigtg",
     "icon": "simple-icons:x",
     "order": 2
-  },
-  {
-    "id": "tiktok",
-    "title": "TikTok",
-    "link": "https://tiktok.com/@certifiedbagchasers",
-    "icon": "simple-icons:tiktok",
-    "order": 4
   },
   {
     "id": "linkedin",
