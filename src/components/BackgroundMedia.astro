@@ -104,6 +104,9 @@ if (backgroundMedia?.image?.src) {
 }
 
 const backgroundClassName = `bg-media-${Math.random().toString(36).slice(2, 10)}`;
+const backgroundStyle = responsiveImages
+  ? `--bg-media-mobile: url('${responsiveImages.mobile.src}'); --bg-media-tablet: url('${responsiveImages.tablet.src}'); --bg-media-desktop: url('${responsiveImages.desktop.src}');`
+  : undefined;
 ---
 
 {backgroundMedia?.video?.src ? (
@@ -123,7 +126,8 @@ const backgroundClassName = `bg-media-${Math.random().toString(36).slice(2, 10)}
   </video>
 ) : responsiveImages ? (
   <div
-    class={`absolute inset-0 z-0 bg-cover bg-center ${backgroundClassName} ${backgroundMedia?.image?.imageClass || ""}`}
+    class={`absolute inset-0 z-0 bg-cover bg-center bg-media-responsive ${backgroundClassName} ${backgroundMedia?.image?.imageClass || ""}`}
+    style={backgroundStyle}
     aria-hidden="true"
   />
 ) : null}
@@ -133,19 +137,19 @@ const backgroundClassName = `bg-media-${Math.random().toString(36).slice(2, 10)}
 )}
 
 {responsiveImages && (
-  <style>{`
-    .${backgroundClassName} {
-      background-image: url('${responsiveImages.mobile.src}');
+  <style is:global>
+    .bg-media-responsive {
+      background-image: var(--bg-media-mobile);
     }
     @media (min-width: 641px) {
-      .${backgroundClassName} {
-        background-image: url('${responsiveImages.tablet.src}');
+      .bg-media-responsive {
+        background-image: var(--bg-media-tablet);
       }
     }
     @media (min-width: 1025px) {
-      .${backgroundClassName} {
-        background-image: url('${responsiveImages.desktop.src}');
+      .bg-media-responsive {
+        background-image: var(--bg-media-desktop);
       }
     }
-  `}</style>
+  </style>
 )}
