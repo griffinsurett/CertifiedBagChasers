@@ -7,7 +7,8 @@ export interface Props {
   backgroundMedia: {
     image?: {
       src: any;
-      imageClass?: string; // Use 'bg-fixed' for parallax effect
+      imageClass?: string;
+      fixed?: boolean;
       // Convenience prop for automatic optimization
       aboveTheFold?: boolean; // Auto-sets priority, quality, eager loading
       // Manual overrides (if needed)
@@ -33,6 +34,7 @@ export interface Props {
 }
 
 const { backgroundMedia } = Astro.props;
+const fixed = backgroundMedia?.image?.fixed ?? false;
 
 // Automatic optimization based on position
 const aboveTheFold = backgroundMedia?.image?.aboveTheFold ?? false;
@@ -107,6 +109,10 @@ const backgroundClassName = `bg-media-${Math.random().toString(36).slice(2, 10)}
 const backgroundStyle = responsiveImages
   ? `--bg-media-mobile: url('${responsiveImages.mobile.src}'); --bg-media-tablet: url('${responsiveImages.tablet.src}'); --bg-media-desktop: url('${responsiveImages.desktop.src}');`
   : undefined;
+
+const sanitizedImageClass = (backgroundMedia?.image?.imageClass || "")
+  .replace(/\bbg-fixed\b/g, "")
+  .trim();
 ---
 
 {backgroundMedia?.video?.src ? (
@@ -125,11 +131,47 @@ const backgroundStyle = responsiveImages
     Your browser does not support the video tag.
   </video>
 ) : responsiveImages ? (
-  <div
-    class={`absolute inset-0 z-0 bg-cover bg-center bg-media-responsive ${backgroundClassName} ${backgroundMedia?.image?.imageClass || ""}`}
-    style={backgroundStyle}
-    aria-hidden="true"
-  />
+  fixed ? (
+    <>
+      <picture class="absolute inset-0 z-0 opacity-0 pointer-events-none" aria-hidden="true">
+        <source
+          media="(max-width: 640px)"
+          srcset={responsiveImages.mobile.src}
+          type="image/webp"
+        />
+        <source
+          media="(min-width: 641px) and (max-width: 1024px)"
+          srcset={responsiveImages.tablet.src}
+          type="image/webp"
+        />
+        <source
+          media="(min-width: 1025px)"
+          srcset={responsiveImages.desktop.src}
+          type="image/webp"
+        />
+        <img
+          src={responsiveImages.desktop.src}
+          alt=""
+          class="w-full h-full object-cover"
+          loading={aboveTheFold ? "eager" : "lazy"}
+          fetchpriority={aboveTheFold ? "high" : "auto"}
+          decoding={aboveTheFold ? "sync" : "async"}
+          aria-hidden="true"
+        />
+      </picture>
+      <div
+        class={`absolute inset-0 z-0 bg-cover bg-center bg-fixed-supported bg-media-fixed ${sanitizedImageClass}`.trim()}
+        style={backgroundStyle}
+        aria-hidden="true"
+      />
+    </>
+  ) : (
+    <div
+      class={`absolute inset-0 z-0 bg-cover bg-center bg-media-responsive ${backgroundClassName} ${sanitizedImageClass}`.trim()}
+      style={backgroundStyle}
+      aria-hidden="true"
+    />
+  )
 ) : null}
 
 {backgroundMedia?.overlayClass && (
@@ -148,6 +190,20 @@ const backgroundStyle = responsiveImages
     }
     @media (min-width: 1025px) {
       .bg-media-responsive {
+        background-image: var(--bg-media-desktop);
+      }
+    }
+
+    .bg-media-fixed {
+      background-image: var(--bg-media-mobile);
+    }
+    @media (min-width: 641px) {
+      .bg-media-fixed {
+        background-image: var(--bg-media-tablet);
+      }
+    }
+    @media (min-width: 1025px) {
+      .bg-media-fixed {
         background-image: var(--bg-media-desktop);
       }
     }

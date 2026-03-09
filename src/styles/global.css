@@ -586,3 +586,14 @@ h1, h2, h3, h4, h5, h6 {
 .mobile-nav-links a.text-primary {
   color: var(--color-primary) !important;
 }
+
+/* Fixed backgrounds default to scroll; opt into fixed only where stable. */
+.bg-fixed-supported {
+  background-attachment: scroll;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bg-fixed-supported {
+    background-attachment: fixed;
+  }
+}
