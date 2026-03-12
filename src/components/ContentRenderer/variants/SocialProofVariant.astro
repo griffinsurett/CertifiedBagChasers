@@ -10,6 +10,8 @@
 import type { BaseVariantProps } from "../ContentRenderer.types";
 import SectionHeading from "@/components/SectionHeading.astro";
 import SocialProofCarousel from "@/components/LoopTemplates/SocialProofCarousel";
+import BackgroundMedia from "@/components/BackgroundMedia.astro";
+import BackgroundImg from "@/assets/bent-speaking.jpg";
 import { getImage } from "astro:assets";
 import { getImageAlt, getImageUrl, resolveImageMetadata } from "@/utils/images";
 
@@ -123,8 +125,14 @@ const carouselItems = (
 ).filter(Boolean);
 ---
 
-<section id={id} class={`section-base relative z-10 ${className}`}>
-  <div class="max-w-[1200px] mx-auto">
+<section id={id} class={`section-base relative overflow-hidden ${className}`}>
+  <BackgroundMedia
+    backgroundMedia={{
+      image: { src: BackgroundImg, fixed: true, imageClass: "bg-top" },
+      overlayClass: "bg-black/70",
+    }}
+  />
+  <div class="max-w-[1200px] mx-auto relative z-10">
     <SectionHeading
       eyebrow={eyebrow}
       title={displayTitle}
