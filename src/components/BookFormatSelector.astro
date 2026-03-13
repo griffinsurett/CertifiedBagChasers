@@ -105,12 +105,12 @@ if (!defaultVariant) return null;
     ))}
   </div>
 
-  <div class="rounded-xl cbc-border bg-bg-secondary/50 p-4 md:p-5">
+  <div data-animate="scale-in" class="rounded-xl cbc-border bg-bg-secondary/50 p-4 md:p-5">
     <div class="flex items-center justify-between gap-3 mb-2">
       <p data-book-value="name" class="text-xl font-extrabold text-white">
         {defaultVariant.name}
       </p>
-      <p data-book-value="price" class="text-2xl font-extrabold text-white">
+      <p data-animate="fade-in" data-book-value="price" class="text-2xl font-extrabold text-white">
         {defaultVariant.price}
       </p>
     </div>

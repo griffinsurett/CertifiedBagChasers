@@ -56,13 +56,15 @@ if (author.render) {
     {/* Image Column */}
     <div class={`relative ${isImageLeft ? "order-1" : "order-1 md:order-2"}`}>
       {authorImage && (
-        <ImageContainer
-          image={authorImage}
-          alt={author.title || ""}
-        />
+        <div data-animate="fade-in">
+          <ImageContainer
+            image={authorImage}
+            alt={author.title || ""}
+          />
+        </div>
       )}
       {/* Best Selling Author Badge - positioned on edge of image */}
-      <div class="absolute -bottom-4 right-2 lg:-right-8 z-10">
+      <div data-animate="scale-in" data-animate-delay="120" class="absolute -bottom-4 right-2 lg:-right-8 z-10">
         <Image
           src={BestSellingAuthorBadge}
           alt="Amazon Best Selling Author"

@@ -165,7 +165,7 @@ const SocialProofCarousel = ({
   const isParts = styleVariant === 'parts';
 
   return (
-    <div className={`relative ${className}`}>
+    <div data-animate="fade-in" className={`relative ${className}`}>
       {slides.length > 1 && (
         <>
           <ArrowButton direction="prev" onClick={goPrev} isParts={isParts} />

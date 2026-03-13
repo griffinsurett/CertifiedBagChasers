@@ -103,7 +103,7 @@ const quickStartSteps = [
       )}
 
       <div slot="right" class="w-full max-w-[420px]">
-        <div class="relative rounded-2xl cbc-border bg-gradient-to-br from-bg-secondary via-bg to-bg-dark p-6 md:p-8 shadow-[0_30px_60px_rgba(0,0,0,0.45)]">
+        <div data-animate="scale-in" class="relative rounded-2xl cbc-border bg-gradient-to-br from-bg-secondary via-bg to-bg-dark p-6 md:p-8 shadow-[0_30px_60px_rgba(0,0,0,0.45)]">
           <div class="flex items-center justify-between text-xs uppercase tracking-[2px] text-text-dim mb-3">
             <span>Download</span>
             {data.status === "free" && (
@@ -112,7 +112,7 @@ const quickStartSteps = [
           </div>
 
           {data.price && (
-            <div class="mb-3">
+            <div data-animate="fade-in" class="mb-3">
               <div class="text-4xl md:text-5xl font-extrabold text-white">
                 {data.price}
               </div>

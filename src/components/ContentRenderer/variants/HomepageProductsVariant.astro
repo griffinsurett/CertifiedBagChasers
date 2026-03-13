@@ -15,6 +15,7 @@
 import type { BaseVariantProps } from "../ContentRenderer.types";
 import SectionHeading from "@/components/SectionHeading.astro";
 import ProductTable from "@/components/LoopTemplates/ProductTable";
+import Button from "@/components/Button/Button";
 
 interface Props extends BaseVariantProps {
   eyebrow?: string;
@@ -88,7 +89,7 @@ const trustBadges = [
 
     {/* Coming Soon Products - Displayed below the grid */}
     {comingSoonProducts.map((product) => (
-      <div class="mt-15 p-10 pt-[50px] bg-gradient-to-br from-accent/10 to-accent/[0.03] rounded-2xl cbc-border text-center relative overflow-hidden">
+      <div data-animate="scale-in" class="mt-15 p-10 pt-[50px] bg-gradient-to-br from-accent/10 to-accent/[0.03] rounded-2xl cbc-border text-center relative overflow-hidden">
         {/* Floating emoji decoration */}
         <div class="absolute -top-7 left-1/2 -translate-x-1/2 z-[2] flex items-center justify-center">
           <span class="text-[40px] drop-shadow-lg absolute -rotate-12 -translate-x-[15px] opacity-70">
@@ -125,13 +126,14 @@ const trustBadges = [
         </p>
 
         {/* Waitlist Button - links to product page */}
-        <a
+        <Button
           href={product.url}
-          class="inline-flex items-center gap-2 py-4 px-8 text-sm font-bold uppercase tracking-[1px] text-white border-2 border-white/30 rounded-lg bg-transparent transition-all duration-300 hover:bg-white/10 hover:border-primary/40 no-underline"
+          variant="secondary"
+          className="inline-flex items-center gap-2 py-4 px-8 text-sm tracking-[1px] border-white/30 hover:border-primary/40"
         >
           <span>{product.ctaText || "Join The Waitlist"}</span>
           <span class="text-lg">→</span>
-        </a>
+        </Button>
 
         {/* Early access note */}
         <p class="text-[#555] text-[13px] mt-4">

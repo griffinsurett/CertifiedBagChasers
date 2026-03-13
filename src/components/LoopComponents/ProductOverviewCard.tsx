@@ -45,6 +45,7 @@ export default function ProductOverviewCard({
 
   return (
     <div
+      data-animate="scale-in"
       className={`relative rounded-2xl cbc-border bg-gradient-to-br from-[#111111] to-[#0a0a0a] p-7 md:p-8 ${className}`}
     >
       {isComingSoon && (
@@ -92,7 +93,7 @@ export default function ProductOverviewCard({
         <p className="mb-6 text-center text-text-muted leading-relaxed">{item.description}</p>
       )}
 
-      <div className="mb-6 text-center">
+      <div data-animate="fade-in" className="mb-6 text-center">
         {isComingSoon ? (
           <span className="text-2xl font-extrabold text-text-dim">Price TBA</span>
         ) : (

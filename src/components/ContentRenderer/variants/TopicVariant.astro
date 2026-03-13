@@ -56,7 +56,7 @@ if (heading && typeof heading === 'object' && 'before' in heading) {
     />
 
     {items.length > 0 && (
-      <div class="topics-card">
+      <div data-animate="fade-in" class="topics-card">
         <div class={gridClass}>
           {items.map((item) => (
             <TopicCard

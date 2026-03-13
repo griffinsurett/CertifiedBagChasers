@@ -109,7 +109,7 @@ const relatedVariants: RelatedVariant[] = relatedEntries
             <p class="h6 uppercase tracking-[2px] text-text-dim mb-3">#1 Best Selling Book</p>
             <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-2">{title}</h1>
             <p class="text-xl md:text-2xl font-semibold text-primary mb-2">{variantName}</p>
-            {price && <p class="text-2xl font-bold text-white mb-2">{price}</p>}
+            {price && <p data-animate="fade-in" class="text-2xl font-bold text-white mb-2">{price}</p>}
             {description && (
               <p class="text-text-secondary text-lg leading-relaxed mb-5">{description}</p>
             )}

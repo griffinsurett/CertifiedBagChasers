@@ -53,13 +53,17 @@ const {
     />
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <OurApproachChart client:visible />
-      <GetRichQuickChart client:visible />
+      <div data-animate="scale-in">
+        <OurApproachChart client:visible />
+      </div>
+      <div data-animate="scale-in" data-animate-delay="120">
+        <GetRichQuickChart client:visible />
+      </div>
     </div>
 
     {/* Bottom message */}
     {(bottomMessage || ctaText) && (
-      <div class="text-center mt-12 p-8 bg-gradient-to-br from-accent/[0.08] to-accent/[0.02] rounded-xl cbc-border">
+      <div data-animate="scale-in" class="text-center mt-12 p-8 bg-gradient-to-br from-accent/[0.08] to-accent/[0.02] rounded-xl cbc-border">
         {bottomMessage && (
           <p class="text-heading text-xl font-semibold m-0 mb-2">
             {bottomMessage}

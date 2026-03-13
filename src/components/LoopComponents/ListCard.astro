@@ -25,6 +25,7 @@ export interface Props {
 const { title, url, description, date, image } = Astro.props;
 ---
 
+<div data-animate="scale-in">
 <article
   class="flex gap-8 p-6 bg-bg rounded-lg shadow-md hover:shadow-lg transition-shadow"
 >
@@ -70,3 +71,4 @@ const { title, url, description, date, image } = Astro.props;
     }
   </div>
 </article>
+</div>

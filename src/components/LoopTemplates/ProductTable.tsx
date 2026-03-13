@@ -67,21 +67,26 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
         return (
           <div
             key={product.slug || product.title}
-            className={`
-              relative min-w-0 flex flex-col text-center rounded-[20px] p-8 md:p-6
-              border transition-all duration-300
-              ${isMostPopular
-                ? "bg-gradient-to-br from-[#0f0f0f] to-[#0a0a0a] border-white/5 z-10"
-                : "bg-gradient-to-br from-[#0f0f0f] to-[#0a0a0a] border-white/5 hover:border-primary/40 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
-              }
-            `}
+            data-animate="scale-in"
+            data-animate-delay={String(idx * 120)}
+            className="h-full"
           >
-            {/* Most Popular Badge */}
-            {isMostPopular && (
-              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 max-w-[calc(100%-1rem)] bg-gradient-to-r from-accent-800 via-accent to-accent-100 text-bg py-2 px-4 rounded-full text-xs font-extrabold uppercase tracking-[1px] text-center z-10">
-                🔥 Most Popular
-              </div>
-            )}
+            <div
+              className={`
+                relative min-w-0 flex h-full flex-col text-center rounded-[20px] p-8 md:p-6
+                border transition-all duration-300
+                ${isMostPopular
+                  ? "bg-gradient-to-br from-[#0f0f0f] to-[#0a0a0a] border-white/5 z-10"
+                  : "bg-gradient-to-br from-[#0f0f0f] to-[#0a0a0a] border-white/5 hover:border-primary/40 hover:-translate-y-1 hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
+                }
+              `}
+            >
+              {/* Most Popular Badge */}
+              {isMostPopular && (
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 max-w-[calc(100%-1rem)] bg-gradient-to-r from-accent-800 via-accent to-accent-100 text-bg py-2 px-4 rounded-full text-xs font-extrabold uppercase tracking-[1px] text-center z-10">
+                  🔥 Most Popular
+                </div>
+              )}
 
             {/* Eyebrow text */}
             {eyebrow && (
@@ -139,8 +144,8 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
             )}
 
             {/* Price */}
-            {product.price && (
-              <div className="mb-6">
+              {product.price && (
+              <div data-animate="fade-in" className="mb-6">
                 <div className="flex items-baseline gap-2 justify-center">
                   <span className="text-5xl font-extrabold text-white">
                     {product.price}
@@ -169,30 +174,32 @@ export default function ProductTable({ items, className = "" }: ProductTableProp
             )}
 
             {/* Primary CTA prefers external product link when available */}
-            {primaryHref && (
-              <div className="mt-auto">
-                <Button
-                  variant={isMostPopular ? "primary" : isPremiumOffering ? "tertiary" : "secondary"}
-                  href={primaryHref}
-                  className="w-full py-3"
-                  target={isPrimaryExternal ? "_blank" : undefined}
-                  rel={isPrimaryExternal ? "noopener noreferrer" : undefined}
-                >
-                  {product.ctaText || "Learn More"} →
-                </Button>
-
-                {showLearnMore && (
+              {primaryHref && (
+                <div className="mt-auto">
                   <Button
-                    variant="underline"
-                    href={product.url}
-                    size="sm"
-                    className="mt-3"
+                    variant={isMostPopular ? "primary" : isPremiumOffering ? "tertiary" : "secondary"}
+                    href={primaryHref}
+                    className="w-full py-3"
+                    target={isPrimaryExternal ? "_blank" : undefined}
+                    rel={isPrimaryExternal ? "noopener noreferrer" : undefined}
                   >
-                    Learn More
+                    {product.ctaText || "Learn More"} →
                   </Button>
-                )}
+
+                  {showLearnMore && (
+                    <Button
+                      variant="underline"
+                      href={product.url}
+                      size="sm"
+                      className="mt-3"
+                    >
+                      Learn More
+                    </Button>
+                  )}
+                </div>
+              )}
               </div>
-            )}
+            
           </div>
         );
       })}

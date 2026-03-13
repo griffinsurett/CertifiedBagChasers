@@ -27,8 +27,9 @@ export interface Props {
 const { title, url, description, tags, image } = Astro.props;
 ---
 
+<div data-animate="scale-in" class="break-inside-avoid mb-6">
 <article
-  class="break-inside-avoid mb-6 bg-bg rounded-lg overflow-hidden shadow-md hover:-translate-y-1 hover:shadow-lg transition-all duration-200"
+  class="bg-bg rounded-lg overflow-hidden shadow-md hover:-translate-y-1 hover:shadow-lg transition-all duration-200"
 >
   {/* Auto-height image */}
   {image && <img src={image.src} alt={image.alt} class="w-full h-auto block" />}
@@ -71,3 +72,4 @@ const { title, url, description, tags, image } = Astro.props;
     }
   </div>
 </article>
+</div>

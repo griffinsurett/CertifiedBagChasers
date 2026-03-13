@@ -18,6 +18,7 @@ import { getImageAlt, getImageUrl, resolveImageMetadata } from "@/utils/images";
 interface Props extends BaseVariantProps {
   eyebrow?: string;
   styleVariant?: "primary" | "parts";
+  showBackgroundImage?: boolean;
 }
 
 const {
@@ -29,6 +30,7 @@ const {
   id,
   eyebrow = "Social Proof",
   styleVariant = "primary",
+  showBackgroundImage = false,
 } = Astro.props as Props;
 
 // Process heading content
@@ -126,12 +128,14 @@ const carouselItems = (
 ---
 
 <section id={id} class={`section-base relative overflow-hidden ${className}`}>
-  <BackgroundMedia
-    backgroundMedia={{
-      image: { src: BackgroundImg, fixed: true, imageClass: "bg-top" },
-      overlayClass: "bg-black/70",
-    }}
-  />
+  {showBackgroundImage && (
+    <BackgroundMedia
+      backgroundMedia={{
+        image: { src: BackgroundImg, fixed: true, imageClass: "bg-top" },
+        overlayClass: "bg-black/70",
+      }}
+    />
+  )}
   <div class="max-w-[1200px] mx-auto relative z-10">
     <SectionHeading
       eyebrow={eyebrow}

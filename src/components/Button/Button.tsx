@@ -24,6 +24,10 @@ export interface BaseButtonProps {
   leftIcon?: string | ReactNode;   // Icon before text
   rightIcon?: string | ReactNode;  // Icon after text
   size?: ButtonSize;       // Button size
+  animate?: boolean;               // Enable default entrance animation for supporting variants
+  animated?: boolean;              // Legacy alias for animate
+  buttonWrapperClasses?: string;   // Optional classes for variant wrapper when used
+  fullWidth?: boolean;             // Expand supported variants to full width
   children: ReactNode;              // Button text/content
   className?: string;               // Additional CSS classes
 }
@@ -52,7 +56,19 @@ export type ButtonProps = ButtonAsButton | ButtonAsLink;
  * Uses forwardRef to allow ref passing to underlying element
  */
 export const ButtonBase = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
-  ({ href, className = '', leftIcon, rightIcon, size = 'md', children, ...props }, ref) => {
+  ({
+    href,
+    className = '',
+    leftIcon,
+    rightIcon,
+    size = 'md',
+    buttonWrapperClasses: _buttonWrapperClasses,
+    fullWidth: _fullWidth,
+    animate: _animate,
+    animated: _animated,
+    children,
+    ...props
+  }, ref) => {
     // Map size prop to Tailwind classes
     const normalizedSize = size ?? 'md';
     const sizeClass =

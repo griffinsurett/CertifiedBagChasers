@@ -94,6 +94,7 @@ import BackgroundImg2 from "@/assets/bent-speaking.jpg";
       <ContentRenderer
         query={query("testimonials").where((entry) => !!entry.data.socialMediaPost).orderBy(sortByOrder())}
         variant="SocialProofVariant"
+        showBackgroundImage={true}
       />
 
               <!-- Topics We Teach Section -->
