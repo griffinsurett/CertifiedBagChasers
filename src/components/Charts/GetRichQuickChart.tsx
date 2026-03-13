@@ -5,9 +5,37 @@
  * with animated SVG line showing the typical pump-and-dump pattern.
  */
 
+import { useRef, type CSSProperties } from "react";
+import Counter from "@/components/Counter";
+import { useVisibility } from "@/hooks/animations/useVisibility";
+
+const lineStyle = {
+  "--chart-line-length": 800,
+  "--chart-line-duration": "2000ms",
+  "--chart-line-delay": "180ms",
+} as CSSProperties;
+
+const glowLineStyle = {
+  "--chart-line-length": 800,
+  "--chart-line-duration": "2200ms",
+  "--chart-line-delay": "240ms",
+  filter: "blur(8px)",
+} as CSSProperties;
+
 const GetRichQuickChart = () => {
+  const chartRef = useRef<HTMLDivElement | null>(null);
+  const isVisible = useVisibility(chartRef, {
+    threshold: 0.35,
+    rootMargin: "0px 0px -10% 0px",
+    once: true,
+  });
+
   return (
-    <div className="chart-container">
+    <div
+      ref={chartRef}
+      className="chart-container"
+      data-chart-visible={isVisible ? "true" : "false"}
+    >
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-3 h-3 rounded-full bg-gradient-to-br from-[#ef4444] to-[#dc2626] shadow-[0_0_10px_rgba(239,68,68,0.5)]" />
@@ -104,7 +132,8 @@ const GetRichQuickChart = () => {
           stroke="url(#redGradient)"
           strokeWidth="3"
           strokeLinecap="round"
-          className="chart-line-theirs"
+          className="chart-line chart-line-theirs"
+          style={lineStyle}
         />
 
         {/* Glow effect line */}
@@ -114,8 +143,8 @@ const GetRichQuickChart = () => {
           stroke="rgba(239, 68, 68, 0.3)"
           strokeWidth="10"
           strokeLinecap="round"
-          className="chart-line-theirs"
-          style={{ filter: "blur(8px)" }}
+          className="chart-line chart-line-theirs"
+          style={glowLineStyle}
         />
 
         {/* Peak indicator */}
@@ -125,7 +154,7 @@ const GetRichQuickChart = () => {
           r="5"
           fill="#fbbf24"
           className="chart-label"
-          style={{ animationDelay: "1.2s" }}
+          style={{ transitionDelay: "900ms" }}
         />
         <text
           x="120"
@@ -135,7 +164,7 @@ const GetRichQuickChart = () => {
           textAnchor="middle"
           fontWeight="bold"
           className="chart-label"
-          style={{ animationDelay: "1.2s" }}
+          style={{ transitionDelay: "980ms" }}
         >
           PEAK +180%
         </text>
@@ -147,7 +176,7 @@ const GetRichQuickChart = () => {
           r="4"
           fill="#888"
           className="chart-label"
-          style={{ animationDelay: "2s" }}
+          style={{ transitionDelay: "1250ms" }}
         />
         <text
           x="220"
@@ -156,7 +185,7 @@ const GetRichQuickChart = () => {
           fontSize="8"
           textAnchor="middle"
           className="chart-label"
-          style={{ animationDelay: "2s" }}
+          style={{ transitionDelay: "1320ms" }}
         >
           Back to $0
         </text>
@@ -168,12 +197,12 @@ const GetRichQuickChart = () => {
           r="6"
           fill="#ef4444"
           className="chart-label"
-          style={{ animationDelay: "3s" }}
+          style={{ transitionDelay: "1550ms" }}
         >
           <animate
-            attributeName="opacity"
-            values="1;0.5;1"
-            dur="1s"
+            attributeName="r"
+            values="6;7.5;6"
+            dur="1.2s"
             repeatCount="indefinite"
           />
         </circle>
@@ -191,8 +220,16 @@ const GetRichQuickChart = () => {
 
       <div className="flex justify-between items-center mt-5 pt-5 border-t border-white/5">
         <span className="text-text-muted text-sm">1 Year Result:</span>
-        <span className="text-[#ef4444] text-2xl font-extrabold font-display">
-          -67% Loss
+        <span className="text-[#ef4444] text-2xl font-extrabold font-display inline-flex items-baseline gap-1">
+          <Counter
+            start={0}
+            end={-67}
+            duration={1500}
+            delay={300}
+            play={isVisible}
+            className="leading-none"
+          />
+          <span>% Loss</span>
         </span>
       </div>
     </div>

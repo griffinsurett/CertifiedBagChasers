@@ -5,9 +5,37 @@
  * with animated SVG line drawing showing steady 5-year growth.
  */
 
+import { useRef, type CSSProperties } from "react";
+import Counter from "@/components/Counter";
+import { useVisibility } from "@/hooks/animations/useVisibility";
+
+const lineStyle = {
+  "--chart-line-length": 1000,
+  "--chart-line-duration": "2200ms",
+  "--chart-line-delay": "180ms",
+} as CSSProperties;
+
+const glowLineStyle = {
+  "--chart-line-length": 1000,
+  "--chart-line-duration": "2500ms",
+  "--chart-line-delay": "240ms",
+  filter: "blur(8px)",
+} as CSSProperties;
+
 const OurApproachChart = () => {
+  const chartRef = useRef<HTMLDivElement | null>(null);
+  const isVisible = useVisibility(chartRef, {
+    threshold: 0.35,
+    rootMargin: "0px 0px -10% 0px",
+    once: true,
+  });
+
   return (
-    <div className="chart-container">
+    <div
+      ref={chartRef}
+      className="chart-container"
+      data-chart-visible={isVisible ? "true" : "false"}
+    >
       <div className="mb-6">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-3 h-3 rounded-full bg-gradient-to-br from-accent to-[#22c55e] shadow-[0_0_10px_rgba(74,222,128,0.5)]" />
@@ -90,7 +118,8 @@ const OurApproachChart = () => {
           stroke="url(#greenGradient)"
           strokeWidth="3"
           strokeLinecap="round"
-          className="chart-line-ours"
+          className="chart-line chart-line-ours"
+          style={lineStyle}
         />
 
         {/* Glow effect line */}
@@ -100,8 +129,8 @@ const OurApproachChart = () => {
           stroke="rgba(74, 222, 128, 0.3)"
           strokeWidth="10"
           strokeLinecap="round"
-          className="chart-line-ours"
-          style={{ filter: "blur(8px)" }}
+          className="chart-line chart-line-ours"
+          style={glowLineStyle}
         />
 
         {/* End point indicator */}
@@ -111,7 +140,7 @@ const OurApproachChart = () => {
           r="6"
           fill="#4ade80"
           className="chart-label"
-          style={{ animationDelay: "4s" }}
+          style={{ transitionDelay: "1350ms" }}
         >
           <animate
             attributeName="r"
@@ -131,8 +160,17 @@ const OurApproachChart = () => {
 
       <div className="flex justify-between items-center mt-5 pt-5 border-t border-white/5">
         <span className="text-text-muted text-sm">5 Year Result:</span>
-        <span className="text-accent text-2xl font-extrabold font-display">
-          +287% Growth
+        <span className="text-accent text-2xl font-extrabold font-display inline-flex items-baseline gap-1">
+          <span>+</span>
+          <Counter
+            start={0}
+            end={287}
+            duration={1800}
+            delay={300}
+            play={isVisible}
+            className="leading-none"
+          />
+          <span>% Growth</span>
         </span>
       </div>
     </div>

@@ -197,22 +197,6 @@ h1, h2, h3, h4, h5, h6 {
    Chart Component Styles - Growth Charts Section
    ============================================================================ */
 
-/* Chart animations */
-@keyframes drawLineOurs {
-  0% { stroke-dashoffset: 1000; }
-  100% { stroke-dashoffset: 0; }
-}
-
-@keyframes drawLineTheirs {
-  0% { stroke-dashoffset: 800; }
-  100% { stroke-dashoffset: 0; }
-}
-
-@keyframes fadeInUp {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
 /* Chart container */
 .chart-container {
   background: linear-gradient(145deg, #0f0f0d 0%, #080808 100%);
@@ -232,29 +216,42 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Chart line animations */
-.chart-line-ours {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: drawLineOurs 4s ease-out forwards;
-  animation-delay: 0.5s;
+.chart-line {
+  stroke-dasharray: var(--chart-line-length, 1000);
+  stroke-dashoffset: var(--chart-line-length, 1000);
+  transition:
+    stroke-dashoffset var(--chart-line-duration, 2200ms) cubic-bezier(0.22, 1, 0.36, 1)
+      var(--chart-line-delay, 0ms),
+    opacity 500ms ease-out;
 }
 
-.chart-line-theirs {
-  stroke-dasharray: 800;
-  stroke-dashoffset: 800;
-  animation: drawLineTheirs 3s ease-in-out forwards;
-  animation-delay: 0.5s;
+.chart-container[data-chart-visible="true"] .chart-line {
+  stroke-dashoffset: 0;
 }
 
 /* Chart grid lines */
 .chart-grid-line {
   stroke: rgba(255, 255, 255, 0.05);
+  opacity: 0;
+  transition: opacity 600ms ease-out 80ms;
+}
+
+.chart-container[data-chart-visible="true"] .chart-grid-line {
+  opacity: 1;
 }
 
 /* Chart labels with fade animation */
 .chart-label {
-  animation: fadeInUp 0.6s ease-out forwards;
   opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 600ms ease-out,
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.chart-container[data-chart-visible="true"] .chart-label {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ============================================================================
