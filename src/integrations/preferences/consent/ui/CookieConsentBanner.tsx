@@ -121,14 +121,12 @@ export default function CookieConsentBanner() {
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 items-center">
                 <Button
                   variant="secondary"
                   onClick={handleRejectAll}
-                  fullWidth={true}
                   type="button"
-                  buttonWrapperClasses="text-center"
-                  size="md"
+                  size="lg"
                   disabled={isPending}
                 >
                   Reject All
@@ -140,7 +138,7 @@ export default function CookieConsentBanner() {
                   className="flex-1"
                   animated={false}
                   type="button"
-                  size="md"
+                  size="lg"
                   disabled={isPending}
                 >
                   Accept All

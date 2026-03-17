@@ -16,7 +16,7 @@ export const siteData = {
 
 export const ctaData = {
   text: "Join The Community",
-  link: "https://whop.com/checkout/plan_AXxsDfihgXddN",
+  link: "https://whop.com/biz_spio0066jeczzT/certified-bag-chasers-copy-6e/",
   secondaryText: "Get The Book",
   secondaryLink: "/products/book",
 };
