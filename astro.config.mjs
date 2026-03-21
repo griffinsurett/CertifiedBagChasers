@@ -71,7 +71,14 @@ export default defineConfig({
   prefetch: false,
   
   compressHTML: true,
-  redirects,
+  redirects: {
+    ...redirects,
+    '/feed': '/',
+    '/feed/': '/',
+    '/values': '/',
+    '/values/commitment-to-financial-literacy': '/',
+    '/values/commitment-to-financial-literacy/': '/',
+  },
 
   experimental: {
     clientPrerender: false,
