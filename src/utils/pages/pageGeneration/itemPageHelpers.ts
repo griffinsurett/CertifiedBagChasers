@@ -7,7 +7,7 @@
  */
 
 import type { CollectionKey, CollectionEntry } from "astro:content";
-import { getCollection } from "astro:content";
+import { getCollection, render as renderEntry } from "astro:content";
 import { getCollectionMeta, getItemKey } from "@/utils/collections";
 import {
   shouldItemHavePage,
@@ -146,9 +146,16 @@ export async function prepareItemPageData(
   // Prepare content if MDX - safe type assertion since we know it might have render
   let Content = null;
   const entryWithRender = entry as any;
-  if (entryWithRender && typeof entryWithRender.render === "function") {
-    const rendered = await entryWithRender.render();
-    Content = rendered.Content;
+  try {
+    if (entryWithRender && typeof entryWithRender.render === "function") {
+      const rendered = await entryWithRender.render();
+      Content = rendered?.Content ?? null;
+    } else {
+      const rendered = await renderEntry(entry as any);
+      Content = rendered?.Content ?? null;
+    }
+  } catch {
+    Content = null;
   }
 
   // Build SEO props

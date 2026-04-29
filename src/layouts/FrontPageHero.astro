@@ -120,9 +120,10 @@ const secondaryIsExternal = secondaryCTA?.link?.startsWith("http");
     {/* Hero Content */}
     <div class="relative z-10 w-full max-w-4xl flex flex-col items-center space-y-5 mx-auto">
       {/* Badge */}
-      <div class="bg-primary/15 border border-primary px-8 py-1.5 rounded-full">
-        <span class="text-text font-semibold text-sm uppercase tracking-[2px]">
-          💰 {eyebrowText}
+      <div class="bg-primary/15 border border-primary px-6 py-1.5 rounded-full">
+        <span class="text-text font-semibold text-xs uppercase tracking-[2px] flex flex-col sm:flex-row items-center gap-1">
+          <span>💰</span>
+          <span>{eyebrowText}</span>
         </span>
       </div>
 
@@ -147,13 +148,15 @@ const secondaryIsExternal = secondaryCTA?.link?.startsWith("http");
       }
 
       {/* CTA Buttons */}
-      <div class="flex gap-2 justify-center flex-wrap">
+      <div class="flex flex-col sm:flex-row gap-2 justify-center w-full sm:w-auto">
         {
           primaryCTA && (
             <Button
               href={primaryCTA.link}
               variant="primary"
               size="lg"
+              className="w-full sm:w-auto"
+              buttonWrapperClasses="w-full sm:w-auto"
               target={primaryIsExternal ? "_blank" : undefined}
               rel={primaryIsExternal ? "noopener noreferrer" : undefined}
             >
@@ -168,6 +171,8 @@ const secondaryIsExternal = secondaryCTA?.link?.startsWith("http");
               href={secondaryCTA.link}
               variant="secondary"
               size="lg"
+              className="w-full sm:w-auto"
+              buttonWrapperClasses="w-full sm:w-auto"
               target={secondaryIsExternal ? "_blank" : undefined}
               rel={secondaryIsExternal ? "noopener noreferrer" : undefined}
             >

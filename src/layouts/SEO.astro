@@ -16,7 +16,7 @@
  * Generates absolute URLs for social sharing.
  */
 
-import defaultOGImage from "@/assets/astro.svg";
+import defaultOGImage from "@/assets/cbc-transparent.png";
 import { siteData } from "@/content/siteData";
 import { getImageUrl } from "@/utils/images";
 import type { ImageInput, SEOData } from "@/content/schema";
@@ -63,7 +63,7 @@ const finalTwitterImageUrl = getImageUrl(seo?.twitterImage || seo?.ogImage, fina
 const finalTwitterCard = seo?.twitterCard || "summary_large_image";
 
 // Additional SEO fields
-const finalKeywords = seo?.keywords || ["astro", "static site generator", "web development"];
+const finalKeywords = seo?.keywords || ["personal finance", "investing", "wealth building", "financial education", "Certified Bag Chasers"];
 const canonicalPath = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '');
 const finalCanonicalUrl = seo?.canonicalUrl || `${siteData.url}${canonicalPath}`;
 const effectiveRobots = seo?.robots || "index, follow";
