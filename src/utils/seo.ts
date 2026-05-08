@@ -27,6 +27,7 @@ export interface SEOProps {
   publishDate?: Date | string; // Publication date
   seo?: SEOData; // Additional SEO overrides
   siteName?: string; // Site name for OG tags
+  addToLLMs?: boolean; // Whether this page appears in llms.txt (default: true)
 }
 
 /**
@@ -82,6 +83,10 @@ export async function buildItemSEOProps(
     ? await resolveAuthor(itemData.author)
     : undefined;
 
+  const collectionItemsAddToLLMs = collectionMeta?.llms?.itemsAddToLLMs;
+  const itemAddToLLMs = itemData.llms?.addToLLMs;
+  const addToLLMs = itemAddToLLMs !== undefined ? itemAddToLLMs : collectionItemsAddToLLMs;
+
   return {
     title: itemData.title,
     description: itemData.description,
@@ -94,6 +99,7 @@ export async function buildItemSEOProps(
       // Item SEO overrides
       ...itemData.seo,
     },
+    addToLLMs,
   };
 }
 
@@ -123,5 +129,6 @@ export function buildCollectionSEOProps(
     description,
     image: collectionMeta.featuredImage,
     seo: collectionMeta.seo || {},
+    addToLLMs: collectionMeta.llms?.addToLLMs,
   };
 }

@@ -1,12 +1,13 @@
 // src/siteData.ts - Compatible with both Astro and React
-const siteDomain = import.meta.env.PUBLIC_SITE_DOMAIN;
+const SITE_DOMAIN = "certifiedbagchasers.com";
+export const SITE_URL = `https://${SITE_DOMAIN}`;
 
 export const siteData = {
   title: "Certified Bag Chasers",
   legalName: "Certified Bag Chasers LLC",
   description: "Certified Bag Chasers is a personal finance education company dedicated to bringing you the best, most up-to-date information on personal finance, investing, and wealth-building strategy. No get-rich-quick schemes, just practical education you can apply with confidence.",
-  domain: siteDomain,
-  url: `https://${siteDomain}`,
+  domain: SITE_DOMAIN,
+  url: SITE_URL,
   location: "United States",
   founder: "Arold Norelus",
   cmtLevel: "Level II",

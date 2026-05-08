@@ -288,6 +288,18 @@ export const seoSchema = ({ image }: { image: Function }) =>
 
 export type SEOData = z.infer<ReturnType<typeof seoSchema>>;
 
+export const llmsItemSchema = z.object({
+  addToLLMs: z.boolean().optional(),
+}).optional();
+
+export const llmsMetaSchema = z.object({
+  addToLLMs: z.boolean().optional(),
+  itemsAddToLLMs: z.boolean().optional(),
+}).optional();
+
+export type LLMsItemData = z.infer<typeof llmsItemSchema>;
+export type LLMsMetaData = z.infer<typeof llmsMetaSchema>;
+
 // ============================================================================
 // BASE SCHEMA
 // ============================================================================
@@ -324,6 +336,7 @@ export const baseSchema = ({ image }: { image: Function }) =>
     tags: z.array(z.string()).default([]),
     // Per-item link behavior override (takes priority over collection's itemsLinkBehavior)
     linkBehavior: LinkBehaviorConfig,
+    llms: llmsItemSchema,
   });
 
 export type BaseData = z.infer<ReturnType<typeof baseSchema>>;
@@ -413,6 +426,7 @@ export const metaSchema = ({ image }: { image: Function }) =>
     itemsLinkBehavior: LinkBehaviorConfig,
     indexLayout: z.string().default('../layouts/collections/CollectionIndexLayout.astro'),
     itemsLayout: z.string().default('../layouts/collections/CollectionLayout.astro'),
+    llms: llmsMetaSchema,
   });
 
 export type MetaData = z.infer<ReturnType<typeof metaSchema>>;

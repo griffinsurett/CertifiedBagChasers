@@ -16,6 +16,9 @@
  * Generates absolute URLs for social sharing.
  */
 
+import { writeFileSync, mkdirSync } from 'node:fs';
+import { join } from 'node:path';
+import siteLogo from "@/assets/cbc-transparent.png";
 import defaultOGImage from "@/assets/cbc-transparent.png";
 import { siteData } from "@/content/siteData";
 import { getImageUrl } from "@/utils/images";
@@ -29,6 +32,8 @@ export interface Props {
   publishDate?: Date | string; // Publication date (for articles)
   seo?: SEOData;              // SEO overrides
   siteName?: string;          // Site name override
+  robots?: string;             // Shorthand robots directive
+  addToLLMs?: boolean;         // Whether this page appears in llms.txt (default: true)
 }
 
 const {
@@ -39,6 +44,8 @@ const {
   publishDate,
   seo = {},
   siteName = siteData.title,
+  robots,
+  addToLLMs,
 } = Astro.props;
 
 // Base values from props
@@ -66,7 +73,7 @@ const finalTwitterCard = seo?.twitterCard || "summary_large_image";
 const finalKeywords = seo?.keywords || ["personal finance", "investing", "wealth building", "financial education", "Certified Bag Chasers"];
 const canonicalPath = Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, '');
 const finalCanonicalUrl = seo?.canonicalUrl || `${siteData.url}${canonicalPath}`;
-const effectiveRobots = seo?.robots || "index, follow";
+const effectiveRobots = seo?.robots || robots || "index, follow";
 
 // Author and publisher
 const authorName = author || siteData.title;
@@ -106,7 +113,7 @@ const structuredData = {
     "url": siteData.url,
     "logo": {
       "@type": "ImageObject",
-      "url": makeAbsolute(defaultOGImage.src),
+      "url": makeAbsolute(siteLogo.src),
       "width": 60,
       "height": 60
     }
@@ -125,6 +132,22 @@ const structuredData = {
     "@id": finalCanonicalUrl
   }
 };
+
+if (import.meta.env.MODE !== 'development') {
+  try {
+    const outDir = join(process.cwd(), 'dist', '__seo');
+    mkdirSync(outDir, { recursive: true });
+    const slug = canonicalPath === '/' ? '_index' : canonicalPath.replace(/^\//, '').replace(/\//g, '__');
+    const entry = {
+      path: canonicalPath,
+      title: finalMetaTitle,
+      description: finalMetaDescription,
+      robots: effectiveRobots,
+      addToLLMs: addToLLMs !== false,
+    };
+    writeFileSync(join(outDir, `${slug}.json`), JSON.stringify(entry), 'utf8');
+  } catch (_) {}
+}
 ---
 
 <!-- Primary Meta Tags -->
