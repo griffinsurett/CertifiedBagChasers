@@ -5,7 +5,7 @@ export const SITE_URL = `https://${SITE_DOMAIN}`;
 export const siteData = {
   title: "Certified Bag Chasers",
   legalName: "Certified Bag Chasers LLC",
-  description: "Certified Bag Chasers is a personal finance education company dedicated to bringing you the best, most up-to-date information on personal finance, investing, and wealth-building strategy. No get-rich-quick schemes, just practical education you can apply with confidence.",
+  description: "A trading community built on real education—learn to trade, invest, and build wealth with discipline. No hype, no get-rich-quick schemes.",
   domain: SITE_DOMAIN,
   url: SITE_URL,
   location: "United States",

@@ -30,6 +30,7 @@ export default defineConfig({
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url)),
+        '@site': fileURLToPath(new URL('./src', import.meta.url)),
       },
     },
     plugins: [tailwindcss()],
@@ -56,9 +57,7 @@ export default defineConfig({
     clientDirectivesIntegration(),
     iconGeneratorIntegration(),
     mdx(),
-    react({
-      include: ['**/react/*', '**/components/**/*.jsx', '**/components/**/*.tsx', '**/hooks/**/*.js', '**/hooks/**/*.ts'],
-    }),
+    react(),
     sitemap(),
     conditionalPartytown(),
     robotsLlmsIntegration(),

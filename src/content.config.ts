@@ -1,23 +1,7 @@
-// src/content/config.ts
-/**
- * Collection structure:
- *
- * src/content/[collection]/
- *   _meta.mdx         ← Collection config (frontmatter) + index page content (body)
- *                        The _ prefix excludes it from collection entries
- *   item-one.mdx      ← Collection item
- *   item-two.mdx      ← Collection item
- *
- * _meta.mdx frontmatter controls:
- * - title: Display name for the collection
- * - description: Collection description
- * - hasPage: Whether to generate /[collection] index page
- * - itemsHasPage: Whether items get individual pages
- * - featuredImage: Hero image for index page
- * - seo: SEO overrides
- */
-import { file } from "astro/loaders";
-import { defineCollection, z } from "astro:content";
+// src/content.config.ts
+import { defineCollection } from "astro:content";
+import { z } from "astro/zod";
+import { GlobLoad, FileLoad } from "@/utils/loaders/loaderUtils";
 import {
   baseSchema,
   MenuSchema,
@@ -25,24 +9,22 @@ import {
   refSchema,
   imageInputSchema,
   iconSchema,
-} from "./schema";
+} from "./content/schema";
 import { MenuItemsLoader } from "@/utils/loaders/MenuItemsLoader";
 
 export const collections = {
-  // ── menus.json ─────────────────────────────────────────
   "menus": defineCollection({
-    loader: file("src/content/menus/menus.json"),
+    loader: FileLoad("menus", "menus.json"),
     schema: MenuSchema,
   }),
 
-  // ── menu-items.json ─────────────────────────────────────
   "menu-items": defineCollection({
     loader: MenuItemsLoader(),
     schema: MenuItemFields,
   }),
 
   "contact-us": defineCollection({
-    loader: file("src/content/contact-us/contact-us.json"),
+    loader: FileLoad("contact-us", "contact-us.json"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         linkPrefix: z.string().optional(),
@@ -50,15 +32,15 @@ export const collections = {
   }),
 
   "social-media": defineCollection({
-    loader: file("src/content/social-media/socialmedia.json"),
+    loader: FileLoad("social-media", "socialmedia.json"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         link: z.string().optional(),
       }),
   }),
 
-  // ── legal ───────────────────────────────────────────────
   "legal": defineCollection({
+    loader: GlobLoad("legal"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         effectiveDate: z
@@ -73,11 +55,13 @@ export const collections = {
   }),
 
   "about-us": defineCollection({
+    loader: GlobLoad("about-us"),
     schema: ({ image }) =>
       baseSchema({ image })
   }),
 
   "blog": defineCollection({
+    loader: GlobLoad("blog"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         author: refSchema("authors"),
@@ -87,6 +71,7 @@ export const collections = {
   }),
 
   "authors": defineCollection({
+    loader: FileLoad("authors", "authors.json"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         email: z.string().email().optional(),
@@ -108,77 +93,65 @@ export const collections = {
       }),
   }),
 
-  // ── testimonials ─────────────────────────────────────────
   "testimonials": defineCollection({
+    loader: GlobLoad("testimonials"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         role: z.string().default("Customer"),
         company: z.string().optional(),
         rating: z.number().min(1).max(5).default(5),
-        // Social media post screenshot (for social proof carousel)
         socialMediaPost: imageInputSchema({ image }),
-        // Video testimonial file path (e.g., "/videos/testimonial.mp4")
         video: z.string().optional(),
-        // Poster image for video (thumbnail before playing)
         videoPoster: imageInputSchema({ image }),
-        // Video aspect ratio for grid layout: portrait (2 rows), landscape (2 cols), square (1x1)
         videoAspect: z.enum(["portrait", "landscape", "square"]).default("portrait"),
-        // Results/gains amount (e.g., "+$22,000")
         resultsAmount: z.string().optional(),
-        // Time period for results (e.g., "in 6 months")
         resultsPeriod: z.string().optional(),
-        // Whether this is a video testimonial
         isVideo: z.boolean().default(false),
       }),
   }),
 
   "faq": defineCollection({
+    loader: GlobLoad("faq"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         category: z.string().optional(),
       }),
   }),
 
-  // ── promises ─────────────────────────────────────────────
   "promises": defineCollection({
+    loader: GlobLoad("promises"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
-        // Card size for masonry layout: large, wide, small
         cardSize: z.enum(["large", "wide", "small"]).default("small"),
       }),
   }),
 
-  // ── topics ───────────────────────────────────────────────
   "topics": defineCollection({
+    loader: GlobLoad("topics"),
     schema: ({ image }) =>
       baseSchema({ image }),
   }),
 
-  // ── affiliates ──────────────────────────────────
   "affiliates": defineCollection({
+    loader: GlobLoad("affiliates"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
-        // External destination URL for affiliate offer
         link: z.string().url(),
-        // Open affiliate links in a new tab when rendered in list variants
         openInNewTab: z.boolean().default(true),
       }),
   }),
 
-  // ── products ────────────────────────────────────────────
   "products": defineCollection({
+    loader: GlobLoad("products"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
-        // Optional featured video shown in product sidebars
         featuredVideo: z
           .object({
             src: z.string(),
             title: z.string().optional(),
           })
           .optional(),
-        // Extended product page description (used in product layouts)
         longDescription: z.string().optional(),
-        // Optional hero highlight boxes shown under product hero
         heroHighlights: z
           .array(
             z.object({
@@ -189,7 +162,6 @@ export const collections = {
           )
           .max(5)
           .optional(),
-        // Product CTA section configuration (displayed at end of product pages)
         cta: z
           .object({
             eyebrow: z.string().optional(),
@@ -198,18 +170,12 @@ export const collections = {
             ctaText: z.string().optional(),
           })
           .optional(),
-        // Pricing information
         price: z.string().optional(),
         priceNote: z.string().optional(),
-        // External link (e.g., Whop, Amazon)
         link: z.string().url().optional(),
-        // Product status
         status: z.enum(["available", "coming-soon", "free"]).default("available"),
-        // List of features/benefits
         features: z.array(z.string()).default([]),
-        // CTA button text
         ctaText: z.string().optional(),
-        // Storefront links used for products with multiple external retailers
         purchaseLinks: z
           .array(
             z.object({
@@ -219,7 +185,6 @@ export const collections = {
             })
           )
           .default([]),
-        // Optional format metadata used for hierarchical product variants (e.g., book formats)
         format: z
           .object({
             consumeType: z.string().optional(),

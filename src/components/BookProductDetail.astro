@@ -4,7 +4,6 @@ import type { ImageMetadata } from "astro";
 import Button from "@/components/Button/Button";
 import type { IconType } from "@/content/schema";
 import { children, byItemKeys } from "@/utils/query/snippets";
-import { getItemKey } from "@/utils/collections";
 
 interface PurchaseLink {
   text: string;
@@ -63,7 +62,7 @@ const currentKey = cleanId(currentId);
 
 const relatedVariants: RelatedVariant[] = relatedEntries
   .map((entry) => {
-    const entryId = cleanId(getItemKey(entry));
+    const entryId = cleanId(entry.id);
     if (!entryId) return null;
 
     const label =
