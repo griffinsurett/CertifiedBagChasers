@@ -33,6 +33,6 @@
     "tailwindcss": "^4.1.12"
   },
   "devDependencies": {
-    "@builder.io/partytown": "^0.10.3"
+    "@qwik.dev/partytown": "^0.14.4"
   }
 }
