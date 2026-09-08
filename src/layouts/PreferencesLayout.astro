@@ -14,8 +14,6 @@
 
 // Cookie Consent Preferences
 import CookiePreferencesButton from "@/integrations/preferences/consent/ui/CookiePreferencesButton";
-import CookieConsentBanner from "@/integrations/preferences/consent/ui/CookieConsentBanner";
-import ConsentScript from "@/integrations/preferences/consent/core/scripts/ConsentScript.astro";
 
 // Accessibility Preferences
 import AccessibilityButton from "@/integrations/preferences/accessibility/ui/AccessibilityButton";
@@ -38,7 +36,6 @@ const layoutClasses = layout === "vertical" ? "flex-col items-start" : "flex-row
 ---
 
 {/* Consent Script - Inline initialization, runs immediately */}
-<ConsentScript />
 
 {/* Browser Translation Script - Both native and Google enabled */}
 <!-- <BrowserTranslateScript enableNative={true} enableGoogle={true} /> -->
@@ -59,4 +56,5 @@ const layoutClasses = layout === "vertical" ? "flex-col items-start" : "flex-row
   <!-- <LanguageSwitcher client:visible /> -->
 </div>
 
-<CookieConsentBanner client:idle />
+{/* Cookie banner + settings modal are rendered by Zest itself,
+    injected head-inline from astro.config.mjs. */}
