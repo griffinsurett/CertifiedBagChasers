@@ -59,7 +59,14 @@ export default defineConfig({
     iconGeneratorIntegration(),
     mdx(),
     react(),
-    sitemap(),
+    // `/sitemap.xml` is rewritten to this integration's sitemap-index.xml in
+    // vercel.json — tools that guess /sitemap.xml got a 404 and concluded
+    // there was no sitemap at all.
+    //
+    // `lastmod` is a native option. Build time is the honest value for a
+    // static site: it IS when each page was generated. Per-page content dates
+    // would need `serialize`.
+    sitemap({ lastmod: new Date() }),
     // Zest installs its cookie/storage/script interceptors head-inline, so it
     // must be injected before any tracker script is evaluated.
     zest({
