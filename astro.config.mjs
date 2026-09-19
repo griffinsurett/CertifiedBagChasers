@@ -74,8 +74,11 @@ export default defineConfig({
       config: {
         mode: "safe",
         policyUrl: "/privacy-policy",
-        accentColor: "#4ade80",
-        theme: "auto",
+        accentColor: "#c9a227",
+        // Dark to match the site — "auto" followed the OS and rendered the
+        // banner white on a black site.
+        theme: "dark",
+        position: "bottom-left",
         branding: false,
         // The footer's "Your Privacy Choices" link already reopens the
         // settings modal on every page, so the floating widget is redundant.
@@ -87,6 +90,55 @@ export default defineConfig({
         // five Zest defaults are restated alongside our two site keys.
         // Without this, user-language and googtrans fall through to
         // "marketing" and functional-only visitors lose translation.
+        // Injected into the banner's Shadow DOM, which CANNOT see the page's
+        // CSS variables — so the brand values are restated literally here.
+        // They mirror global.css: --gradient-gold-metallic, --color-bg (#0a0a0a)
+        // and the SecondaryButton's white border. Keep the two in sync.
+        customStyles: `
+          .zest-banner {
+            background: #0a0a0a !important;
+            border: 1px solid rgba(255,255,255,0.12) !important;
+            color: #ffffff !important;
+          }
+          .zest-text { color: #ffffff !important; }
+          .zest-text-secondary { color: #b0b0b0 !important; }
+
+          /* Accept All / Reject All — the white-border treatment used by the
+             header's Subscribe and Login buttons (SecondaryButton). */
+          .zest-btn--primary {
+            background: transparent !important;
+            border: 2px solid #ffffff !important;
+            color: #ffffff !important;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all .3s;
+          }
+          .zest-btn--primary:hover {
+            background: rgba(255,255,255,0.1) !important;
+          }
+
+          /* Modal's confirming action keeps the gold metallic gradient
+             (--gradient-gold-metallic from global.css). */
+          .zest-modal .zest-btn--primary {
+            background: linear-gradient(170deg,
+              #fffde8 0%, #f7e588 8%, #dfc040 20%, #c9a227 35%,
+              #d4b254 50%, #8a6a18 70%, #5c4510 90%, #3d2e0a 100%) !important;
+            border: none !important;
+            color: #0a0a0a !important;
+            text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+          }
+          .zest-modal .zest-btn--primary:hover {
+            box-shadow: 0 10px 40px rgba(201,162,39,0.4);
+            transform: translateY(-2px);
+          }
+
+          .zest-btn--ghost { color: #b0b0b0 !important; }
+          .zest-btn--ghost:hover { color: #ffffff !important; }
+          .zest-modal, .zest-bg { background: #0a0a0a !important; }
+          .zest-bg-secondary { background: #151515 !important; }
+          .zest-border { border-color: rgba(255,255,255,0.12) !important; }
+        `,
         patterns: {
           functional: [
             "^user-language$",
