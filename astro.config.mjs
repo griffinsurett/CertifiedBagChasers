@@ -103,24 +103,20 @@ export default defineConfig({
           .zest-text { color: #ffffff !important; }
           .zest-text-secondary { color: #b0b0b0 !important; }
 
-          /* Accept All / Reject All — the white-border treatment used by the
-             header's Subscribe and Login buttons (SecondaryButton). */
-          .zest-btn--primary {
-            background: transparent !important;
-            border: 2px solid #ffffff !important;
-            color: #ffffff !important;
+          /* Shared button shape — matches the site's Button components. */
+          .zest-btn {
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             transition: all .3s;
           }
-          .zest-btn--primary:hover {
-            background: rgba(255,255,255,0.1) !important;
-          }
 
-          /* Modal's confirming action keeps the gold metallic gradient
-             (--gradient-gold-metallic from global.css). */
-          .zest-modal .zest-btn--primary {
+          /* Confirming actions (Accept All, Save Preferences) carry the gold
+             metallic gradient — the site's PrimaryButton. Zest gives every
+             primary button the same class, so these are targeted by
+             the data-action attribute, the only thing distinguishing them. */
+          .zest-btn[data-action="accept-all"],
+          .zest-btn[data-action="save"] {
             background: linear-gradient(170deg,
               #fffde8 0%, #f7e588 8%, #dfc040 20%, #c9a227 35%,
               #d4b254 50%, #8a6a18 70%, #5c4510 90%, #3d2e0a 100%) !important;
@@ -128,9 +124,21 @@ export default defineConfig({
             color: #0a0a0a !important;
             text-shadow: 0 1px 0 rgba(255,255,255,0.3);
           }
-          .zest-modal .zest-btn--primary:hover {
+          .zest-btn[data-action="accept-all"]:hover,
+          .zest-btn[data-action="save"]:hover {
             box-shadow: 0 10px 40px rgba(201,162,39,0.4);
             transform: translateY(-2px);
+          }
+
+          /* Reject All — the white-border treatment used by the header's
+             Subscribe and Login buttons (SecondaryButton). */
+          .zest-btn[data-action="reject-all"] {
+            background: transparent !important;
+            border: 2px solid #ffffff !important;
+            color: #ffffff !important;
+          }
+          .zest-btn[data-action="reject-all"]:hover {
+            background: rgba(255,255,255,0.1) !important;
           }
 
           .zest-btn--ghost { color: #b0b0b0 !important; }
