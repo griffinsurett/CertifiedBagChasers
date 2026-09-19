@@ -71,7 +71,12 @@ export const collections = {
   }),
 
   "authors": defineCollection({
-    loader: FileLoad("authors", "authors.json"),
+    // GlobLoad, not FileLoad: this site's author is an .mdx entry
+    // (arold-norelus.mdx) carrying a body and structured frontmatter —
+    // credentials, a segmented `heading`, socials. FileLoad looked for an
+    // authors.json that has never existed here, so the loader errored on every
+    // build and the homepage's "Your Mentor" band rendered empty.
+    loader: GlobLoad("authors"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
         email: z.string().email().optional(),
