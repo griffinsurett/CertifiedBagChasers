@@ -95,15 +95,18 @@ export default defineConfig({
         // They mirror global.css: --gradient-gold-metallic, --color-bg (#0a0a0a)
         // and the SecondaryButton's white border. Keep the two in sync.
         customStyles: `
-          .zest-banner {
+          .zest-banner, .zest-modal {
             background: #0a0a0a !important;
             border: 1px solid rgba(255,255,255,0.12) !important;
             color: #ffffff !important;
           }
           .zest-text { color: #ffffff !important; }
           .zest-text-secondary { color: #b0b0b0 !important; }
+          .zest-bg { background: #0a0a0a !important; }
+          .zest-bg-secondary { background: #151515 !important; }
+          .zest-border { border-color: rgba(255,255,255,0.12) !important; }
+          .zest-accent, .zest-accent-text { color: #c9a227 !important; }
 
-          /* Shared button shape — matches the site's Button components. */
           .zest-btn {
             font-weight: 700;
             text-transform: uppercase;
@@ -111,11 +114,15 @@ export default defineConfig({
             transition: all .3s;
           }
 
-          /* Confirming actions (Accept All, Save Preferences) carry the gold
-             metallic gradient — the site's PrimaryButton. Zest gives every
-             primary button the same class, so these are targeted by
-             the data-action attribute, the only thing distinguishing them. */
-          .zest-btn[data-action="accept-all"],
+          .zest-btn--primary {
+            background: #0a0a0a !important;
+            border: 2px solid #ffffff !important;
+            color: #ffffff !important;
+          }
+          .zest-btn--primary:hover {
+            background: rgba(255,255,255,0.1) !important;
+          }
+
           .zest-btn[data-action="save"] {
             background: linear-gradient(170deg,
               #fffde8 0%, #f7e588 8%, #dfc040 20%, #c9a227 35%,
@@ -124,28 +131,18 @@ export default defineConfig({
             color: #0a0a0a !important;
             text-shadow: 0 1px 0 rgba(255,255,255,0.3);
           }
-          .zest-btn[data-action="accept-all"]:hover,
           .zest-btn[data-action="save"]:hover {
             box-shadow: 0 10px 40px rgba(201,162,39,0.4);
             transform: translateY(-2px);
           }
 
-          /* Reject All — the white-border treatment used by the header's
-             Subscribe and Login buttons (SecondaryButton). */
-          .zest-btn[data-action="reject-all"] {
+          .zest-btn--ghost {
             background: transparent !important;
-            border: 2px solid #ffffff !important;
-            color: #ffffff !important;
+            border: none !important;
+            color: #b0b0b0 !important;
+            font-weight: 600;
           }
-          .zest-btn[data-action="reject-all"]:hover {
-            background: rgba(255,255,255,0.1) !important;
-          }
-
-          .zest-btn--ghost { color: #b0b0b0 !important; }
           .zest-btn--ghost:hover { color: #ffffff !important; }
-          .zest-modal, .zest-bg { background: #0a0a0a !important; }
-          .zest-bg-secondary { background: #151515 !important; }
-          .zest-border { border-color: rgba(255,255,255,0.12) !important; }
         `,
         patterns: {
           functional: [
