@@ -115,16 +115,12 @@ export default defineConfig({
           }
 
           .zest-btn--primary {
-            background: linear-gradient(170deg,
-              #fffde8 0%, #f7e588 8%, #dfc040 20%, #c9a227 35%,
-              #d4b254 50%, #8a6a18 70%, #5c4510 90%, #3d2e0a 100%) !important;
-            border: none !important;
-            color: #0a0a0a !important;
-            text-shadow: 0 1px 0 rgba(255,255,255,0.3);
+            background: #0a0a0a !important;
+            border: 2px solid #ffffff !important;
+            color: #ffffff !important;
           }
           .zest-btn--primary:hover {
-            box-shadow: 0 10px 40px rgba(201,162,39,0.4);
-            transform: translateY(-2px);
+            background: rgba(255,255,255,0.1) !important;
           }
 
           .zest-btn[data-action="save"] {
