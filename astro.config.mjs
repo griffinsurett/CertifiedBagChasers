@@ -84,6 +84,19 @@ export default defineConfig({
         // settings modal on every page, so the floating widget is redundant.
         showWidget: false,
         consentModeGoogle: true,
+        // Jurisdiction lookup, matching webmaxxers and i75-websites. The
+        // banner only hard-gates visitors in a regulated region; everyone else
+        // gets the lighter notice. The visitor IP never leaves Vercel — the
+        // endpoint reads x-vercel-ip-country and returns a verdict only.
+        //
+        // fallback: "consent" fails CLOSED: a missing header, an error, or a
+        // timeout applies the strict opt-in banner rather than assuming the
+        // visitor is unregulated.
+        geo: {
+          endpoint: "/api/geo",
+          timeout: 1000,
+          fallback: "consent",
+        },
         respectDNT: true,
         dntBehavior: "reject",
         // patterns.<category> REPLACES that category's built-in list, so the
