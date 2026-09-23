@@ -61,7 +61,6 @@ export const whyCommunityChecklist = [
   "You want accountability from a focused wealth-building network",
 ];
 
-export const discordJoinLink = frontmatter.link;
 export const discordJoinText = "Join Discord Community";
 export const discordPrice = "$50";
 export const discordPricePeriod = "/month";
@@ -77,7 +76,7 @@ export const heroDescription =
   heading={heroHeading}
   description={heroDescription}
   image={DiscordImage}
-  primaryCTA={{ text: discordJoinText, link: discordJoinLink }}
+  primaryCTA={{ text: discordJoinText, link: frontmatter.link }}
   secondaryCTA={{ text: "See What's Inside", link: "#membership-details" }}
 />
 
@@ -93,7 +92,7 @@ export const heroDescription =
       pricePeriod={discordPricePeriod}
       priceNote={discordPriceNote}
       ctaText={discordJoinText}
-      ctaHref={discordJoinLink}
+      ctaHref={frontmatter.link}
       noticeText="Checkout and member access are powered through Whop."
       noticeVariant="small"
       noticeClassName="mt-4 w-full justify-start rounded-xl"
