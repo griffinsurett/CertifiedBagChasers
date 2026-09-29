@@ -2,7 +2,7 @@
 
 2026-09-29. Current template runtime ported from Greastro `fe2bd0a`, including the
 shared breadcrumb system. The generator's draft exclusion fix is also shared
-back to Greastro. Implementation is ready for release verification; browser
+back to Greastro. Implementation `d662db1` is committed, pushed and deployed; browser
 interaction checks remain pending because computer automation was interrupted
 and then timed out. Do not call those checks passed.
 
@@ -77,3 +77,16 @@ changes intact and out of the schema release; verify the staged release too.
 Production/deployment evidence goes in `schema-validation/`. No access keys are
 stored there. Live verification uses the workspace's existing approved Codex key;
 no security/protection or endpoint changes are part of this release.
+
+## Live release — 2026-09-29
+
+Vercel deployment `dpl_14aiLqE6Ep5u4j1fDjfLV2H4pxhs` is Ready for commit
+`d662db1240710106b3ab41fd5afea8a906e6ec02`. All 16 production page graphs exactly
+match the isolated release build. Generated crawler files/sitemaps, absent demo
+and FAQ item routes, and the exact protected deployment passed authenticated
+checks using the existing Codex key. See
+[production evidence](schema-validation/production-2026-09-29.json).
+No bypass/protection, form destination or security-header setting changed.
+The merged local `feat/schema-system` branch was removed; pending video work
+remains uncommitted. Visual/interaction gates above are still pending and must
+not be inferred from successful HTTP, build or vocabulary checks.

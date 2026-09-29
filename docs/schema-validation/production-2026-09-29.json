@@ -1,0 +1,193 @@
+{
+  "deployment": {
+    "id": "dpl_14aiLqE6Ep5u4j1fDjfLV2H4pxhs",
+    "url": "certified-bag-chasers-aua6aethe-griffinjoshs-projects.vercel.app",
+    "sha": "d662db1240710106b3ab41fd5afea8a906e6ec02"
+  },
+  "mode": "existing Codex header via approved workspace helper; no protection changes",
+  "checks": [
+    {
+      "path": "/",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 4,
+      "pass": true
+    },
+    {
+      "path": "/404.html",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 5,
+      "pass": true,
+      "note": "Direct static error document; missing URL status tested separately."
+    },
+    {
+      "path": "/products",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 5,
+      "pass": true
+    },
+    {
+      "path": "/products/discord-community",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 6,
+      "pass": true
+    },
+    {
+      "path": "/products/book-audiobook",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 6,
+      "pass": true
+    },
+    {
+      "path": "/products/budgeting-tool",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 6,
+      "pass": true
+    },
+    {
+      "path": "/products/the-course",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 6,
+      "pass": true
+    },
+    {
+      "path": "/products/book",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 6,
+      "pass": true
+    },
+    {
+      "path": "/products/mentorship",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 6,
+      "pass": true
+    },
+    {
+      "path": "/products/book-ebook",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 6,
+      "pass": true
+    },
+    {
+      "path": "/authors/arold-norelus",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 5,
+      "pass": true
+    },
+    {
+      "path": "/cookie-policy",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 5,
+      "pass": true
+    },
+    {
+      "path": "/privacy-policy",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 5,
+      "pass": true
+    },
+    {
+      "path": "/faq",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 6,
+      "pass": true
+    },
+    {
+      "path": "/contact-us",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 5,
+      "pass": true
+    },
+    {
+      "path": "/terms-of-service",
+      "status": 200,
+      "schemaMatchesRelease": true,
+      "nodes": 5,
+      "pass": true
+    },
+    {
+      "path": "/blog",
+      "status": 404,
+      "pass": true
+    },
+    {
+      "path": "/blog/first-post",
+      "status": 404,
+      "pass": true
+    },
+    {
+      "path": "/faq/what-is-cbc",
+      "status": 404,
+      "pass": true
+    },
+    {
+      "path": "/robots.txt",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "path": "/llms.txt",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "path": "/llms-full.txt",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "path": "/sitemap.xml",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "path": "/sitemap-0.xml",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "path": "exact-deployment/products/the-course",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "project": "greastro",
+      "path": "/llms-full.txt",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "project": "greastro",
+      "path": "/faq",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "project": "webmaxxers",
+      "path": "/faq",
+      "status": 200,
+      "pass": true
+    },
+    {
+      "path": "/__cbc_schema_nonexistent_route__",
+      "status": 404,
+      "pass": true
+    }
+  ],
+  "passed": 29,
+  "total": 29
+}
