@@ -1,0 +1,9 @@
+---
+import BarebonesCustomLayout from "./BarebonesCustomLayout.astro";
+import { resolveSubject } from "@/utils/schema/resolve";
+export const schemaKind = "service";
+const subject = await resolveSubject(Astro, {
+  kind: schemaKind, entry: Astro.props.entry, seo: Astro.props.seoProps?.seo,
+});
+---
+<BarebonesCustomLayout {...Astro.props} schemaSubject={subject} />

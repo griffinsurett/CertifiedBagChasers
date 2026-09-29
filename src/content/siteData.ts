@@ -9,7 +9,15 @@ export const siteData = {
   domain: SITE_DOMAIN,
   url: SITE_URL,
   location: "United States",
-  founder: "Arold Norelus",
+  /** BCP 47 language — <html lang> and schema inLanguage. */
+  language: "en",
+  // ── Structured data (see src/utils/schema/README.md). An online education
+  // business: no storefront, so no address/hours/service area in the schema.
+  schemaType: "OnlineBusiness",
+  /** ISO 4217 currency for product prices. */
+  currency: "USD",
+  /** Default blog author ID; founders are authors tagged "founder". */
+  defaultAuthor: "arold-norelus",
   cmtLevel: "Level II",
   tagline: "Stop Chasing Quick Fixes",
   whopLoginLink: "https://whop.com/login",

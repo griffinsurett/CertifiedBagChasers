@@ -1,9 +1,11 @@
 ---
+import Schema from "@/components/Schema/Schema.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import type { CollectionLayoutProps } from "./types";
 
 const {
   entry,
+  schemaSubject = null,
   collection,
   collectionMeta,
   Content,
@@ -14,6 +16,7 @@ const {
 ---
 
 <BaseLayout {...seoProps}>
+  <Schema slot="head" node={schemaSubject} />
   <main id="product-top" class="flex-1">
     {Content && <Content entry={entry} collection={collection} collectionMeta={collectionMeta} />}
   </main>

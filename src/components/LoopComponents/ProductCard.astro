@@ -15,7 +15,7 @@
  * Uses Tailwind classes for all styling.
  */
 
-import Icon from "@/integrations/icons/Icon.astro";
+import Icon from "@/components/Icon";
 import Button from "@/components/Button/Button";
 
 export interface Props {
@@ -82,7 +82,7 @@ const buttonVariantClasses = isMostPopular
   {/* Icon */}
   {icon && (
     <div class="text-6xl mb-4 drop-shadow-lg flex items-center justify-center">
-      <Icon name={icon} class="w-16 h-16 text-primary" />
+      <Icon icon={icon} className="w-16 h-16 text-primary" />
     </div>
   )}
 

@@ -16,7 +16,11 @@
 
 import "../styles/global.css";
 import HeadTags from "./HeadTags.astro";
+import SchemaBoundary from "@/components/Schema/SchemaBoundary.astro";
+import { setPageCanonicalUrl } from "@/utils/seo";
+import { initializeBreadcrumbs } from "@/utils/breadcrumbs";
 import SEO from "./SEO.astro";
+import { siteData } from "@/content/siteData";
 import Theme from "./Theme.astro";
 import BodyTags from "./BodyTags.astro";
 import Header from "./Header.astro"; 
@@ -27,10 +31,12 @@ export interface Props {
 }
 
 const { ...seoProps } = Astro.props;
+setPageCanonicalUrl(Astro.locals, Astro.url.pathname, seoProps.seo);
+initializeBreadcrumbs(Astro, { title: seoProps.title, items: seoProps.breadcrumbs });
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang={siteData.language ?? "en"} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -41,6 +47,9 @@ const { ...seoProps } = Astro.props;
     
     {/* SEO meta tags */}
     <SEO title={seoProps.title} {...seoProps} />
+
+    {/* Page-level structured data from a routed layout (e.g. a product subject). */}
+    <slot name="head" />
     
     {/* Additional head tags (analytics scripts, etc.) */}
     <HeadTags />
@@ -50,6 +59,7 @@ const { ...seoProps } = Astro.props;
   </head>
 
   <body class="antialiased">
+    <SchemaBoundary>
     <Header />
 
     {/* Body-level scripts and elements */}
@@ -63,5 +73,6 @@ const { ...seoProps } = Astro.props;
       {/* Footer at bottom - now contains both consent and accessibility */}
       <Footer />
     </div>
+      </SchemaBoundary>
   </body>
 </html>

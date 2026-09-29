@@ -8,6 +8,8 @@
  * Auto-generates video thumbnails at build time using ffmpeg.
  */
 
+import { getTestimonialQuote } from "@/utils/collections/prepare";
+import Schema from "@/components/Schema/Schema.astro";
 import type { BaseVariantProps } from "../ContentRenderer.types";
 import SectionHeading from "@/components/SectionHeading.astro";
 import TestimonialMasonry from "@/components/LoopTemplates/TestimonialMasonry";
@@ -15,6 +17,7 @@ import { getImageUrl } from "@/utils/images";
 import { generateVideoPoster } from "@/utils/videoThumbnails";
 
 interface Props extends BaseVariantProps {
+  items?: (NonNullable<BaseVariantProps["items"]>[number] & { role?: string; rating?: number; socialMediaPost?: import("@/content/schema").ImageInput; video?: string; videoPoster?: import("@/content/schema").ImageInput; videoAspect?: "portrait" | "landscape" | "square"; resultsAmount?: string; resultsPeriod?: string })[];
   eyebrow?: string;
 }
 
@@ -78,7 +81,7 @@ const transformedItems = await Promise.all(items.map(async (item) => {
   }
 
   const baseProps = {
-    id: item.slug,
+    id: item.id,
     name: item.title || "Anonymous",
     role: item.role || "Customer",
     resultsAmount: item.resultsAmount,
@@ -117,8 +120,8 @@ const transformedItems = await Promise.all(items.map(async (item) => {
   return {
     ...baseProps,
     type: 'text' as const,
-    quote: item.content || item.description || "",
-    rating: item.rating || 5,
+    quote: getTestimonialQuote(item),
+    rating: item.rating,
     resultsPeriod: item.resultsPeriod,
   };
 }));
@@ -170,6 +173,7 @@ if (portraitCount > 0 && textCount > 0) {
 masonryItems.push(...squareVideos);
 ---
 
+<Schema kind="reviews" items={items.filter((item) => !item.video)} />
 <section id={id} class={`section-base bg-[#080808] ${className}`}>
   <div class="max-w-[1300px] mx-auto">
     <SectionHeading

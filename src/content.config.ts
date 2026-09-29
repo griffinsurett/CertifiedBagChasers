@@ -71,14 +71,11 @@ export const collections = {
   }),
 
   "authors": defineCollection({
-    // GlobLoad, not FileLoad: this site's author is an .mdx entry
-    // (arold-norelus.mdx) carrying a body and structured frontmatter —
-    // credentials, a segmented `heading`, socials. FileLoad looked for an
-    // authors.json that has never existed here, so the loader errored on every
-    // build and the homepage's "Your Mentor" band rendered empty.
-    loader: GlobLoad("authors"),
+    // Identity is JSON; rich biography is an explicit reference to about-us.
+    loader: FileLoad("authors", "authors.json"),
     schema: ({ image }) =>
       baseSchema({ image }).extend({
+        biography: refSchema("about-us").optional(),
         email: z.string().email().optional(),
         social: z
           .object({
@@ -104,7 +101,10 @@ export const collections = {
       baseSchema({ image }).extend({
         role: z.string().default("Customer"),
         company: z.string().optional(),
-        rating: z.number().min(1).max(5).default(5),
+        // No default: a star rating must be the reviewer's own (Google's rule
+        // for Review schema). Missing ratings remain unrated.
+        reviewedItem: refSchema(["products"]).optional(),
+        rating: z.number().min(1).max(5).optional(),
         socialMediaPost: imageInputSchema({ image }),
         video: z.string().optional(),
         videoPoster: imageInputSchema({ image }),
@@ -177,6 +177,9 @@ export const collections = {
           .optional(),
         price: z.string().optional(),
         priceNote: z.string().optional(),
+        // Billing period for the structured-data Offer, e.g. "Per Month" for a
+        // subscription (see src/utils/schema/README.md). Not rendered.
+        length: z.string().optional(),
         link: z.string().url().optional(),
         status: z.enum(["available", "coming-soon", "free"]).default("available"),
         features: z.array(z.string()).default([]),

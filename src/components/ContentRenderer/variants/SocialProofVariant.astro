@@ -16,6 +16,7 @@ import { getImage } from "astro:assets";
 import { getImageAlt, getImageUrl, resolveImageMetadata } from "@/utils/images";
 
 interface Props extends BaseVariantProps {
+  items?: (NonNullable<BaseVariantProps["items"]>[number] & { socialMediaPost?: import("@/content/schema").ImageInput })[];
   eyebrow?: string;
   styleVariant?: "primary" | "parts";
   showBackgroundImage?: boolean;
@@ -112,7 +113,7 @@ const carouselItems = (
       if (!responsiveImage) return null;
 
       return {
-        id: item.slug,
+        id: item.id,
         data: {
           title: item.title || "",
           socialMediaPost: responsiveImage,
@@ -124,7 +125,7 @@ const carouselItems = (
       };
     }),
   )
-).filter(Boolean);
+).filter((item): item is NonNullable<typeof item> => item !== null);
 ---
 
 <section id={id} class={`section-base relative overflow-hidden ${className}`}>

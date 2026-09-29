@@ -1,0 +1,40 @@
+[
+  {
+    "id": "arold-norelus",
+    "title": "Arold Norelus",
+    "description": "Founder of Certified Bag Chasers, Amazon best-selling author, and Chartered Market Technician",
+    "featuredImage": "@/assets/arold.jpg",
+    "role": "Founder & Lead Mentor",
+    "order": 1,
+    "credentials": [
+      {
+        "icon": "📈",
+        "text": "Bloomberg Analyst"
+      },
+      {
+        "icon": "📖",
+        "text": "Best-Selling Author"
+      },
+      {
+        "icon": "🎯",
+        "text": "Technical Analysis Expert"
+      }
+    ],
+    "social": {
+      "instagram": "https://instagram.com/certifiedbagchasers",
+      "twitter": "https://twitter.com/certifiedbagchasers",
+      "youtube": "https://youtube.com/@certifiedbagchasers"
+    },
+    "heading": {
+      "before": "I Am",
+      "text": "Arold Norelus"
+    },
+    "tags": [
+      "founder"
+    ],
+    "biography": {
+      "collection": "about-us",
+      "id": "arold-biography"
+    }
+  }
+]

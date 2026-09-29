@@ -55,7 +55,7 @@ export default function Counter({
     }
 
     let rafId: number;
-    let timeoutId: ReturnType<typeof window.setTimeout> | undefined;
+    let timeoutId: number | undefined;
     const range = end - start;
 
     if (range === 0) {

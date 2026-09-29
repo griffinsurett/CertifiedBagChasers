@@ -3,7 +3,7 @@ import { writeFileSync, readdirSync, readFileSync, rmSync, existsSync } from 'no
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { siteData } from '../../content/siteData';
-import { shouldItemUseRootPathData } from '../../utils/pages/pageRules';
+import { isDraft, shouldItemUseRootPathData } from '../../utils/pages/pageRules';
 import type { AstroIntegration } from 'astro';
 
 interface PageManifestEntry {
@@ -48,9 +48,13 @@ const DEFAULT_DISALLOWED_PATHS = ['/404'];
 // Manifest reader
 // ---------------------------------------------------------------------------
 
+function resolveSeoDir(distDir: string): string | undefined {
+  return [join(distDir, '__seo'), join(distDir, '..', '__seo')].find(existsSync);
+}
+
 function readManifest(distDir: string): PageManifestEntry[] {
-  const seoDir = join(distDir, '__seo');
-  if (!existsSync(seoDir)) return [];
+  const seoDir = resolveSeoDir(distDir);
+  if (!seoDir) return [];
   return readdirSync(seoDir)
     .filter((f) => f.endsWith('.json'))
     .map((f) => {
@@ -103,7 +107,7 @@ function buildLlms(entries: PageManifestEntry[], siteUrl: string, srcDir: string
     `# ${siteData.title}`,
     ...(siteData.tagline ? [`> ${siteData.tagline}`] : []),
     '',
-    siteData.description,
+    siteData.description ?? "",
     '',
     ...(siteData.location ? [`Location: ${siteData.location}`, ''] : []),
   ];
@@ -189,7 +193,7 @@ function parseFrontmatter(src: string): FrontmatterData {
   }
 
   // common boolean fields used by page generation rules
-  for (const field of ['rootPath', 'itemsRootPath']) {
+  for (const field of ['rootPath', 'itemsRootPath', 'draft']) {
     const m = yaml.match(new RegExp(`^${field}:\\s*(true|false)`, 'm'));
     if (m) data[field] = m[1] === 'true';
   }
@@ -360,7 +364,7 @@ function readCollection(collectionDir: string, collectionName: string): Collecti
   const meta = parseFrontmatter(metaRaw);
 
   // Respect llms opt-outs set in _meta.mdx
-  if (meta.llms?.itemsAddToLLMs === false) return null;
+  if (isDraft(meta) || meta.llms?.itemsAddToLLMs === false) return null;
 
   const metaTitle = meta.title ?? collectionName.charAt(0).toUpperCase() + collectionName.slice(1).replace(/-/g, ' ');
   const metaDescription = meta.description;
@@ -375,7 +379,7 @@ function readCollection(collectionDir: string, collectionName: string): Collecti
     const raw = readFileSync(filePath, 'utf8');
     const fm = parseFrontmatter(raw);
 
-    if (!fm.title) continue;
+    if (isDraft(fm) || !fm.title) continue;
     if (fm.llms?.addToLLMs === false) continue;
 
     const body = extractMdxBody(filePath);
@@ -437,7 +441,7 @@ function buildLlmsFull(entries: PageManifestEntry[], siteUrl: string, srcDir: st
     `# ${siteData.title}`,
     ...(siteData.tagline ? [`> ${siteData.tagline}`] : []),
     '',
-    siteData.description,
+    siteData.description ?? "",
     '',
     ...(siteData.location ? [`Location: ${siteData.location}`, ''] : []),
     `Full content: ${siteUrl}/llms-full.txt`,
@@ -551,13 +555,15 @@ function buildLlmsFull(entries: PageManifestEntry[], siteUrl: string, srcDir: st
 // ---------------------------------------------------------------------------
 
 export default function robotsLlmsIntegration(config: RobotsLlmsConfig = {}): AstroIntegration {
+  let projectRoot: string;
   return {
     name: 'robots-llms',
     hooks: {
+      'astro:config:done': ({ config }) => { projectRoot = fileURLToPath(config.root); },
       'astro:build:done': async ({ dir, logger }) => {
         const siteUrl = siteData.url.replace(/\/$/, '');
         const distDir = fileURLToPath(dir);
-        const srcDir = join(distDir, '..');
+        const srcDir = projectRoot;
         const entries = readManifest(distDir);
 
         if (!entries.length) {
@@ -587,8 +593,8 @@ export default function robotsLlmsIntegration(config: RobotsLlmsConfig = {}): As
 
         // Clean up manifest — not needed in final dist
         try {
-          const seoDir = join(distDir, '__seo');
-          if (existsSync(seoDir)) rmSync(seoDir, { recursive: true, force: true });
+          const seoDir = resolveSeoDir(distDir);
+          if (seoDir) rmSync(seoDir, { recursive: true, force: true });
         } catch (_) {}
       },
     },

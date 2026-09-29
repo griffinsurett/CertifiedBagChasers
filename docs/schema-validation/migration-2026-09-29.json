@@ -1,0 +1,84 @@
+{
+  "date": "2026-09-29",
+  "template": "fe2bd0a",
+  "unitTests": 6,
+  "typecheck": {
+    "errors": 0,
+    "warnings": 0,
+    "hints": 71
+  },
+  "schemaBearingPages": 16,
+  "htmlFilesIncludingHelpers": 18,
+  "jsonLdBlocks": 38,
+  "breadcrumbLists": 15,
+  "faqQuestions": 2,
+  "reviews": 0,
+  "offeringTypes": {
+    "Product": 4,
+    "Service": 2,
+    "Course": 1
+  },
+  "retainedPageTextLinksImages": "unchanged from pre-port working build",
+  "intendedRouteRemovals": [
+    "/blog",
+    "/blog/first-post"
+  ],
+  "external": {
+    "validator": "https://validator.schema.org/",
+    "mode": "public JSON-LD snippets only; no credentials",
+    "results": [
+      {
+        "path": "index.html",
+        "errors": 0,
+        "warnings": 0,
+        "objects": 1
+      },
+      {
+        "path": "faq/index.html",
+        "errors": 0,
+        "warnings": 0,
+        "objects": 3
+      },
+      {
+        "path": "products/book-audiobook/index.html",
+        "errors": 0,
+        "warnings": 0,
+        "objects": 3
+      },
+      {
+        "path": "products/discord-community/index.html",
+        "errors": 0,
+        "warnings": 0,
+        "objects": 3
+      },
+      {
+        "path": "products/mentorship/index.html",
+        "errors": 0,
+        "warnings": 0,
+        "objects": 3
+      },
+      {
+        "path": "products/the-course/index.html",
+        "errors": 0,
+        "warnings": 0,
+        "objects": 3
+      },
+      {
+        "path": "products/budgeting-tool/index.html",
+        "errors": 0,
+        "warnings": 0,
+        "objects": 3
+      }
+    ]
+  },
+  "browser": "pending: concurrent Chrome use, then native browser tool timeout",
+  "isolatedStagedRelease": {
+    "build": "pass",
+    "unitTests": 6,
+    "schemaAudit": "pass",
+    "breadcrumbAudit": "pass",
+    "offeringAndAeoAssertions": "pass",
+    "matchesWorkingSchema": true,
+    "originalMdxBiographyBodyUnchanged": true
+  }
+}

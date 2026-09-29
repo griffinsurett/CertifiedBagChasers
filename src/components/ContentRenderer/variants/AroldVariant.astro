@@ -7,6 +7,7 @@
  * Matches the React AroldSection styling with gradient background and premium image treatment.
  */
 
+import { authorBiography } from "@/utils/authorBiography";
 import type { BaseVariantProps } from "../ContentRenderer.types";
 import ImageContainer from "@/components/ImageContainer.astro";
 import SectionHeading from "@/components/SectionHeading.astro";
@@ -43,12 +44,8 @@ const credentials = author.credentials || [];
 // Get image from author
 const authorImage = author.featuredImage;
 
-// Render the MDX content if render function exists
-let Content: any = null;
-if (author.render) {
-  const rendered = await author.render();
-  Content = rendered.Content;
-}
+// The identity stays JSON; the existing rich biography keeps its MDX rendering.
+const Content = await authorBiography(author);
 ---
 
 <section id={id} class={`section-base bg-gradient-to-b from-bg to-bg-dark ${className}`}>

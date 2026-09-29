@@ -1,0 +1,6 @@
+---
+import CollectionLayout from './CollectionLayout.astro';
+import { authorBiography } from '@/utils/authorBiography';
+const Content = await authorBiography(Astro.props.entry?.data ?? {});
+---
+<CollectionLayout {...Astro.props} Content={Content} />

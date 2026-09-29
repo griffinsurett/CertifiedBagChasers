@@ -15,11 +15,15 @@ import SectionHeading from "@/components/SectionHeading.astro";
 import { shouldShowCollectionCTA } from "../utils/helpers";
 
 interface Props extends BaseVariantProps {
+  schema?: boolean;
+  collectionName?: string;
   allowMultiple?: boolean;
 }
 
 const {
   items = [],
+  collectionName,
+  schema = collectionName === "faq",
   title,
   description,
   className = "",
@@ -50,7 +54,7 @@ const bridgeId = id || "accordion";
   {/* Accordion with ContentBridge */}
   {
     items.length > 0 && (
-      <ContentBridge items={items} bridgeId={bridgeId}>
+      <ContentBridge items={items} bridgeId={bridgeId} schema={schema ? "faq" : false}>
         {/* 
         Your existing Accordion component!
         ContentBridge generates slot IDs as: `${bridgeId}-slot-${index}`
@@ -58,7 +62,7 @@ const bridgeId = id || "accordion";
       */}
         <Accordion
           items={items.map((item, index) => ({
-            slug: item.slug,
+            slug: item.id,
             title: item.title || "Untitled",
             description: item.description,
             contentSlotId: `${bridgeId}-slot-${index}`, // ← ContentBridge created this ID

@@ -20,7 +20,7 @@ const TestimonialTextCard = ({
   name,
   role = "Customer",
   quote,
-  rating = 5,
+  rating = 0,
   resultsAmount,
   resultsPeriod,
   className = '',

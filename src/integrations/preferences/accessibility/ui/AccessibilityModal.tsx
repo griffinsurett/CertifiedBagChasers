@@ -320,8 +320,8 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
             description="Adjust typography for clarity and pace."
           >
             <div className="space-y-3">
-              {textSliderTiles.map((tile) => (
-                <SliderTile key={tile.key} {...tile} />
+              {textSliderTiles.map(({ key, ...tile }) => (
+                <SliderTile key={key} {...tile} />
               ))}
             </div>
             <div className="space-y-3 pt-2">
@@ -391,8 +391,8 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
               />
             </div>
             <div className="grid grid-cols-1 gap-3">
-              {visualToggleTiles.map((tile) => (
-                <ToggleTile key={tile.key} {...tile} />
+              {visualToggleTiles.map(({ key, ...tile }) => (
+                <ToggleTile key={key} {...tile} />
               ))}
             </div>
           </SectionBlock>
@@ -402,8 +402,8 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
             description="Guide focus and reduce overload."
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {readingToggleTiles.map((tile) => (
-                <ToggleTile key={tile.key} {...tile} />
+              {readingToggleTiles.map(({ key, ...tile }) => (
+                <ToggleTile key={key} {...tile} />
               ))}
             </div>
           </SectionBlock>
@@ -413,8 +413,8 @@ function AccessibilityModal({ isOpen, onClose }: AccessibilityModalProps) {
             description="Simplify visuals and motion-heavy elements."
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {contentToggleTiles.map((tile) => (
-                <ToggleTile key={tile.key} {...tile} />
+              {contentToggleTiles.map(({ key, ...tile }) => (
+                <ToggleTile key={key} {...tile} />
               ))}
             </div>
           </SectionBlock>

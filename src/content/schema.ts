@@ -131,7 +131,7 @@ export const ItemsAddToMenuFields = z.object({
   // Advanced
   customSort: z.string().optional(),
   groupBy: z.string().optional(),
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
 
   // Menu-specific link behavior (overrides item's linkBehavior for menu URLs)
   // Use mode: 'field' to use external link instead of page URL
@@ -174,7 +174,7 @@ export const AddToMenuFields = z.object({
   excludeChildren: z.array(z.string()).optional(),
   
   // Metadata
-  metadata: z.record(z.any()).optional(),
+  metadata: z.record(z.string(), z.any()).optional(),
 });
 
 export type MenuItemData = z.infer<typeof MenuItemFields>;
@@ -341,6 +341,9 @@ export const baseSchema = ({ image }: { image: Function }) =>
     // Per-item link behavior override (takes priority over collection's itemsLinkBehavior)
     linkBehavior: LinkBehaviorConfig,
     llms: llmsItemSchema,
+    // Hand-set structured-data values for THIS entry — the last override
+    // layer (see src/utils/schema/README.md). e.g. `schema: { name: "…" }`.
+    schema: z.record(z.string(), z.any()).optional(),
   });
 
 export type BaseData = z.infer<ReturnType<typeof baseSchema>>;

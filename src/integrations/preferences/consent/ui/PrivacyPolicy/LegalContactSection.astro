@@ -76,7 +76,7 @@ const phoneEntry = await find("contact-us", "phone");
     )
   }
   {
-    siteData.address ? (
+    "address" in siteData && typeof siteData.address === "string" && siteData.address ? (
       <li>
         <strong>Address:</strong> {siteData.address}
       </li>

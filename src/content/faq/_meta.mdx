@@ -4,3 +4,10 @@ description: "Get answers to common questions about Certified Bag Chasers"
 hasPage: true
 itemsHasPage: false
 ---
+import ContentRenderer from '@/components/ContentRenderer/ContentRenderer.astro';
+import { query, sortByOrder } from '@/utils/query';
+
+<ContentRenderer
+  query={query("faq").orderBy(sortByOrder())}
+  variant="AccordionVariant"
+/>
